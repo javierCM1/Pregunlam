@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro - Juego de Preguntas</title>
+    <link rel="stylesheet" href="../public/register.css">
+</head>
+<body>
+<div class="container">
+    <form class="form-box">
+        <h2>Registro</h2>
+        <div class="input-group">
+            <input type="text" placeholder="Nombre completo" required>
+        </div>
+        <div class="input-group">
+            <input type="text" placeholder="Nombre de usuario" required>
+        </div>
+        <div class="input-group">
+            <input type="email" placeholder="Correo electrónico" required>
+        </div>
+        <div class="input-group">
+            <input type="password" placeholder="Contraseña" required>
+        </div>
+        <div class="input-group">
+            <input type="password" placeholder="Repetir contraseña" required>
+        </div>
+        <div class="input-group">
+            <input type="number" placeholder="Año de nacimiento" required>
+        </div>
+        <div class="input-group">
+            <select required>
+                <option value="" disabled selected>Sexo</option>
+                <option value="Masculino">Masculino</option>
+                <option value="Femenino">Femenino</option>
+                <option value="No especificar">Prefiero no cargarlo</option>
+            </select>
+        </div>
+        <div class="input-group">
+            <input type="text" placeholder="País" required>
+        </div>
+        <div class="input-group">
+            <input type="text" placeholder="Ciudad" required>
+        </div>
+        <div class="input-group">
+            <label for="profile-pic">Foto de perfil</label>
+            <input type="file" id="profile-pic" required>
+        </div>
+        <button type="submit" class="btn">Registrarse</button>
+        <p>¿Ya tienes una cuenta? <a href="#">Inicia sesión</a></p>
+    </form>
+</div>
+</body>
+</html>
