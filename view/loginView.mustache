@@ -6,7 +6,14 @@
     <title>Login - Preguntados</title>
     <link rel="stylesheet" href="../public/login.css">
     <style>
-
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
     </style>
 </head>
 <body>
@@ -19,12 +26,17 @@
     </svg>
     <h1>Inicia sesión</h1>
 
-    <form>
-        <input type="email" placeholder="Correo electrónico" required>
-        <input type="password" placeholder="Contraseña" required>
+    <form method="POST" action="/login/auth">
+        <input type="text" name="email" placeholder="Correo electrónico o nombre de usuario" value="{{username}}" required/>
+        <input type="password" name="password" placeholder="Contraseña" required/>
+
         <button type="submit" class="login-btn">Iniciar sesión</button>
+
+        {{#message}}
+            <p style="color: red;">{{message}}</p>
+        {{/message}}
     </form>
-    <a href="#" class="link">¿Olvidaste tu contraseña?</a>
+    <a href="#" class="">¿Olvidaste tu contraseña?</a>
     <a href="/register" class="link">¿Primera vez? Crea una cuenta</a>
 </div>
 

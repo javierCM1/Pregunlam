@@ -8,28 +8,29 @@
 </head>
 <body>
 <div class="container">
-    <form class="form-box">
+    <form class="form-box" action="/register/registerUser" method="POST" enctype="multipart/form-data">
         <h2>Registro</h2>
+
         <div class="input-group">
-            <input type="text" placeholder="Nombre completo" required>
+            <input type="text" name="fullname" placeholder="Nombre completo" required>
         </div>
         <div class="input-group">
-            <input type="text" placeholder="Nombre de usuario" required>
+            <input type="text" name="username" placeholder="Nombre de usuario" required>
         </div>
         <div class="input-group">
-            <input type="email" placeholder="Correo electrónico" required>
+            <input type="email" name="email" placeholder="Correo electrónico" required>
         </div>
         <div class="input-group">
-            <input type="password" placeholder="Contraseña" required>
+            <input type="password" name="password" placeholder="Contraseña" required>
         </div>
         <div class="input-group">
-            <input type="password" placeholder="Repetir contraseña" required>
+            <input type="password" name="repeat_pass" placeholder="Repetir contraseña" required>
         </div>
         <div class="input-group">
-            <input type="date" placeholder="Año de nacimiento" required>
+            <input type="number" name="birth_year" placeholder="Año de nacimiento" required>
         </div>
         <div class="input-group">
-            <select required>
+            <select name="gender" required>
                 <option value="" disabled selected>Sexo</option>
                 <option value="Masculino">Masculino</option>
                 <option value="Femenino">Femenino</option>
@@ -37,15 +38,20 @@
             </select>
         </div>
         <div class="input-group">
-            <input type="text" placeholder="País" required>
+            <input type="text" name="country" placeholder="País" required>
         </div>
         <div class="input-group">
-            <input type="text" placeholder="Ciudad" required>
+            <input type="text" name="city" placeholder="Ciudad" required>
         </div>
         <div class="input-group">
             <label for="profile-pic">Foto de perfil</label>
-            <input type="file" id="profile-pic" required>
+            <input type="file" id="profile-pic" name="profile_pic" required>
         </div>
+        {{#message}}
+            <div id="message" style="color: red; margin-bottom: 10px;">
+                {{message}}
+            </div>
+        {{/message}}
         <button type="submit" class="btn">Registrarse</button>
         <p>¿Ya tienes una cuenta? <a href="/login">Inicia sesión</a></p>
     </form>

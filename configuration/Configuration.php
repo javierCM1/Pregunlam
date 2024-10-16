@@ -1,15 +1,13 @@
 <?php
-include_once("helper/MysqlDatabase.php");
 include_once("helper/MysqlObjectDatabase.php");
 include_once("helper/IncludeFilePresenter.php");
 include_once("helper/Router.php");
 include_once("helper/MustachePresenter.php");
-include_once("controller/RegisterController.php");
 include_once("controller/LoginController.php");
-include_once("controller/LobbyController.php");
-include_once("model/UsuarioModel.php");
 include_once('vendor/mustache/src/Mustache/Autoloader.php');
-
+include_once("controller/RegisterController.php");
+include_once("model/UserModel.php");
+include_once("controller/LobbyController.php");
 class Configuration
 {
     public function __construct()
@@ -29,7 +27,7 @@ class Configuration
 
     private function getDatabase()
     {
-        /*
+
         $config = parse_ini_file('configuration/config.ini');
         return new MysqlObjectDatabase(
             $config['host'],
@@ -38,28 +36,27 @@ class Configuration
             $config['password'],
             $config["database"]
         );
-        */
+
     }
 
-    private function getUsuarioModel()
+    private function getUserModel()
     {
-        return new UsuarioModel($this->getDatabase());
+        return new UserModel($this->getDatabase());
     }
 
     public function getRegisterController()
     {
-        return new RegisterController($this->getUsuarioModel(), $this->getPresenter());
+        return new RegisterController($this->getUserModel(), $this->getPresenter());
     }
 
     public function getLoginController()
     {
-        return new LoginController($this->getUsuarioModel(), $this->getPresenter());
+        return new LoginController($this->getUserModel(), $this->getPresenter());
     }
 
     public function getLobbyController()
     {
-        return new LobbyController($this->getDatabase(), $this->getPresenter());
+        return new LobbyController($this->getUserModel(), $this->getPresenter());
     }
-
 
 }
