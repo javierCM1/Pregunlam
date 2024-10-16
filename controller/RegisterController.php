@@ -1,8 +1,7 @@
 <?php
 
-class LoginController
+class RegisterController
 {
-
     private $model;
     private $presenter;
 
@@ -14,19 +13,6 @@ class LoginController
 
     public function index()
     {
-        $this->presenter->show('login', []);
+        $this->presenter->show('register', []);
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

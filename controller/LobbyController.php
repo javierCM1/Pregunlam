@@ -1,8 +1,7 @@
 <?php
 
-class LoginController
+class LobbyController
 {
-
     private $model;
     private $presenter;
 
@@ -14,19 +13,6 @@ class LoginController
 
     public function index()
     {
-        $this->presenter->show('login', []);
+        $this->presenter->show('lobby', []);
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
