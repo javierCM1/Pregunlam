@@ -11,7 +11,7 @@ class UserModel
 
     public function emailExists($email)
     {
-        $query = $this->db->prepare("SELECT * FROM usuario WHERE mail_usuario = ?");
+        $query = $this->db->prepare("SELECT 1 FROM usuario WHERE mail_usuario = ?");
         $query->bind_param('s', $email);
         $query->execute();
         $result = $query->get_result()->fetch_all(MYSQLI_ASSOC);
@@ -20,7 +20,7 @@ class UserModel
 
     public function usernameExists($username)
     {
-        $query = $this->db->prepare("SELECT * FROM usuario WHERE userName_usuario = ?");
+        $query = $this->db->prepare("SELECT 1 FROM usuario WHERE userName_usuario = ?");
         $query->bind_param('s', $username);
         $query->execute();
         $result = $query->get_result()->fetch_all(MYSQLI_ASSOC);
@@ -44,25 +44,22 @@ class UserModel
             fechaRegistro_usuario, 
             estado_usuario, 
             id_tipo_usuario
-        ) VALUES (?, ?, ?, ?, ?, (SELECT id_sexo FROM sexo WHERE descripcion_sexo = ?), ?, ?, NOW(), 'A', ?)");
+        ) VALUES (?, ?, ?, ?, ?, (SELECT id_sexo FROM sexo WHERE descripcion_sexo = ?), ?, ?, NOW(), 'p', ?)");
 
         $query->bind_param('ssssssssi', $fullname, $username, $email, $hashedPassword, $birthday, $gender, $country, $profilePic, $defaultUserType);
+
         return $query->execute();
     }
 
     public function validateLogin($username, $password)
     {
 
-        $query = $this->db->prepare("SELECT password_usuario FROM usuario WHERE userName_usuario = ? OR mail_usuario = ?");
-        $query->bind_param('ss', $username, $username);
+        $query = $this->db->prepare("SELECT password_usuario FROM usuario WHERE userName_usuario = ? OR mail_usuario = ? AND estado_usuario = ?");
+        $query->bind_param('sss', $username, $username, 'a');
         $query->execute();
 
         $result = $query->get_result()->fetch_assoc();
 
-        if ($result && password_verify($password, $result['password_usuario'])) {
-            return true;
-        }
-
-        return false;
+        return $result && password_verify($password, $result['password_usuario']);
     }
 }
