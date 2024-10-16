@@ -7,6 +7,7 @@ include_once("helper/MustachePresenter.php");
 include_once("controller/RegisterController.php");
 include_once("controller/LoginController.php");
 include_once("controller/LobbyController.php");
+include_once("model/UsuarioModel.php");
 include_once('vendor/mustache/src/Mustache/Autoloader.php');
 
 class Configuration
@@ -40,14 +41,19 @@ class Configuration
         */
     }
 
+    private function getUsuarioModel()
+    {
+        return new UsuarioModel($this->getDatabase());
+    }
+
     public function getRegisterController()
     {
-        return new RegisterController($this->getDatabase(), $this->getPresenter());
+        return new RegisterController($this->getUsuarioModel(), $this->getPresenter());
     }
 
     public function getLoginController()
     {
-        return new LoginController($this->getDatabase(), $this->getPresenter());
+        return new LoginController($this->getUsuarioModel(), $this->getPresenter());
     }
 
     public function getLobbyController()
