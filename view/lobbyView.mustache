@@ -3,22 +3,223 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lobby - Juego de Preguntas</title>
-    <link rel="stylesheet" href="../public/lobby.css">
+    <title>Pregunlam</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            background-color: #4c3d99;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .welcome {
+            font-size: 18px;
+        }
+
+        .logout {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            background-color: #f1f1f1;
+            border-bottom: 2px solid #ddd;
+        }
+
+        .avatar img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 3px solid #4c3d99;
+            margin-right: 20px;
+        }
+
+        .user-data h2 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .user-data .points {
+            background-color: #f1c40f;
+            color: black;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+
+        .actions {
+            display: flex;
+            justify-content: space-around;
+            padding: 20px;
+        }
+
+        .play-button, .ranking-button, .create-button {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            color: white;
+        }
+
+        .play-button {
+            background-color: #27ae60;
+        }
+
+        .ranking-button {
+            background-color: #e74c3c;
+        }
+
+        .create-button {
+            background-color: #6c5ce7;
+        }
+
+        .game-history {
+            padding: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        table th, table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+
+        table th {
+            background-color: #4c3d99;
+            color: white;
+        }
+
+        .see-more {
+            background-color: #2980b9;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            display: block;
+            margin: 0 auto;
+        }
+
+    </style>
 </head>
 <body>
 <div class="container">
-    <div class="lobby-box">
-        <h2>Bienvenido, <span id="nombreUsuario">Juan</span>!</h2>
-        <p>Puntaje: <strong id="puntajeUsuario">1200</strong> puntos</p>
-
-        <div class="actions">
-            <button class="btn" id="btnNuevaPartida">Nueva Partida</button>
-            <button class="btn" id="btnRanking">Ver Ranking</button>
-            <button class="btn" id="btnRanking">Partidas Jugadas</button>
+    <header class="header">
+        <div class="logo">
+            <span>Pregunlam</span>
         </div>
-        
-    </div>
+        <div class="welcome">
+            <span>{{usuario}}</span>
+            <form action="/lobby/logout" method="post">
+                <button type="submit" class="logout" id="btnCerrarSesion">Cerrar Sesión</button>
+            </form>
+        </div>
+    </header>
+
+    <main>
+        <section class="user-info">
+            <div class="avatar">
+                <img src="avatar.png" alt="Avatar">
+            </div>
+            <div class="user-data">
+                <h2>{{nombreUsuario}}</h2>
+                <span class="points">{{puntos}}pts</span>
+            </div>
+        </section>
+
+        <section class="actions">
+            <button class="play-button">¡JUGAR!</button>
+            <button class="ranking-button">Ranking</button>
+            <button class="create-button">¡Crea!</button>
+        </section>
+
+        <section class="game-history">
+            <table>
+                <thead>
+                <tr>
+                    <th>Partida</th>
+                    <th>Hora</th>
+                    <th>Puntos</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                </tbody>
+            </table>
+            <button class="see-more">Ver más</button>
+        </section>
+    </main>
 </div>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+

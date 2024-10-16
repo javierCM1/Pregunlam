@@ -1,77 +1,140 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
+    background-color: #f5f5f5;
 }
 
 .container {
-    width: 100%;
-    max-width: 500px;
-    padding: 20px;
-}
-
-.lobby-box {
-    background-color: white;
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #fff;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    padding: 30px;
-    text-align: center;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-h2 {
-    margin-bottom: 10px;
-    color: #333;
+.header {
+    background-color: #4c3d99;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
 }
 
-#nombreUsuario {
-    color: #f44336;
+.logo {
+    display: flex;
+    align-items: center;
 }
 
-p {
+.logo img {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+}
+
+.welcome {
     font-size: 18px;
-    margin-bottom: 20px;
+}
+
+.logout {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    background-color: #f1f1f1;
+    border-bottom: 2px solid #ddd;
+}
+
+.avatar img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 3px solid #4c3d99;
+    margin-right: 20px;
+}
+
+.user-data h2 {
+    font-size: 24px;
+    margin-bottom: 5px;
+}
+
+.user-data .points {
+    background-color: #f1c40f;
+    color: black;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-weight: bold;
 }
 
 .actions {
+    display: flex;
+    justify-content: space-around;
+    padding: 20px;
+}
+
+.play-button, .ranking-button, .create-button {
+    padding: 15px 30px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    color: white;
+}
+
+.play-button {
+    background-color: #27ae60;
+}
+
+.ranking-button {
+    background-color: #e74c3c;
+}
+
+.create-button {
+    background-color: #6c5ce7;
+}
+
+.game-history {
+    padding: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
     margin-bottom: 20px;
 }
 
-.actions .btn {
-    background-color: #f44336;
+table th, table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+table th {
+    background-color: #4c3d99;
+    color: white;
+}
+
+.see-more {
+    background-color: #2980b9;
     color: white;
     padding: 10px 20px;
-    margin: 10px 0;
-    width: 100%;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 16px;
-}
-
-.actions .btn:hover {
-    background-color: #e53935;
-}
-
-h3 {
-    margin-top: 20px;
-    margin-bottom: 15px;
-    color: #333;
-}
-
-.partidas-lista {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-}
-
-.partidas-lista li {
-    background-color: #f9f9f9;
-    padding: 10px;
-    margin: 5px 0;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: block;
+    margin: 0 auto;
 }
