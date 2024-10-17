@@ -77,7 +77,7 @@ class UserModel
             $country, $defaultState, $token, $defaultUserType, $idSexo);
 
         if($query->execute()){
-            $this->fileEmailSender->sendEmailToFile('C:\xampp\htdocs\Pregunlam\dev.log', 'Activar cuenta', $username .", presione <a href='/activar'>aquí</a> para activar la cuenta con el siguiente código: ". $token ."\n");
+            $this->fileEmailSender->sendEmailToFile('C:\xampp\htdocs\Pregunlam\dev.log', 'Activar cuenta', $fullname .", presiona <a href='http://localhost/activar/auth?username=$username&token=$token'>aquí</a> para activar la cuenta con el siguiente código: ". $token ."\r\n");
             return true;
         }
 
@@ -95,11 +95,11 @@ class UserModel
         return $result && password_verify($password, $result['password_usuario']);
     }
 
-    public function validateActivation($email, $token)
+    public function validateActivation($username, $token)
     {
         $nuevoEstado = 'a';
-        $query = $this->db->prepare("UPDATE usuario SET estado_usuario = ? WHERE email_usuario = ? AND token_usuario = ?");
-        $query->bind_param('ssi', $nuevoEstado, $email, $token);
-        return $query->execute();
+        $query = $this->db->prepare("UPDATE usuario SET estado_usuario = ? WHERE userName_usuario = ? AND token_usuario = ?");
+        $query->bind_param('ssi', $nuevoEstado, $username, $token);
+        return $this->db->executeStmt($query) == 1;
     }
 }

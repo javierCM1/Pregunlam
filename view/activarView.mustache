@@ -164,8 +164,8 @@
 
     <main>
         <h2>Esta es la página para activar</h2>
-        <form method="post" action="/activar/auth">
-            <input type="number" name="token" placeholder="Ingrese el código de verificación">
+        <form method="get" action="/activar/auth">
+            <input type="number" name="token" placeholder="Ingrese el código de verificación" required>
             <input type="submit">
 
             {{#message}}

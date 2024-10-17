@@ -2,7 +2,6 @@
 
 class LoginController
 {
-
     private $model;
     private $presenter;
 
@@ -19,40 +18,28 @@ class LoginController
 
     public function auth()
     {
-        $email = $_POST['email'] ?? '';
+        $user = $_POST['user'] ?? '';
         $password = $_POST['password'] ?? '';
 
-        if ($this->model->validateLogin($email, $password, 'a'))
+        if ($this->model->validateLogin($user, $password, 'a'))
         {
             session_start();
-            $_SESSION['user'] = $email;
+            $_SESSION['user'] = $user;
             header('Location: /lobby');
             exit();
         }
-        else if($this->model->validateLogin($email, $password, 'p'))
+        else if($this->model->validateLogin($user, $password, 'p'))
         {
             session_start();
-            $_SESSION['user'] = $email;
+            $_SESSION['pendiente'] = $user;
             header('Location: /activar');
             exit();
         }
         else
         {
             $message = 'Correo o contraseña incorrectos.';
-            $this->presenter->show('login', ['message' => $message, 'username' => $email]);
+            $this->presenter->show('login', ['message' => $message, 'username' => $user]);
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
 
 }
