@@ -39,11 +39,6 @@
             align-items: center;
         }
 
-        .logo a{
-            text-decoration: none;
-            color: #ffffff;
-        }
-
         .logo img {
             width: 40px;
             height: 40px;
@@ -155,16 +150,12 @@
 </head>
 <body>
 <div class="container">
-    {{#usuario}}
-
     <header class="header">
         <div class="logo">
-            <a href="/lobby">
-                <span>Pregunlam</span>
-            </a>
+            <span>Pregunlam</span>
         </div>
         <div class="welcome">
-            <span>Bienvenido, {{nombreCompleto_usuario}}</span>
+            <span>{{usuario}}</span>
             <form action="/lobby/logout" method="post">
                 <button type="submit" class="logout" id="btnCerrarSesion">Cerrar Sesión</button>
             </form>
@@ -172,63 +163,16 @@
     </header>
 
     <main>
-        <section class="user-info">
-            <div class="avatar">
-                <img src="{{img_usuario}}" alt="Avatar">
-            </div>
-            <div class="user-data">
-                <h2>{{userName_usuario}}</h2>
-                {{#maxPuntaje_usuario}}
-                    <span class="points">{{maxPuntaje_usuario}} puntos</span>
-                {{/maxPuntaje_usuario}}
-                {{^maxPuntaje_usuario}}
-                    <span class="points">0 puntos</span>
-                {{/maxPuntaje_usuario}}
-            </div>
-        </section>
+        <h2>Esta es la página para activar</h2>
+        <form method="post" action="/activar/auth">
+            <input type="number" name="token" placeholder="Ingrese el código de verificación">
+            <input type="submit">
 
-        {{#message}}
-            <p style="color: #42a501;">{{message}}</p>
-        {{/message}}
-
-        <section class="actions">
-            <button class="play-button">¡JUGAR!</button>
-            <button class="ranking-button">Ranking</button>
-            <button class="create-button">¡Crea!</button>
-        </section>
-
-        <section class="game-history">
-            <table>
-                <thead>
-                <tr>
-                    <th>Partida</th>
-                    <th>Hora</th>
-                    <th>Puntos</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                </tbody>
-            </table>
-            <button class="see-more">Ver más</button>
-        </section>
+            {{#message}}
+                <p style="color: red;">{{message}}</p>
+            {{/message}}
+        </form>
     </main>
-
-    {{/usuario}}
 </div>
 </body>
 </html>

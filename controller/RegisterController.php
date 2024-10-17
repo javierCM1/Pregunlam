@@ -33,8 +33,6 @@ class RegisterController
             $gender = $_POST['gender'];
             $country = $_POST['country'];
             $city = $_POST['city'];
-            $profilePic = '';
-
 
             if ($password !== $repeat_password) {
                 $message = "Las contraseñas no coinciden.";
@@ -56,15 +54,12 @@ class RegisterController
 
             $profilePic = $this->handleProfilePic();
 
-
             $success = $this->model->register(
                 $fullname, $username, $email, $password,
                 $birthYear, $gender, $country, $city, $profilePic
             );
 
             if ($success) {
-                session_start();
-                $_SESSION['user'] = $email;
                 header('Location: /login');
                 exit();
             } else {

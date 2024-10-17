@@ -1,6 +1,6 @@
 <?php
 
-class PokedexModel
+class ExampleModel
 {
     private $database;
 

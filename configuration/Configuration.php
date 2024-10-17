@@ -3,11 +3,14 @@ include_once("helper/MysqlObjectDatabase.php");
 include_once("helper/IncludeFilePresenter.php");
 include_once("helper/Router.php");
 include_once("helper/MustachePresenter.php");
-include_once("controller/LoginController.php");
+include_once("helper/FileEmailSender.php");
 include_once('vendor/mustache/src/Mustache/Autoloader.php');
-include_once("controller/RegisterController.php");
 include_once("model/UserModel.php");
+include_once("controller/RegisterController.php");
+include_once("controller/LoginController.php");
 include_once("controller/LobbyController.php");
+include_once("controller/ActivarController.php");
+
 class Configuration
 {
     public function __construct()
@@ -41,7 +44,7 @@ class Configuration
 
     private function getUserModel()
     {
-        return new UserModel($this->getDatabase());
+        return new UserModel($this->getDatabase(), $this->getFileEmailSender());
     }
 
     public function getRegisterController()
@@ -57,6 +60,16 @@ class Configuration
     public function getLobbyController()
     {
         return new LobbyController($this->getUserModel(), $this->getPresenter());
+    }
+
+    public function getActivarController()
+    {
+        return new ActivarController($this->getUserModel(), $this->getPresenter());
+    }
+
+    private function getFileEmailSender()
+    {
+        return new FileEmailSender();
     }
 
 }

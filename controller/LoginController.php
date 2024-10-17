@@ -21,16 +21,23 @@ class LoginController
     {
         $email = $_POST['email'] ?? '';
         $password = $_POST['password'] ?? '';
-        $message = '';
 
-        $isValid = $this->model->validateLogin($email, $password);
-
-        if ($isValid) {
+        if ($this->model->validateLogin($email, $password, 'a'))
+        {
+            session_start();
             $_SESSION['user'] = $email;
-
             header('Location: /lobby');
             exit();
-        } else {
+        }
+        else if($this->model->validateLogin($email, $password, 'p'))
+        {
+            session_start();
+            $_SESSION['user'] = $email;
+            header('Location: /activar');
+            exit();
+        }
+        else
+        {
             $message = 'Correo o contraseña incorrectos.';
             $this->presenter->show('login', ['message' => $message, 'username' => $email]);
         }
