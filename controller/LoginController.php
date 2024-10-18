@@ -18,9 +18,10 @@ class LoginController
 
     public function auth()
     {
-        //$user = $_POST['user'] ?? '';
-        $user = isset($_POST['user']) && !preg_match('/\W/',$_POST['user']) ? $_POST['user'] : '';
-        $password = isset($_POST['password']) && !preg_match('/\S/',$_POST['password']) ? $_POST['password'] : '';
+        $user = $_POST['user'] ?? '';
+        //$user = isset($_POST['user']) && !preg_match('/\W/',$_POST['user']) ? $_POST['user'] : '';
+        $password = $_POST['password'] ?? '';
+        //$password = isset($_POST['password']) && !preg_match('/\S/',$_POST['password']) ? $_POST['password'] : '';
 
         if ($this->model->validateLogin($user, $password, 'a'))
         {
