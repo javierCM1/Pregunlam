@@ -25,7 +25,7 @@ class RegisterController
 
 
             $fullname = $_POST['fullname'];
-            $username = $_POST['username'];
+            $username = isset($_POST['username']) && !preg_match('/\W/',$_POST['username']) ? $_POST['username'] : '';
             $email = $_POST['email'];
             $password = $_POST['password'];
             $repeat_password = $_POST['repeat_pass'];
@@ -48,6 +48,12 @@ class RegisterController
 
             if ($this->model->usernameExists($username)) {
                 $message = "El nombre de usuario ya está en uso.";
+                $this->presenter->show('/register', ['message' => $message]);
+                return;
+            }
+
+            if (strcmp($username,'')==0) {
+                $message = "El nombre de usuario es incorrecto.";
                 $this->presenter->show('/register', ['message' => $message]);
                 return;
             }

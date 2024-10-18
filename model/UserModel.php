@@ -40,8 +40,9 @@ class UserModel
 
     public function getUserByUsernameOrEmail($usernameOrEmail)
     {
-        $query = $this->db->prepare("SELECT * FROM usuario WHERE userName_usuario = ? OR email_usuario = ?");
-        $query->bind_param('ss', $usernameOrEmail, $usernameOrEmail);
+        $estadoActivo = 'a';
+        $query = $this->db->prepare("SELECT * FROM usuario WHERE userName_usuario = ? OR email_usuario = ? AND estado_usuario = ?");
+        $query->bind_param('sss', $usernameOrEmail, $usernameOrEmail, $estadoActivo);
         $query->execute();
         return $query->get_result()->fetch_array(MYSQLI_ASSOC);
     }
