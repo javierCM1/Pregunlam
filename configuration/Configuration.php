@@ -10,6 +10,8 @@ include_once("controller/RegisterController.php");
 include_once("controller/LoginController.php");
 include_once("controller/LobbyController.php");
 include_once("controller/ActivarController.php");
+include_once("controller/PerfilController.php");
+
 
 class Configuration
 {
@@ -66,7 +68,10 @@ class Configuration
     {
         return new ActivarController($this->getUserModel(), $this->getPresenter());
     }
-
+    public function getPerfilController()
+    {
+        return new PerfilController($this->getUserModel(), $this->getPresenter());
+    }
     private function getFileEmailSender()
     {
         return new FileEmailSender();
