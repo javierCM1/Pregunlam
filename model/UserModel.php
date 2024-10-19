@@ -60,9 +60,7 @@ class UserModel
         $gender = $this->validateGender($gender) ? $gender : '';
         $country = preg_match('/^[a-zA-Z\s-]+$/',$country) == 1 ? $country : '';
         $city = preg_match('/^[a-zA-Z\s-]+$/',$city) == 1 ? $city : '';
-
-        var_dump($fullname, $username, $email, $password, $repeat_password, $birthYear, $gender, $country, $city);
-
+        
         if (strcmp($fullname, '')==0)
             $message = "El nombre no es válido.";
 
