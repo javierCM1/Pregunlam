@@ -9,8 +9,15 @@ class ActivarController
     }
 
     public function index()
+
     {
-        $this->presenter->show('activar', []);
+        if (!isset($_SESSION['user'])) {
+            header("Location: /login");
+            exit();
+        }
+
+        $data['usuario'] = $this->model->getUserByUsernameOrEmail($_SESSION['user']);
+        $this->presenter->show('activar', $data);
     }
 
     public function auth()
