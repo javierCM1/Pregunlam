@@ -10,6 +10,11 @@ class ActivarController
 
     public function index()
     {
+        if (!isset($_SESSION['pendiente'])) {
+            header("Location: /login");
+            exit();
+        }
+
         $this->presenter->show('activar', []);
     }
 
@@ -24,6 +29,7 @@ class ActivarController
             //$this->presenter->show('lobby', ['message' => $message, 'usuario' => $usuario]);
 
             $_SESSION['user'] = $usuario;
+            unset($_SESSION['pendiente']);
             header('Location: /lobby'); //temporal, implementar modal
             exit();
         }

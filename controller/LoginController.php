@@ -25,14 +25,12 @@ class LoginController
 
         if ($this->model->validateLogin($user, $password, 'a'))
         {
-            session_start();
             $_SESSION['user'] = $user;
             header('Location: /lobby');
             exit();
         }
         else if($this->model->validateLogin($user, $password, 'p'))
         {
-            session_start();
             $_SESSION['pendiente'] = $user;
             header('Location: /activar');
             exit();
