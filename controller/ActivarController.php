@@ -10,7 +10,7 @@ class ActivarController
 
     public function index()
     {
-        if (!isset($_SESSION['user'])) {
+        if (!isset($_SESSION['pendiente'])) {
             header("Location: /login");
             exit();
         }
