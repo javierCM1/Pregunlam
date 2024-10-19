@@ -47,6 +47,49 @@ class UserModel
         return $query->get_result()->fetch_array(MYSQLI_ASSOC);
     }
 
+    public function validateData($fullname, $username, $email, $password, $repeat_password, $birthYear, $gender, $country, $city)
+    {
+        $message = '';
+
+        $fullname = preg_match('/^[a-zA-Z\s-]+$/',$fullname) == 1 ? $fullname : '';
+        $username = preg_match('/\W/',$username) == 0 ? $username : '';
+        $email = filter_var($email, FILTER_VALIDATE_EMAIL);
+        $password = preg_match('/\s/',$password) == 0 ? $password : '';
+        $repeat_password = preg_match('/\s/',$repeat_password) == 0 ? $repeat_password : '';
+        $birthYear = preg_match('/^\d{4}-\d{2}-\d{2}$/',$birthYear) ? $birthYear : '';
+        $gender = $this->validateGender($gender) ? $gender : '';
+        $country = preg_match('/^[a-zA-Z\s-]+$/',$country) == 1 ? $country : '';
+        $city = preg_match('/^[a-zA-Z\s-]+$/',$city) == 1 ? $city : '';
+
+        var_dump($fullname, $username, $email, $password, $repeat_password, $birthYear, $gender, $country, $city);
+
+        if (strcmp($fullname, '')==0)
+            $message = "El nombre no es válido.";
+
+        if (strcmp($username,'')==0)
+            $message = "El nombre de usuario no es válido.";
+
+        if (!$email)
+            $message = "Email no es valido.";
+
+        if (strcmp($password,'')==0 || strcmp($repeat_password,'')==0)
+            $message = "La contraseña no es válida.";
+
+        if (strcmp($birthYear,'')==0)
+            $message = "La fecha de nacimiento no es válida.";
+
+        if (strcmp($gender,'')==0)
+            $message = "El género no es válido.";
+
+        if (strcmp($country,'')==0)
+            $message = "Caracteres no válidos en campo país.";
+
+        if (strcmp($city,'')==0)
+            $message = "Caracteres no válidos en campo ciudad.";
+
+        return $message;
+    }
+
     public function register($fullname, $username, $email, $password, $birthday, $gender, $country, $city, $profilePic)
     {
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
