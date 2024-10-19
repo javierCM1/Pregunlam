@@ -18,7 +18,7 @@ class LobbyController
             exit();
         }
 
-        $data['usuario'] = $this->model->getUserByUsernameOrEmail($_SESSION['user']);
+        $data['usuario'] = $this->model->getUserByUsernameOrEmail($_SESSION['user'],'a');
         $this->presenter->show('lobby', $data);
     }
 

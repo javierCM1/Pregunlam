@@ -20,7 +20,7 @@ class ActivarController
 
     public function auth()
     {
-        $usuario = $_GET['username'] ?? $this->model->getUserByUsernameOrEmail($_SESSION['pendiente'])['userName_usuario'];
+        $usuario = $_GET['username'] ?? $this->model->getUserByUsernameOrEmail($_SESSION['pendiente'],'p')['userName_usuario'];
         $token = isset($_GET['token']) && is_numeric($_GET['token']) ? $_GET['token'] : '';
 
         if ($this->model->validateActivation($usuario, $token))

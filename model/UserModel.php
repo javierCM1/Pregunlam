@@ -38,11 +38,10 @@ class UserModel
         return $query->get_result()->fetch_all(MYSQLI_ASSOC);
     }
 
-    public function getUserByUsernameOrEmail($usernameOrEmail)
+    public function getUserByUsernameOrEmail($usernameOrEmail, $state)
     {
-        $estadoActivo = 'a';
-        $query = $this->db->prepare("SELECT * FROM usuario WHERE userName_usuario = ? OR email_usuario = ? AND estado_usuario = ?");
-        $query->bind_param('sss', $usernameOrEmail, $usernameOrEmail, $estadoActivo);
+        $query = $this->db->prepare("SELECT * FROM usuario WHERE (userName_usuario = ? OR email_usuario = ?) AND estado_usuario = ?");
+        $query->bind_param('sss', $usernameOrEmail, $usernameOrEmail, $state);
         $query->execute();
         return $query->get_result()->fetch_array(MYSQLI_ASSOC);
     }
