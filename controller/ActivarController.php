@@ -15,8 +15,7 @@ class ActivarController
             exit();
         }
 
-        $data['usuario'] = $this->model->getUserByUsernameOrEmail($_SESSION['user']);
-        $this->presenter->show('activar', $data);
+        $this->presenter->show('activar', []);
     }
 
     public function auth()
