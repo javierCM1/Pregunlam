@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pregunlam</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="../public/lobby.css">
+
+</head>
+<body>
+<div class="container">
+    {{#usuario}}
+
+        <header class="header">
+            <div class="logo">
+                <a href="/lobby">
+                    <h3>Pregunlam</h3>
+                </a>
+            </div>
+            <div class="welcome">
+                <span>Bienvenido, {{nombreCompleto_usuario}}</span>
+                <form action="/lobby/logout" method="post">
+                    <button type="submit" class="logout" id="btnCerrarSesion">Cerrar Sesión</button>
+                </form>
+            </div>
+        </header>
+
+        <main>
+            <section class="user-info">
+                <div class="avatar">
+                    <img src="{{img_usuario}}" alt="Avatar">
+                </div>
+                <div class="user-data">
+                    <h2>{{userName_usuario}}</h2>
+                    {{#maxPuntaje_usuario}}
+                        <span class="points">{{maxPuntaje_usuario}} puntos</span>
+                    {{/maxPuntaje_usuario}}
+
+
+                    {{^maxPuntaje_usuario}}
+                        <span class="points">0 puntos</span>
+                    {{/maxPuntaje_usuario}}
+
+                </div>
+                <div>
+
+                </div>
+            </section>
+
+            {{#message}}
+                <p style="color: #42a501;">{{message}}</p>
+            {{/message}}
+
+
+
+        </main>
+
+    {{/usuario}}
+</div>
+</body>
+</html>
+
+
