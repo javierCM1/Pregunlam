@@ -52,12 +52,13 @@ class UserModel
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
         $defaultUserType = 3;
         $defaultState = 'p';
-        $genero = "'%$gender%'";
         $token = random_int(100000,999999);
 
-        $idSexo = $this->db->prepare("SELECT `id_sexo` FROM sexo WHERE `descripcion_sexo` LIKE ?");
+        $genero = "$gender";
+        $idSexo = $this->db->prepare("SELECT id_sexo FROM sexo WHERE descripcion_sexo LIKE ?");
         $idSexo->bind_param('s', $genero);
-        $idSexo = $idSexo->execute();
+        $idSexo->execute();
+        $idSexoResult = $idSexo->get_result()->fetch_array(MYSQLI_ASSOC)['id_sexo'];
 
         $query = $this->db->prepare("INSERT INTO usuario (
                     `userName_usuario`, 
@@ -74,8 +75,8 @@ class UserModel
                     `id_sexo`
         ) VALUES (?, ?, ?, ?, ?, ?, ?, NOW(), ?, ?, ?, ?)");
 
-        $query->bind_param('ssssssssiis', $username, $hashedPassword, $email, $profilePic, $fullname, $birthday,
-            $country, $defaultState, $token, $defaultUserType, $idSexo);
+        $query->bind_param('ssssssssiii', $username, $hashedPassword, $email, $profilePic, $fullname, $birthday,
+            $country, $defaultState, $token, $defaultUserType, $idSexoResult);
 
         if($query->execute()){
             $this->fileEmailSender->sendEmailToFile('C:\xampp\htdocs\Pregunlam\dev.log', 'Activar cuenta', $fullname .", presiona <a href='http://localhost/activar/auth?username=$username&token=$token'>aquí</a> para activar la cuenta con el siguiente código: ". $token ."\r\n");
@@ -102,5 +103,14 @@ class UserModel
         $query = $this->db->prepare("UPDATE usuario SET estado_usuario = ? WHERE userName_usuario = ? AND token_usuario = ?");
         $query->bind_param('ssi', $nuevoEstado, $username, $token);
         return $this->db->executeStmt($query) == 1;
+    }
+
+    public function validateGender($gender)
+    {
+        $query = $this->db->prepare("SELECT 1 FROM sexo WHERE descripcion_sexo = ?");
+        $query->bind_param('s', $gender);
+        $query->execute();
+        $result = $query->get_result()->fetch_all(MYSQLI_ASSOC);
+        return !empty($result);
     }
 }

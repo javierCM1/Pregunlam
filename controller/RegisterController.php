@@ -24,15 +24,63 @@ class RegisterController
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 
-            $fullname = $_POST['fullname'];
-            $username = isset($_POST['username']) && !preg_match('/\W/',$_POST['username']) ? $_POST['username'] : '';
-            $email = $_POST['email'];
-            $password = $_POST['password'];
-            $repeat_password = $_POST['repeat_pass'];
-            $birthYear = $_POST['birth_year'];
-            $gender = $_POST['gender'];
-            $country = $_POST['country'];
-            $city = $_POST['city'];
+            $fullname = isset($_POST['fullname']) && preg_match('/[^a-z\s-]/',$_POST['fullname']) != 0 ? $_POST['fullname'] : '';
+            $username = isset($_POST['username']) && preg_match('/\W/',$_POST['username']) == 0 ? $_POST['username'] : '';
+            $email = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL);
+            $password = isset($_POST['password']) && preg_match('/\s/',$_POST['password']) == 0 ? $_POST['password'] : '';
+            $repeat_password = isset($_POST['repeat_pass']) && preg_match('/\s/',$_POST['repeat_pass']) == 0 ? $_POST['repeat_pass'] : '';
+            $birthYear = isset($_POST['birth_year']) && preg_match('/^\d{4}-\d{2}-\d{2}$/',$_POST['birth_year']) ? $_POST['birth_year'] : '';
+            $gender = $this->isValidGender($_POST['gender']) ? $_POST['gender'] : '';
+            $country = isset($_POST['country']) && preg_match('/[^a-z\s-]/',$_POST['country']) != 0 ? $_POST['country'] : '';
+            $city = isset($_POST['city']) && preg_match('/[^a-z\s-]/',$_POST['city']) != 0 ? $_POST['city'] : '';;
+
+            if (strcmp($fullname, '')==0) {
+                $message = "El nombre no es válido.";
+                $this->presenter->show('/register', ['message' => $message]);
+                return;
+            }
+
+            if (strcmp($username,'')==0) {
+                $message = "El nombre de usuario no es válido.";
+                $this->presenter->show('/register', ['message' => $message]);
+                return;
+            }
+
+            if (!$email) {
+                $message = "Email no es valido.";
+                $this->presenter->show('/register', ['message' => $message]);
+                return;
+            }
+
+            if (strcmp($password,'')==0) {
+                $message = "La contraseña no es válida.";
+                $this->presenter->show('/register', ['message' => $message]);
+                return;
+            }
+
+            if (strcmp($birthYear,'')==0) {
+                $message = "La fecha de nacimiento no es válida.";
+                $this->presenter->show('/register', ['message' => $message]);
+                return;
+            }
+
+            if (strcmp($gender,'')==0) {
+                $message = "El género no es válido.";
+                $this->presenter->show('/register', ['message' => $message]);
+                return;
+            }
+
+            if (strcmp($country,'')==0) {
+                $message = "Caracteres no válidos en campo país.";
+                $this->presenter->show('/register', ['message' => $message]);
+                return;
+            }
+
+            if (strcmp($city,'')==0) {
+                $message = "Caracteres no válidos en campo ciudad.";
+                $this->presenter->show('/register', ['message' => $message]);
+                return;
+            }
 
             if ($password !== $repeat_password) {
                 $message = "Las contraseñas no coinciden.";
@@ -52,12 +100,6 @@ class RegisterController
                 return;
             }
 
-            if (strcmp($username,'')==0) {
-                $message = "El nombre de usuario es incorrecto.";
-                $this->presenter->show('/register', ['message' => $message]);
-                return;
-            }
-
             $profilePic = $this->handleProfilePic();
 
             $success = $this->model->register(
@@ -72,7 +114,6 @@ class RegisterController
                 $message = "Error al registrar usuario.";
             }
         }
-
 
         $this->presenter->show('/register', ['message' => $message]);
     }
@@ -91,5 +132,10 @@ class RegisterController
             }
         }
         return '';
+    }
+
+    private function isValidGender($gender)
+    {
+        return $this->model->validateGender($gender);
     }
 }

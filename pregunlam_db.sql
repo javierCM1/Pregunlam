@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 16-10-2024 a las 19:20:47
+-- Tiempo de generación: 19-10-2024 a las 03:56:46
 -- Versión del servidor: 10.4.32-MariaDB
--- Versión de PHP: 8.2.12
+-- Versión de PHP: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -189,7 +189,7 @@ INSERT INTO `tipo_usuario` (`id_tipo_usuario`, `descripcion_tipo_usuario`) VALUE
 CREATE TABLE `usuario` (
   `id_usuario` int(11) NOT NULL,
   `userName_usuario` varchar(32) NOT NULL,
-  `password_usuario` varchar(32) NOT NULL,
+  `password_usuario` varchar(60) NOT NULL,
   `email_usuario` varchar(254) NOT NULL,
   `img_usuario` varchar(255) NOT NULL,
   `maxPuntaje_usuario` int(11) DEFAULT NULL,
@@ -198,6 +198,7 @@ CREATE TABLE `usuario` (
   `pais_usuario` varchar(255) NOT NULL,
   `fechaRegistro_usuario` date NOT NULL,
   `estado_usuario` char(1) NOT NULL,
+  `token_usuario` int(11) NOT NULL,
   `cantPreguntasJugadas_usuario` int(11) DEFAULT NULL,
   `cantPreguntasCorrectas_usuario` int(11) DEFAULT NULL,
   `id_tipo_usuario` int(11) NOT NULL,
@@ -355,7 +356,7 @@ ALTER TABLE `tipo_usuario`
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Restricciones para tablas volcadas
