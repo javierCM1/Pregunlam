@@ -21,6 +21,7 @@ class LobbyController
         
         $data['usuario'] = $this->model->getUserByUsernameOrEmail($_SESSION['user'],'a');
         $this->presenter->show('lobby', $data);
+        
     }
 
     public function logout()

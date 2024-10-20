@@ -79,7 +79,7 @@ class RegisterController
 
     private function handleProfilePic()
     {
-        $uploadDirectory = 'public/images/fotoDePerfil/';
+        $uploadDirectory = '/public/images/fotoDePerfil/';
         if (!file_exists($uploadDirectory)) {
             mkdir($uploadDirectory, 0777, true);
         }
