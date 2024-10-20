@@ -1,5 +1,7 @@
 <?php
 
+
+
 class UserModel
 {
     private $db;
@@ -101,17 +103,17 @@ class UserModel
         $idSexoResult = $idSexo->get_result()->fetch_array(MYSQLI_ASSOC)['id_sexo'];
 
         $query = $this->db->prepare("INSERT INTO usuario (
-                    `userName_usuario`, 
-                    `password_usuario`, 
+                    `userName_usuario`,
+                    `password_usuario`,
                     `email_usuario`,
-                    `img_usuario`, 
-                    `nombreCompleto_usuario`, 
-                    `fechaNacimiento_usuario`, 
-                    `pais_usuario`, 
-                    `fechaRegistro_usuario`, 
-                    `estado_usuario`, 
-                    `token_usuario`, 
-                    `id_tipo_usuario`, 
+                    `img_usuario`,
+                    `nombreCompleto_usuario`,
+                    `fechaNacimiento_usuario`,
+                    `pais_usuario`,
+                    `fechaRegistro_usuario`,
+                    `estado_usuario`,
+                    `token_usuario`,
+                    `id_tipo_usuario`,
                     `id_sexo`
         ) VALUES (?, ?, ?, ?, ?, ?, ?, NOW(), ?, ?, ?, ?)");
 

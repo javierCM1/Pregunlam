@@ -13,11 +13,12 @@ class LobbyController
 
     public function index()
     {
+        
         if (!isset($_SESSION['user'])) {
             header("Location: /login");
             exit();
         }
-
+        
         $data['usuario'] = $this->model->getUserByUsernameOrEmail($_SESSION['user'],'a');
         $this->presenter->show('lobby', $data);
     }
