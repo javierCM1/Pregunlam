@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pregunlam</title>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <link rel="stylesheet" href="../public/lobby.css">
+    <link rel="stylesheet" href="/public/lobby.css">
 
 </head>
 <body>
@@ -30,57 +30,62 @@
 
     {{#perfil}}
         <main>
+
+            <article id="informacionDeUsuario">
+
             <section class="user-info">
-                {{#perfilUsuario}}
-                    <div>
-                        <a href="/modificarPerfil?id={{id_usuario}}">
-                            <input type="button" value="Modificar perfil" class="w3-btn w3-yellow">
-                        </a>
-                    </div>
-                {{/perfilUsuario}}
+
                 <div class="avatar">
                     <img src="{{img_usuario}}" alt="Avatar">
                 </div>
                 <div class="user-data">
-                    <h2>{{userName_usuario}}</h2>
-                    <h2>Tu puntuacion</h2>
-                    {{#maxPuntaje_usuario}}
-                        <span class="points">{{maxPuntaje_usuario}} puntos</span>
+                    <h2 id="datosUsuario">{{userName_usuario}}</h2>
+                    <h3 id="datosUsuario" > Tu puntuacion  {{#maxPuntaje_usuario}}
+                        <span id="datosUsuario" class="points">{{maxPuntaje_usuario}} puntos</span>
                     {{/maxPuntaje_usuario}}
-                    {{^maxPuntaje_usuario}}
-                        <span class="points">0 puntos</span>
-                    {{/maxPuntaje_usuario}}
+                        {{^maxPuntaje_usuario}}
+                            <span  id="datosUsuario" class="points">0 puntos</span>
+                        {{/maxPuntaje_usuario}}</h3>
+
                 </div>
 
                 <div class="qr_class">
-                    <img src="../public/images/qr.jpg">
+                    <img id="qr_code" src="../public/images/qr.jpg">
                 </div>
 
-                <div>
 
-                </div>
+
+
             </section>
 
+            {{#perfilUsuario}}
+                <div class="botonM">
+                    <a href="/modificarPerfil?id={{id_usuario}}">
+                    <input id="botonModificar" type="button" value="Modificar perfil" class="w3-btn w3-yellow">
+                    </a>
+                </div>
+            {{/perfilUsuario}}
+
             <section class="game-history">
-                <table>
+                <table id="cuerpoTabla">
                     <thead>
                     <tr>
                         <th>Partida</th>
                         <th>Puntos</th>
                     </tr>
                     </thead>
-                    <tbody>
+                    <tbody >
                     <tr>
-                        <td></td>
-                        <td></td>
+                        <td>asasa</td>
+                        <td>asas</td>
                     </tr>
                     <tr>
-                        <td></td>
-                        <td></td>
+                        <td>asas</td>
+                        <td>asas</td>
                     </tr>
                     <tr>
-                        <td></td>
-                        <td></td>
+                        <td>asas</td>
+                        <td>asasa</td>
                     </tr>
                     </tbody>
                 </table>
@@ -90,6 +95,8 @@
             {{#message}}
                 <p style="color: #42a501;">{{message}}</p>
             {{/message}}
+
+            </article>
         </main>
     {{/perfil}}
 
