@@ -13,7 +13,6 @@
 <body>
 <div class="container">
     {{#usuario}}
-
         <header class="header">
             <div class="logo">
                 <a href="/lobby">
@@ -27,7 +26,9 @@
                 </form>
             </div>
         </header>
+    {{/usuario}}
 
+    {{#perfil}}
         <main>
             <section class="user-info">
                 <div class="avatar">
@@ -44,15 +45,11 @@
 
                         <span class="points">0 puntos</span>
                     {{/maxPuntaje_usuario}}
-
                 </div>
-
 
                 <div class="qr_class">
                     <img src="../public/images/qr.jpg">
                 </div>
-
-
 
                 <div>
 
@@ -62,12 +59,10 @@
             {{#message}}
                 <p style="color: #42a501;">{{message}}</p>
             {{/message}}
-
-
-
         </main>
+    {{/perfil}}
 
-    {{/usuario}}
+
 </div>
 </body>
 </html>

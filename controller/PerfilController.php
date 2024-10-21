@@ -23,14 +23,8 @@ class PerfilController
         }
 
         $data['usuario'] = $this->model->getUserByUsernameOrEmail($_SESSION['user'],'a');
+        $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+        $data['perfil']  = $this->model->getUserById($id);
         $this->presenter->show('perfil', $data);
     }
-public function ver(){
-    
-    $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
-    $data['usuario']  = $this->model->getUserById($id);
-  
-    
-    $this->presenter->show('perfil', $data);
-}
 }
