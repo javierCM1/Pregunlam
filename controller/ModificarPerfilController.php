@@ -80,7 +80,6 @@ class ModificarPerfilController
                 $fullname, $gender, $country, $profilePic, $idUsuario);
 
             if ($success) {
-                echo "lalala";
                 header('Location: /perfil');
                 exit();
             } else {
