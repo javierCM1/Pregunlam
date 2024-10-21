@@ -1,0 +1,75 @@
+
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pregunlam</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="../public/lobby.css">
+
+</head>
+<body>
+<div class="container">
+    {{#usuario}}
+        <header class="header">
+            <div class="logo">
+                <a href="/lobby">
+                    <h3>Pregunlam</h3>
+                </a>
+            </div>
+            <div class="welcome">
+                <span>Bienvenido, {{nombreCompleto_usuario}}</span>
+                <form action="/lobby/logout" method="post">
+                    <button type="submit" class="logout" id="btnCerrarSesion">Cerrar Sesión</button>
+                </form>
+            </div>
+        </header>
+
+        <main>
+            <section class="user-info">
+                <form class="form-box" action="/modificarPerfil/update" method="POST" enctype="multipart/form-data">
+                    <h2>Actualizar datos de usuario</h2>
+
+                    <div class="input-group">
+                        <input type="text" name="fullname" value="{{nombreCompleto_usuario}}" required>
+                    </div>
+                    <div class="input-group">
+                        <select name="gender" required>
+                            <option value="masculino" {{selectedM}}>Masculino</option>
+                            <option value="femenino" {{selectedF}}>Femenino</option>
+                            <option value="x" {{selectedX}}>Prefiero no cargarlo</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <input type="text" name="country" value="{{pais_usuario}}" required>
+                    </div>
+                    <div>
+                        <label>Imagen actual</label>
+                        <img src="{{img_usuario}}" alt="{{img_usuario}}" >
+                    </div>
+                    <div class="input-group">
+                        <label for="profile-pic">Foto de perfil</label>
+                        <input type="file" id="profile-pic" name="profile_pic" accept="image/png, image/jpeg">
+                    </div>
+                    {{#message}}
+                        <div id="message" style="color: red; margin-bottom: 10px;">
+                            {{message}}
+                        </div>
+                    {{/message}}
+                    <a href="/perfil" style="text-decoration: none">Cancelar</a>
+                    <button type="submit" class="w3-btn w3-green">Actualizar</button>
+                </form>
+            </section>
+
+            {{#message}}
+                <p style="color: #42a501;">{{message}}</p>
+            {{/message}}
+        </main>
+    {{/usuario}}
+</div>
+</body>
+</html>
+
+

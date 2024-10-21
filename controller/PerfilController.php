@@ -24,7 +24,16 @@ class PerfilController
 
         $data['usuario'] = $this->model->getUserByUsernameOrEmail($_SESSION['user'],'a');
         $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
-        $data['perfil']  = $this->model->getUserById($id);
+        $data['perfil']  = $this->model->getUserProfileById($id);
+
+        if($data['perfil'] == null) {
+            header("Location: /perfil?id=".$data['usuario']['id_usuario']);
+            exit();
+        }
+
+        if($data['usuario']['id_usuario'] === $data['perfil']['id_usuario'])
+            $data['perfilUsuario'] = true;
+
         $this->presenter->show('perfil', $data);
     }
 }

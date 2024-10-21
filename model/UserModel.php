@@ -37,7 +37,17 @@ class UserModel
         $query = $this->db->prepare("SELECT * FROM usuario WHERE id_usuario = ?");
         $query->bind_param('i', $id);
         $query->execute();
-        return $query->get_result()->fetch_all(MYSQLI_ASSOC);
+        return $query->get_result()->fetch_array(MYSQLI_ASSOC);
+    }
+
+    public function getUserProfileById($id)
+    {
+        $estadoActivo = 'a';
+        $query = $this->db->prepare("SELECT id_usuario, userName_usuario, maxPuntaje_usuario, img_usuario, pais_usuario
+                                    FROM usuario WHERE id_usuario = ? AND estado_usuario = ?");
+        $query->bind_param('is', $id,$estadoActivo);
+        $query->execute();
+        return $query->get_result()->fetch_array(MYSQLI_ASSOC);
     }
 
     public function getUserByUsernameOrEmail($usernameOrEmail, $state)
@@ -48,45 +58,38 @@ class UserModel
         return $query->get_result()->fetch_array(MYSQLI_ASSOC);
     }
 
-    public function validateData($fullname, $username, $email, $password, $repeat_password, $birthYear, $gender, $country, $city)
+    public function validateNames($fullname)
     {
-        $message = '';
+        return preg_match('/^[\s\p{L}]+$/u',$fullname) == 1 ? $fullname : '';
+    }
 
-        $fullname = preg_match('/^[a-zA-Z\s-]+$/',$fullname) == 1 ? $fullname : '';
-        $username = preg_match('/\W/',$username) == 0 ? $username : '';
-        $email = filter_var($email, FILTER_VALIDATE_EMAIL);
-        $password = preg_match('/\s/',$password) == 0 ? $password : '';
-        $repeat_password = preg_match('/\s/',$repeat_password) == 0 ? $repeat_password : '';
-        $birthYear = preg_match('/^\d{4}-\d{2}-\d{2}$/',$birthYear) ? $birthYear : '';
-        $gender = $this->validateGender($gender) ? $gender : '';
-        $country = preg_match('/^[a-zA-Z\s-]+$/',$country) == 1 ? $country : '';
-        $city = preg_match('/^[a-zA-Z\s-]+$/',$city) == 1 ? $city : '';
-        
-        if (strcmp($fullname, '')==0)
-            $message = "El nombre no es válido.";
+    public function validateUsername($username)
+    {
+        return preg_match('/\W/',$username) == 0 ? $username : '';
+    }
 
-        if (strcmp($username,'')==0)
-            $message = "El nombre de usuario no es válido.";
+    public function validateEmail($email)
+    {
+        return filter_var($email, FILTER_VALIDATE_EMAIL) ?? '';
+    }
 
-        if (!$email)
-            $message = "Email no es valido.";
+    public function validatePassword($password)
+    {
+        return preg_match('/\s/',$password) == 0 ? $password : '';
+    }
 
-        if (strcmp($password,'')==0 || strcmp($repeat_password,'')==0)
-            $message = "La contraseña no es válida.";
+    public function validateDate($date)
+    {
+        return $date <= date("Y-m-d") ? $date : '';
+    }
 
-        if (strcmp($birthYear,'')==0)
-            $message = "La fecha de nacimiento no es válida.";
-
-        if (strcmp($gender,'')==0)
-            $message = "El género no es válido.";
-
-        if (strcmp($country,'')==0)
-            $message = "Caracteres no válidos en campo país.";
-
-        if (strcmp($city,'')==0)
-            $message = "Caracteres no válidos en campo ciudad.";
-
-        return $message;
+    public function validateGender($gender)
+    {
+        $query = $this->db->prepare("SELECT 1 FROM sexo WHERE descripcion_sexo = ?");
+        $query->bind_param('s', $gender);
+        $query->execute();
+        $result = $query->get_result()->fetch_all(MYSQLI_ASSOC);
+        return !empty($result);
     }
 
     public function register($fullname, $username, $email, $password, $birthday, $gender, $country, $city, $profilePic)
@@ -128,6 +131,30 @@ class UserModel
         return false;
     }
 
+    public function updateUser($fullname, $gender, $country, $profilePic, $id_usuario)
+    {
+        $genero = "$gender";
+        $idSexo = $this->db->prepare("SELECT id_sexo FROM sexo WHERE descripcion_sexo LIKE ?");
+        $idSexo->bind_param('s', $genero);
+        $idSexo->execute();
+        $idSexoResult = $idSexo->get_result()->fetch_array(MYSQLI_ASSOC)['id_sexo'];
+
+        if($profilePic === '') {
+            $profilePic = $this->getUserById($id_usuario)['img_usuario'];
+        }
+
+        $query = $this->db->prepare("UPDATE usuario SET
+                    `img_usuario` = ?,
+                    `nombreCompleto_usuario` = ?,
+                    `pais_usuario` = ?,
+                    `id_sexo` = ?
+                    WHERE id_usuario = ?");
+
+        $query->bind_param('sssii', $profilePic, $fullname, $country, $idSexoResult, $id_usuario);
+
+        return $query->execute();
+    }
+
     public function validateLogin($username, $password, $estado)
     {
         $query = $this->db->prepare("SELECT password_usuario FROM usuario WHERE estado_usuario = ? AND (userName_usuario = ? OR email_usuario = ?)");
@@ -145,14 +172,5 @@ class UserModel
         $query = $this->db->prepare("UPDATE usuario SET estado_usuario = ? WHERE userName_usuario = ? AND token_usuario = ?");
         $query->bind_param('ssi', $nuevoEstado, $username, $token);
         return $this->db->executeStmt($query) == 1;
-    }
-
-    public function validateGender($gender)
-    {
-        $query = $this->db->prepare("SELECT 1 FROM sexo WHERE descripcion_sexo = ?");
-        $query->bind_param('s', $gender);
-        $query->execute();
-        $result = $query->get_result()->fetch_all(MYSQLI_ASSOC);
-        return !empty($result);
     }
 }

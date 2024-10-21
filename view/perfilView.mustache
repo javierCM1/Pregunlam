@@ -31,18 +31,23 @@
     {{#perfil}}
         <main>
             <section class="user-info">
+                {{#perfilUsuario}}
+                    <div>
+                        <a href="/modificarPerfil?id={{id_usuario}}">
+                            <input type="button" value="Modificar perfil" class="w3-btn w3-yellow">
+                        </a>
+                    </div>
+                {{/perfilUsuario}}
                 <div class="avatar">
                     <img src="{{img_usuario}}" alt="Avatar">
                 </div>
                 <div class="user-data">
                     <h2>{{userName_usuario}}</h2>
+                    <h2>Tu puntuacion</h2>
                     {{#maxPuntaje_usuario}}
                         <span class="points">{{maxPuntaje_usuario}} puntos</span>
                     {{/maxPuntaje_usuario}}
-
                     {{^maxPuntaje_usuario}}
-                        <h2>Tu puntuacion</h2>
-
                         <span class="points">0 puntos</span>
                     {{/maxPuntaje_usuario}}
                 </div>
@@ -54,6 +59,32 @@
                 <div>
 
                 </div>
+            </section>
+
+            <section class="game-history">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Partida</th>
+                        <th>Puntos</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <button class="see-more">Ver más</button>
             </section>
 
             {{#message}}

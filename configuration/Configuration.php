@@ -4,6 +4,7 @@ include_once("helper/IncludeFilePresenter.php");
 include_once("helper/Router.php");
 include_once("helper/MustachePresenter.php");
 include_once("helper/FileEmailSender.php");
+include_once("helper/ProfilePicHandler.php");
 include_once('vendor/mustache/src/Mustache/Autoloader.php');
 include_once("model/UserModel.php");
 include_once("controller/RegisterController.php");
@@ -11,7 +12,7 @@ include_once("controller/LoginController.php");
 include_once("controller/LobbyController.php");
 include_once("controller/ActivarController.php");
 include_once("controller/PerfilController.php");
-
+include_once("controller/ModificarPerfilController.php");
 
 class Configuration
 {
@@ -51,7 +52,7 @@ class Configuration
 
     public function getRegisterController()
     {
-        return new RegisterController($this->getUserModel(), $this->getPresenter());
+        return new RegisterController($this->getUserModel(), $this->getPresenter(), $this->getProfilePicHandler());
     }
 
     public function getLoginController()
@@ -72,9 +73,17 @@ class Configuration
     {
         return new PerfilController($this->getUserModel(), $this->getPresenter());
     }
+    public function getModificarPerfilController()
+    {
+        return new ModificarPerfilController($this->getUserModel(), $this->getPresenter(), $this->getProfilePicHandler());
+    }
     private function getFileEmailSender()
     {
         return new FileEmailSender();
+    }
+    private function getProfilePicHandler()
+    {
+        return new ProfilePicHandler();
     }
 
 }
