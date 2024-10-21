@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pregunlam</title>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <link rel="stylesheet" href="../public/lobby.css">
+    <link rel="stylesheet" href="/public/lobby.css">
 
 </head>
 <body>
@@ -30,20 +30,17 @@
 
     {{#perfil}}
         <main>
+
+            <article id="informacionDeUsuario">
+
             <section class="user-info">
+
                 {{#message}}
                     <div class="w3-panel w3-red w3-display-container">
                         <span onclick="this.parentElement.style.display='none'" class="w3-button w3-large w3-display-topright">&times;</span>
                         <h4>{{message}}</h4>
                     </div>
                 {{/message}}
-                {{#perfilUsuario}}
-                    <div>
-                        <a href="/modificarPerfil?id={{id_usuario}}">
-                            <input type="button" value="Modificar perfil" class="w3-btn w3-yellow">
-                        </a>
-                    </div>
-                {{/perfilUsuario}}
                 <div class="avatar">
                     <img src="{{img_usuario}}" alt="Avatar">
                 </div>
@@ -59,13 +56,17 @@
                 </div>
 
                 <div class="qr_class">
-                    <img src="../public/images/qr.jpg">
-                </div>
-
-                <div>
-
+                    <img id="qr_code" src="../public/images/qr.jpg">
                 </div>
             </section>
+
+            {{#perfilUsuario}}
+                <div class="botonM">
+                    <a href="/modificarPerfil?id={{id_usuario}}">
+                    <input id="botonModificar" type="button" value="Modificar perfil" class="w3-btn w3-yellow">
+                    </a>
+                </div>
+            {{/perfilUsuario}}
 
             <section class="game-history">
                 <table>
@@ -93,6 +94,11 @@
                 <button class="see-more">Ver más</button>
             </section>
 
+            {{#message}}
+                <p style="color: #42a501;">{{message}}</p>
+            {{/message}}
+
+            </article>
         </main>
     {{/perfil}}
 
