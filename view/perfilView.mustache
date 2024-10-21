@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pregunlam</title>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="/public/lobby.css">
 
 </head>
@@ -34,7 +35,6 @@
             <article id="informacionDeUsuario">
 
             <section class="user-info">
-
                 {{#message}}
                     <div class="w3-panel w3-red w3-display-container">
                         <span onclick="this.parentElement.style.display='none'" class="w3-button w3-large w3-display-topright">&times;</span>
@@ -45,18 +45,18 @@
                     <img src="{{img_usuario}}" alt="Avatar">
                 </div>
                 <div class="user-data">
-                    <h2>{{userName_usuario}}</h2>
-                    <h2>Tu puntuacion</h2>
+                    <h2 id="datosUsuario">{{userName_usuario}}</h2>
+                    <h3 id="datosUsuario">Tu puntuacion
                     {{#maxPuntaje_usuario}}
                         <span class="points">{{maxPuntaje_usuario}} puntos</span>
                     {{/maxPuntaje_usuario}}
                     {{^maxPuntaje_usuario}}
                         <span class="points">0 puntos</span>
-                    {{/maxPuntaje_usuario}}
+                    {{/maxPuntaje_usuario}}</h3>
                 </div>
 
                 <div class="qr_class">
-                    <img id="qr_code" src="../public/images/qr.jpg">
+                    <img src="../public/images/qr.jpg" id="qr_code">
                 </div>
             </section>
 
@@ -101,8 +101,22 @@
             </article>
         </main>
     {{/perfil}}
+    <footer class="w3-center">
+        <div class="footer-container w3-gray">
+            <h4 class="w3-text-white"><b>Seguinos</b></h4>
+            <div class="footer-icons">
+                <ul>
+                    <li><a href="#" target="_blank"><i class="fa fa-linkedin fa-2x"></i></a></li>
+                    <li><a href="#" target="_blank"><i class="fa fa-instagram fa-2x"></i></a></li>
+                    <li><a href="#" target="_blank"><i class="fa fa-twitter fa-2x"></i></a></li>
+                </ul>
+            </div>
+        </div>
 
-
+        <div class="copyright w3-dark-gray w3-text-white">
+            <p>2024 - Grupo 3</p>
+        </div>
+    </footer>
 </div>
 </body>
 </html>
