@@ -31,9 +31,12 @@ class PerfilController
             exit();
         }
 
+        $data['message'] = $_SESSION['errorActualizacion'] ?? '';
+
         if($data['usuario']['id_usuario'] === $data['perfil']['id_usuario'])
             $data['perfilUsuario'] = true;
 
         $this->presenter->show('perfil', $data);
+        unset($_SESSION['errorActualizacion']);
     }
 }

@@ -56,22 +56,21 @@ class ModificarPerfilController
             $country = $_POST['country'] ?? '';
 
             if ($fullname !== $this->model->validateNames($fullname)) {
-                $message = "Caraceteres no válidos en el campo nombre";
-                echo "allala";
-                $this->presenter->show('/perfil', ['message' => $message]);
-                return;
+                $_SESSION['errorActualizacion'] = "Caraceteres no válidos en el campo nombre";
+                header('Location: /perfil');
+                exit();
             }
 
             if (!$this->model->validateGender($gender)) {
-                $message = "El género no es válido";
-                $this->presenter->show('/perfil', ['message' => $message]);
-                return;
+                $_SESSION['errorActualizacion'] = "El género no es válido";
+                header('Location: /perfil');
+                exit();
             }
 
             if ($country !== $this->model->validateNames($country)) {
-                $message = "Caraceteres no válidos en el campo país";
-                $this->presenter->show('/perfil', ['message' => $message]);
-                return;
+                $_SESSION['errorActualizacion'] = "Caraceteres no válidos en el campo país";
+                header('Location: /perfil');
+                exit();
             }
 
             $profilePic = $this->profilePicHandler->handleProfilePic();

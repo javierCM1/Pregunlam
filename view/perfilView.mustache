@@ -31,6 +31,12 @@
     {{#perfil}}
         <main>
             <section class="user-info">
+                {{#message}}
+                    <div class="w3-panel w3-red w3-display-container">
+                        <span onclick="this.parentElement.style.display='none'" class="w3-button w3-large w3-display-topright">&times;</span>
+                        <h4>{{message}}</h4>
+                    </div>
+                {{/message}}
                 {{#perfilUsuario}}
                     <div>
                         <a href="/modificarPerfil?id={{id_usuario}}">
@@ -87,9 +93,6 @@
                 <button class="see-more">Ver más</button>
             </section>
 
-            {{#message}}
-                <p style="color: #42a501;">{{message}}</p>
-            {{/message}}
         </main>
     {{/perfil}}
 
