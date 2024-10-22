@@ -6,37 +6,30 @@ class UserModel
 {
     private $db;
 
-    public function __construct($database)
+    private $fileEmailSender;
+
+    public function __construct($database, $fileEmailSender)
     {
         $this->db = $database;
+        $this->fileEmailSender = $fileEmailSender;
     }
 
-    /**
-     * @throws EmailExistsException
-     */
     public function emailExists($email)
     {
         $query = $this->db->prepare("SELECT 1 FROM usuario WHERE email_usuario = ?");
         $query->bind_param('s', $email);
         $query->execute();
         $result = $query->get_result()->fetch_all(MYSQLI_ASSOC);
-        if(empty($result))
-            return false;
-        throw new EmailExistsException();
+        return !empty($result);
     }
 
-    /**
-     * @throws UsernameExistsException
-     */
     public function usernameExists($username)
     {
         $query = $this->db->prepare("SELECT 1 FROM usuario WHERE userName_usuario = ?");
         $query->bind_param('s', $username);
         $query->execute();
         $result = $query->get_result()->fetch_all(MYSQLI_ASSOC);
-        if(empty($result))
-            return false;
-        throw new UsernameExistsException();
+        return !empty($result);
     }
 
     public function getUserById($id)
@@ -65,20 +58,52 @@ class UserModel
         return $query->get_result()->fetch_array(MYSQLI_ASSOC);
     }
 
-    /**
-     * @throws InvalidGenderException
-     */
-    public function validateGender($gender)
+    public function validateNames($fullname)
     {
-        return !empty($this->getIdSexo($gender)) ?? throw new InvalidGenderException();
+        return preg_match('/^[\s\p{L}]+$/u',$fullname) == 1 ? $fullname : '';
     }
 
-    public function register($fullname, $username, $email, $password, $birthday, $gender, $country, $city, $profilePic, $token)
+    public function validateUsername($username)
+    {
+        return preg_match('/\W/',$username) == 0 ? $username : '';
+    }
+
+    public function validateEmail($email)
+    {
+        return filter_var($email, FILTER_VALIDATE_EMAIL) ?? '';
+    }
+
+    public function validatePassword($password)
+    {
+        return preg_match('/\s/',$password) == 0 ? $password : '';
+    }
+
+    public function validateDate($date)
+    {
+        return $date <= date("Y-m-d") ? $date : '';
+    }
+
+    public function validateGender($gender)
+    {
+        $query = $this->db->prepare("SELECT 1 FROM sexo WHERE descripcion_sexo = ?");
+        $query->bind_param('s', $gender);
+        $query->execute();
+        $result = $query->get_result()->fetch_all(MYSQLI_ASSOC);
+        return !empty($result);
+    }
+
+    public function register($fullname, $username, $email, $password, $birthday, $gender, $country, $city, $profilePic)
     {
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
         $defaultUserType = 3;
         $defaultState = 'p';
-        $idSexoResult = $this->getIdSexo($gender);
+        $token = random_int(100000,999999);
+
+        $genero = "$gender";
+        $idSexo = $this->db->prepare("SELECT id_sexo FROM sexo WHERE descripcion_sexo LIKE ?");
+        $idSexo->bind_param('s', $genero);
+        $idSexo->execute();
+        $idSexoResult = $idSexo->get_result()->fetch_array(MYSQLI_ASSOC)['id_sexo'];
 
         $query = $this->db->prepare("INSERT INTO usuario (
                     `userName_usuario`,
@@ -98,12 +123,21 @@ class UserModel
         $query->bind_param('ssssssssiii', $username, $hashedPassword, $email, $profilePic, $fullname, $birthday,
             $country, $defaultState, $token, $defaultUserType, $idSexoResult);
 
-        return $query->execute();
+        if($query->execute()){
+            $this->fileEmailSender->sendEmailToFile('C:\xampp\htdocs\Pregunlam\dev.log', 'Activar cuenta', $fullname .", presiona <a href='http://localhost/activar/auth?username=$username&token=$token'>aquí</a> para activar la cuenta con el siguiente código: ". $token ."\r\n");
+            return true;
+        }
+
+        return false;
     }
 
     public function updateUser($fullname, $gender, $country, $profilePic, $id_usuario)
     {
-        $idSexoResult = $this->getIdSexo($gender);
+        $genero = "$gender";
+        $idSexo = $this->db->prepare("SELECT id_sexo FROM sexo WHERE descripcion_sexo LIKE ?");
+        $idSexo->bind_param('s', $genero);
+        $idSexo->execute();
+        $idSexoResult = $idSexo->get_result()->fetch_array(MYSQLI_ASSOC)['id_sexo'];
 
         if($profilePic === '') {
             $profilePic = $this->getUserById($id_usuario)['img_usuario'];
@@ -119,15 +153,6 @@ class UserModel
         $query->bind_param('sssii', $profilePic, $fullname, $country, $idSexoResult, $id_usuario);
 
         return $query->execute();
-    }
-
-    private function getIdSexo($gender)
-    {
-        $genero = "$gender";
-        $query = $this->db->prepare("SELECT id_sexo FROM sexo WHERE descripcion_sexo LIKE ?");
-        $query->bind_param('s', $genero);
-        $query->execute();
-        return $query->get_result()->fetch_array(MYSQLI_ASSOC)['id_sexo'];
     }
 
     public function validateLogin($username, $password, $estado)
