@@ -13,6 +13,7 @@ include_once("controller/LobbyController.php");
 include_once("controller/ActivarController.php");
 include_once("controller/PerfilController.php");
 include_once("controller/ModificarPerfilController.php");
+include_once ("vendor/phpqrcode/qrlib.php");
 
 class Configuration
 {
