@@ -5,12 +5,14 @@ class ModificarPerfilController
     private $model;
     private $presenter;
     private $profilePicHandler;
+    private $inputFormatValidator;
 
-    public function __construct($model, $presenter, $profilePicHandler)
+    public function __construct($model, $presenter, $profilePicHandler, $inputFormatValidator)
     {
         $this->model = $model;
         $this->presenter = $presenter;
         $this->profilePicHandler = $profilePicHandler;
+        $this->inputFormatValidator = $inputFormatValidator;
     }
 
     public function index()
@@ -47,46 +49,38 @@ class ModificarPerfilController
 
     public function update()
     {
-        $message = '';
+        try {
+            $message = '';
 
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-            $fullname = $_POST['fullname'] ?? '';
-            $gender = $_POST['gender'] ?? '';
-            $country = $_POST['country'] ?? '';
+                $fullname = $_POST['fullname'] ?? '';
+                $gender = $_POST['gender'] ?? '';
+                $country = $_POST['country'] ?? '';
 
-            if ($fullname !== $this->model->validateNames($fullname)) {
-                $_SESSION['errorActualizacion'] = "Caraceteres no válidos en el campo nombre";
-                header('Location: /perfil');
-                exit();
+                $this->inputFormatValidator->validateNames($fullname);
+                $this->inputFormatValidator->validateNames($country);
+                $this->model->validateGender($gender);
+
+                $profilePic = $this->profilePicHandler->handleProfilePic();
+                $idUsuario = $this->model->getUserByUsernameOrEmail($_SESSION['user'],'a')['id_usuario'];
+
+                $success = $this->model->updateUser($fullname, $gender, $country, $profilePic, $idUsuario);
+
+                if ($success) {
+                    header('Location: /perfil');
+                    exit();
+                } else {
+                    $message = "Error al actualizar los datos del usuario.";
+                }
             }
 
-            if (!$this->model->validateGender($gender)) {
-                $_SESSION['errorActualizacion'] = "El género no es válido";
-                header('Location: /perfil');
-                exit();
-            }
-
-            if ($country !== $this->model->validateNames($country)) {
-                $_SESSION['errorActualizacion'] = "Caraceteres no válidos en el campo país";
-                header('Location: /perfil');
-                exit();
-            }
-
-            $profilePic = $this->profilePicHandler->handleProfilePic();
-            $idUsuario = $this->model->getUserByUsernameOrEmail($_SESSION['user'],'a')['id_usuario'];
-
-            $success = $this->model->updateUser(
-                $fullname, $gender, $country, $profilePic, $idUsuario);
-
-            if ($success) {
-                header('Location: /perfil');
-                exit();
-            } else {
-                $message = "Error al actualizar los datos del usuario.";
-            }
+            $this->presenter->show('/perfil', ['message' => $message]);
         }
-
-        $this->presenter->show('/perfil', ['message' => $message]);
+        catch (Exception $e) {
+            $_SESSION['errorActualizacion'] = $e->getMessage();
+            header('Location: /perfil');
+            exit();
+        }
     }
 }

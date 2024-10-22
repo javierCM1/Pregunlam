@@ -5,6 +5,7 @@ include_once("helper/Router.php");
 include_once("helper/MustachePresenter.php");
 include_once("helper/FileEmailSender.php");
 include_once("helper/ProfilePicHandler.php");
+include_once("helper/InputFormatValidator.php");
 include_once('vendor/mustache/src/Mustache/Autoloader.php');
 include_once("model/UserModel.php");
 include_once("controller/RegisterController.php");
@@ -13,6 +14,14 @@ include_once("controller/LobbyController.php");
 include_once("controller/ActivarController.php");
 include_once("controller/PerfilController.php");
 include_once("controller/ModificarPerfilController.php");
+include_once("controller/InvalidNameException.php");
+include_once("controller/InvalidUsernameException.php");
+include_once("controller/InvalidEmailException.php");
+include_once("controller/InvalidPasswordException.php");
+include_once("controller/InvalidDateException.php");
+include_once("controller/InvalidGenderException.php");
+include_once("controller/EmailExistsException.php");
+include_once("controller/UsernameExistsException.php");
 
 class Configuration
 {
@@ -47,12 +56,12 @@ class Configuration
 
     private function getUserModel()
     {
-        return new UserModel($this->getDatabase(), $this->getFileEmailSender());
+        return new UserModel($this->getDatabase());
     }
 
     public function getRegisterController()
     {
-        return new RegisterController($this->getUserModel(), $this->getPresenter(), $this->getProfilePicHandler());
+        return new RegisterController($this->getUserModel(), $this->getPresenter(), $this->getProfilePicHandler(), $this->getFileEmailSender(), $this->getInputFormatValidator());
     }
 
     public function getLoginController()
@@ -75,7 +84,7 @@ class Configuration
     }
     public function getModificarPerfilController()
     {
-        return new ModificarPerfilController($this->getUserModel(), $this->getPresenter(), $this->getProfilePicHandler());
+        return new ModificarPerfilController($this->getUserModel(), $this->getPresenter(), $this->getProfilePicHandler(), $this->getInputFormatValidator());
     }
     private function getFileEmailSender()
     {
@@ -84,6 +93,10 @@ class Configuration
     private function getProfilePicHandler()
     {
         return new ProfilePicHandler();
+    }
+    private function getInputFormatValidator()
+    {
+        return new InputFormatValidator();
     }
 
 }

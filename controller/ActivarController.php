@@ -24,9 +24,6 @@ class ActivarController
         $token = isset($_GET['token']) && is_numeric($_GET['token']) ? $_GET['token'] : '';
         
         if ($this->model->validateActivation($usuario, $token)) {
-            //$message = '¡Cuenta activada exitosamente!';
-            //$this->presenter->show('lobby', ['message' => $message, 'usuario' => $usuario]);
-            
             $_SESSION['user'] = $usuario;
             unset($_SESSION['pendiente']);
             $this->presenter->show('codigoActivado', ['usuario' => $usuario]);
@@ -36,7 +33,6 @@ class ActivarController
             $this->presenter->show('activar', ['message' => $message, 'username' => $usuario]);
         }
     }
-    
     
     public function activada()
     {
