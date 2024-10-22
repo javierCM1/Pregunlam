@@ -57,7 +57,7 @@ class Configuration
 
     private function getUserModel()
     {
-        return new UserModel($this->getDatabase(),$this->getFileEmailSender());
+        return new UserModel($this->getDatabase());
     }
 
     public function getRegisterController()
