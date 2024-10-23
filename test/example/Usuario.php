@@ -4,7 +4,7 @@ class Usuario
 {
     
     private static $contador_id;
-    private $id;
+    private $id ;
     private $userName_usuario;
     private $password_usuario;
     private $mail_usuario;
@@ -29,7 +29,7 @@ class Usuario
     
     // Getters
     public function getIdUsuario(): int {
-        return $this->id_usuario;
+        return $this->id;
     }
     
     public function getUserNameUsuario(): string {
