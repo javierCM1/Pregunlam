@@ -8,6 +8,8 @@ include_once("helper/ProfilePicHandler.php");
 include_once("helper/InputFormatValidator.php");
 include_once('vendor/mustache/src/Mustache/Autoloader.php');
 include_once("model/UserModel.php");
+include_once("model/PreguntaModel.php");
+include_once("model/PartidaModel.php");
 include_once("controller/RegisterController.php");
 include_once("controller/LoginController.php");
 include_once("controller/LobbyController.php");
