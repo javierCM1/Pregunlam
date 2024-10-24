@@ -37,8 +37,6 @@ final class ExampleTest extends TestCase
         $this->preguntaModel = new PreguntaModel($this->db);
     }
     
-
-    
     public function testShouldCheckAssertTrue(){
         $this->assertTrue(true);
     }
@@ -46,130 +44,59 @@ final class ExampleTest extends TestCase
     public function testShouldCheckAssertEquals(){
         $this->assertEquals("a", "a");
     }
-    
-    
+
     public function testGivenExisteUnaPartida(){
-        //id_partida	fechaHora_partida	puntaje_partida	estado_partida	id_usuario
+        $estado = "a";
+        $idUsuario = 1;
+        $fechaHora = date('Y-m-d H:i:s');
+        $puntaje = 0;
+        $expectedIdPartida = $this->partidaModel->obtenerCantidadDePartidas() + 1;
+
+        $this->partidaModel->savePartida($fechaHora,$puntaje,$estado,$idUsuario);
         
-        $estado = "A";
-        $usuario = $this->userModel->getUserById(11);
-        
-        
-        $partida = new Partida();
-        $partida->setEstado($estado);
-        $partida->setIdUsuario(11);
-        
-        $this->partidaModel->savePartida($partida);
-        
-        $usuarioDb = $this->userModel->getUserById(11);
-        
-        
-        $partidaDb = $this->partidaModel->getPartidaById(28);
-        
-      
-        $this->assertEquals($partidaDb["estado_partida"], "A");
-        $this-> assertEquals($partidaDb["id_usuario"], $usuarioDb["id_usuario"]);
-        $this->assertEquals($partidaDb["puntaje_partida"],$partida->getPuntaje());
-        $this->assertEquals($partidaDb["id_partida"],28);
-        
+        $partidaDb = $this->partidaModel->getPartidaById($expectedIdPartida,$estado);
+
+        $this->assertEquals($expectedIdPartida, $partidaDb['id_partida']);
+        $this->assertEquals($fechaHora, $partidaDb['fechaHora_partida']);
+        $this->assertEquals($puntaje, $partidaDb['puntaje_partida']);
+        $this->assertEquals($estado, $partidaDb['estado_partida']);
+        $this->assertEquals($idUsuario, $partidaDb['id_usuario']);
     }
     
     public function testQueSePuedaCrearUnaPregunta(){
-     
-  
         $interrogante = "¿En que año murio Ricardo Fort?";
-        $pregunta = new Pregunta();
-        $pregunta->setInterrogantePregunta($interrogante);
+        $idUsuario = 11;
+        $idCategoria = 3;
+        $idEstado = 1;
+        $expectedId = $this->preguntaModel->obtenerCantidadDePreguntas();
+
+        $this->preguntaModel->savePregunta($interrogante,$idUsuario,$idCategoria,$idEstado);
         
-        
-        
-        $categoria = new Categoria();
-        $estado = new Estado();
-        
-        
-        $idPruebaEstado = 25;
-        $idPruebaCategoria = 25;
-        
-        $estado->setIdEstado($idPruebaEstado);
-        $estado->setDescripcion("pendiente");
-        
-        
-        $categoria->setIdCategoria($idPruebaCategoria);
-        $categoria->setDescripcion("ENTRETENIMIENTO");
-        $categoria->setImg("rutaInexistente");
-        $categoria->setColor("Rojo");
-        
-        
-        
-        $pregunta->setIdCategoria($idPruebaCategoria);
-        $pregunta->setIdEstado($idPruebaEstado);
-        $pregunta->setIdUsuarioCreador(17);
-        
-        
-        
-        
-        $usuarioDb = $this->userModel->getUserById(11);
-        
-        $this->preguntaModel->saveEstado($estado);
-        $this->preguntaModel->saveCategoria($categoria);
-        $this->preguntaModel->savePregunta($pregunta);
-        
-        
-        
-        $preguntaDb = $this->preguntaModel->obtenerPreguntaPorId(4);
-        $categoriaDb = $this->preguntaModel->obtenerCategoriaPorId($idPruebaCategoria);
-        $estadoDb = $this->preguntaModel->obtenerEstadoPorId($idPruebaEstado);
-        
-        $this->assertEquals($preguntaDb["interrogante_pregunta"], $interrogante);
-      
-        $this->assertEquals($preguntaDb["id_estado"], $estadoDb["id_estado"]);
-        $this->assertEquals($preguntaDb["id_categoria"], $categoriaDb["id_categoria"]);
-     
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+        $preguntaDb = $this->preguntaModel->obtenerPreguntaPorId($expectedId,$idEstado);
+        $this->assertEquals($interrogante, $preguntaDb["interrogante_pregunta"]);
     }
     
-    
+    public function testQueSePuedaMostrarUnaPreguntaYSusRespuestas()
+    {
+        $idPregunta = 5;
+        $estadoPregunta = 2; //estado activo
+        $pregunta = $this->preguntaModel->obtenerPreguntaPorId($idPregunta,$estadoPregunta);
+
+        $this->assertEquals('¿Qué evento marcó el inicio de la Revolución Francesa?',$pregunta['interrogante_pregunta']);
+
+        $respuestas = $this->preguntaModel->getRespuestasPorIdPregunta($idPregunta);
+
+        $expectedRes = ['La toma de la Bastilla',
+                        'La declaración de los Derechos del Hombre',
+                        'La ejecución de Luis XVI',
+                        'El inicio de la guerra contra Prusia'];
+
+        var_dump($expectedRes);
+
+        for ($i=0; $i<4; $i++) {
+            $this->assertEquals($expectedRes[$i],$respuestas[$i]['descripcion_respuesta']);
+        }
+    }
     
     
     

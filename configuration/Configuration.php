@@ -7,6 +7,7 @@ include_once("helper/FileEmailSender.php");
 include_once("helper/ProfilePicHandler.php");
 include_once("helper/InputFormatValidator.php");
 include_once('vendor/mustache/src/Mustache/Autoloader.php');
+include_once("vendor/phpqrcode/qrlib.php");
 include_once("model/UserModel.php");
 include_once("model/PreguntaModel.php");
 include_once("model/PartidaModel.php");
@@ -16,7 +17,8 @@ include_once("controller/LobbyController.php");
 include_once("controller/ActivarController.php");
 include_once("controller/PerfilController.php");
 include_once("controller/ModificarPerfilController.php");
-include_once ("vendor/phpqrcode/qrlib.php");
+include_once("controller/PartidaController.php");
+//excepciones
 include_once("controller/InvalidNameException.php");
 include_once("controller/InvalidUsernameException.php");
 include_once("controller/InvalidEmailException.php");
@@ -60,6 +62,11 @@ class Configuration
     private function getUserModel()
     {
         return new UserModel($this->getDatabase());
+    }
+
+    private function getPartidaModel()
+    {
+
     }
 
     public function getRegisterController()

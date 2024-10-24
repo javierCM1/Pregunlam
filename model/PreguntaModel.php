@@ -14,7 +14,7 @@ class PreguntaModel
     }
     
     
-    public function saveEstado($estado)
+    /*public function saveEstado($estado)
     {
         
         $query = $this->db->prepare("INSERT INTO estado (
@@ -29,10 +29,10 @@ class PreguntaModel
         return $query->execute();
         
         
-    }
+    }*/
     
     
-    public function saveCategoria($categoria)
+    /*public function saveCategoria($categoria)
     {
         $query = $this->db->prepare("INSERT INTO categoria (
                     id_categoria,
@@ -51,48 +51,56 @@ class PreguntaModel
         
         
         
+    }*/
+
+    public function obtenerCantidadDePreguntas()
+    {
+        $query = $this->db->prepare("SELECT COUNT(id_pregunta) FROM `pregunta`");
+        $query->execute();
+        return $query->get_result()->fetch_array(MYSQLI_ASSOC)['COUNT(id_pregunta)'];
     }
     
-    public function savePregunta($pregunta)
+    public function savePregunta($interrogante,$idUsuarioCreador,$idCategoria,$idEstado)
     {
-        
-        $query = $this->db->prepare("INSERT INTO pregunta (
-                    id_pregunta,
-                interrogante_pregunta,
-                      fechaCreacion_pregunta,
-                      id_usuarioCreador,
-                       id_categoria,
-                       id_estado
-                ) VALUES (?,?,?,?,?,?)");
-        
-        
-        $fecha = date("Y-m-d");
-        $pregunta->setFechaCreacionPregunta($fecha);
-        
-        
-        $id_pregunta = $pregunta->getIdPregunta();
-        $interrogante_pregunta = $pregunta->getInterrogantePregunta();
-        $fechaCreacion_pregunta = $pregunta->getFechaCreacionPregunta();
-        
-        $id_usuarioCreador = $pregunta->getIdUsuarioCreador();
-        
-        $id_categoria = $pregunta->getIdCategoria();
-        $id_estado = $pregunta->getIdEstado();
-        
-        
-        
-        $query->bind_Param("isdiii", $id_pregunta,$interrogante_pregunta,$fechaCreacion_pregunta,$id_usuarioCreador,$id_categoria,$id_estado);
+        $query = $this->db->prepare("INSERT INTO `pregunta`(
+                                        `interrogante_pregunta`,
+                                        `fechaCreacion_pregunta`,
+                                        `id_usuarioCreador`,
+                                        `id_categoria`,
+                                        `id_estado`
+                                    ) VALUES (?,NOW(),?,?,?)");
+
+        $query->bind_Param("siii",$interrogante,$idUsuarioCreador,$idCategoria,$idEstado);
         return $query->execute();
     }
     
-    public function obtenerPreguntaPorId($id)
+    public function obtenerPreguntaPorId($id,$estado)
     {
-        
-        $query = $this->db->prepare("SELECT * FROM Pregunta WHERE id_pregunta = ?");
-        $query->bind_param('i', $id);
+        $query = $this->db->prepare("SELECT P.id_pregunta, 
+                                            P.interrogante_pregunta, 
+                                            P.fechaCreacion_pregunta, 
+                                            P.cantVistas_pregunta, 
+                                            P.cantCorrectas_pregunta,
+                                            C.descripcion_categoria, 
+                                            C.img_categoria, 
+                                            C.color_categoria,
+                                            E.descripcion_estado,
+                                            U.userName_usuario FROM Pregunta P 
+                                                                   JOIN Categoria C ON P.id_categoria=C.id_categoria
+                                                                   JOIN Estado E ON P.id_estado=E.id_estado
+                                                                   JOIN Usuario U ON P.id_usuarioCreador=U.id_usuario 
+                                                                   WHERE P.id_pregunta = ? AND P.id_estado = ?");
+        $query->bind_param('ii', $id,$estado);
         $query->execute();
         return $query->get_result()->fetch_array(MYSQLI_ASSOC);
-        
+    }
+
+    public function getRespuestasPorIdPregunta($idPregunta)
+    {
+        $query = $this->db->prepare("SELECT * FROM respuesta WHERE id_pregunta = ?");
+        $query->bind_param('i', $idPregunta);
+        $query->execute();
+        return $query->get_result()->fetch_all(MYSQLI_ASSOC);
     }
     
     public function obtenerCategoriaPorId( $id)
@@ -107,14 +115,13 @@ class PreguntaModel
     
     public function obtenerEstadoPorId($id)
     {
-        
         $query = $this->db->prepare("SELECT * FROM Estado WHERE id_estado = ?");
         $query->bind_param('i', $id);
         $query->execute();
         return $query->get_result()->fetch_array(MYSQLI_ASSOC);
-        
-        
     }
-    
-    
+
+
+
+
 }
