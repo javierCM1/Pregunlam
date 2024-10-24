@@ -2,12 +2,10 @@
 class PartidaModel{
     private $db;
     
-    private $fileEmailSender;
     
-    public function __construct($database, $fileEmailSender)
+    public function __construct($database)
     {
         $this->db = $database;
-        $this->fileEmailSender = $fileEmailSender;
     }
     
     
@@ -24,6 +22,7 @@ class PartidaModel{
         $puntaje = $partida->getPuntaje();
         $estado = $partida->getEstado();
         $idUsuario = $partida->getIdUsuario();
+        
         
         $query->bind_param('sssi', $fechaHora, $puntaje, $estado, $idUsuario);
         

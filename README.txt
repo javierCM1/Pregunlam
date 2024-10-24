@@ -11,3 +11,10 @@ Pregunlam G3 pasos:
 					DocumentRoot "C:\xampp\htdocs\Pregunlam"
 					<Directory "C:\xampp\htdocs\Pregunlam">
 3) Reiniciar Apache
+
+
+
+---HABILITAR EXTENSION ZIP---
+Para instalar el phpunit con composer, deberan ir al archivo php.ini dentro de
+xampp , y en el mismo deberan elimnar el primer ";" de "extensions=zip"
+

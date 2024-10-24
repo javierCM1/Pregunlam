@@ -9,11 +9,13 @@ class Estado
     
     
     
-    public function __construct(string $descripcion_estado)
+    public function __construct()
     {
         self::$contador_id++; // Incrementa el contador estático
         $this->id = self::$contador_id; // Asigna el ID autoincremental
-        $this->descripcion = $descripcion_estado;
+        
+        $this->descripcion = null;
+        
     }
     
     public function getId(): int
@@ -24,5 +26,15 @@ class Estado
     public function getDescripcion(): string
     {
         return $this->descripcion;
+    }
+    
+    public function setIdEstado(int $int)
+    {
+        $this->id = $int;
+    }
+    
+    public function setDescripcion(string $string)
+    {
+        $this->descripcion = $string;
     }
 }
