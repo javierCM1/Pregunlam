@@ -24,10 +24,9 @@ final class ExampleTest extends TestCase
         if ($this->db->connect_error) {
             die("Error de conexión: " . $this->db->connect_error);
         }
-        $this->fileEmailSender = new FileEmailSender();
         
         // Inicializas el modelo con la conexión
-        $this->userModel = new UserModel($this->db,$this->fileEmailSender);
+        $this->userModel = new UserModel($this->db);
         $this->partidaModel = new PartidaModel($this->db,$this->fileEmailSender);
     }
     
