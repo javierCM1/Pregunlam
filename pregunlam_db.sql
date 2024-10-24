@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 19-10-2024 a las 03:56:46
+-- Tiempo de generación: 23-10-2024 a las 00:05:18
 -- Versión del servidor: 10.4.32-MariaDB
--- Versión de PHP: 8.0.30
+-- Versión de PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -33,6 +33,19 @@ CREATE TABLE `categoria` (
   `img_categoria` varchar(255) NOT NULL,
   `color_categoria` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `categoria`
+--
+
+INSERT INTO `categoria` (`id_categoria`, `descripcion_categoria`, `img_categoria`, `color_categoria`) VALUES
+(1, 'Historia', 'public/images/img-categoria/historia.png', '#F2D31F'),
+(2, 'Deporte', 'public/images/img-categoria/deporte.png', '#EC2E35'),
+(3, 'Entretenimiento', 'public/images/img-categoria/entretenimiento.png', '#ED4CAD'),
+(4, 'Arte', 'public/images/img-categoria/arte.png', '#9025EC'),
+(5, 'Tecnología', 'public/images/img-categoria/tecnologia.png', '#3343EC'),
+(6, 'Geografía', 'public/images/img-categoria/geografia.png', '#39C1F1'),
+(7, 'Ciencia', 'public/images/img-categoria/ciencia.png', '#36EC4B');
 
 -- --------------------------------------------------------
 
@@ -189,7 +202,7 @@ INSERT INTO `tipo_usuario` (`id_tipo_usuario`, `descripcion_tipo_usuario`) VALUE
 CREATE TABLE `usuario` (
   `id_usuario` int(11) NOT NULL,
   `userName_usuario` varchar(32) NOT NULL,
-  `password_usuario` varchar(60) NOT NULL,
+  `password_usuario` varchar(255) NOT NULL,
   `email_usuario` varchar(254) NOT NULL,
   `img_usuario` varchar(255) NOT NULL,
   `maxPuntaje_usuario` int(11) DEFAULT NULL,
@@ -296,7 +309,7 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT de la tabla `categoria`
 --
 ALTER TABLE `categoria`
-  MODIFY `id_categoria` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_categoria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `estado`
@@ -356,7 +369,7 @@ ALTER TABLE `tipo_usuario`
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Restricciones para tablas volcadas
@@ -366,7 +379,7 @@ ALTER TABLE `usuario`
 -- Filtros para la tabla `partida`
 --
 ALTER TABLE `partida`
-  ADD CONSTRAINT `FK_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`);
+  ADD CONSTRAINT `FK_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Filtros para la tabla `pregunta`
@@ -407,7 +420,7 @@ ALTER TABLE `respuesta`
 -- Filtros para la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  ADD CONSTRAINT `FK_sexo` FOREIGN KEY (`id_sexo`) REFERENCES `sexo` (`id_sexo`),
+  ADD CONSTRAINT `FK_sexo` FOREIGN KEY (`id_sexo`) REFERENCES `sexo` (`id_sexo`) ON UPDATE NO ACTION,
   ADD CONSTRAINT `FK_tipo_usuario` FOREIGN KEY (`id_tipo_usuario`) REFERENCES `tipo_usuario` (`id_tipo_usuario`);
 COMMIT;
 
