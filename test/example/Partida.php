@@ -2,50 +2,31 @@
 
 class Partida
 {
-    
-    private static $contador_id;
     private $id;
-   
     private $fechaHora;
-  
     private $puntaje;
- 
     private $estado;
- 
     private $idUsuario;
     
     public function __construct()
     {
-        self::$contador_id++; // Incrementa el contador estático
-        $this->id = self::$contador_id; // Asigna el ID autoincremental
         $this->fechaHora = date('Y-m-d H:i:s');
         $this->puntaje = 0;
-        
     }
     
-    public function getId(){
+    public function getId()
+    {
         return $this->id;
     }
     
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
     
-    public function getFechaHora(){
+    public function getFechaHora()
+    {
         return $this->fechaHora;
-    }
-    
-    /**
-     * @return mixed
-     */
-    public static function getContadorId()
-    {
-        return self::$contador_id;
-    }
-    
-    /**
-     * @param mixed $contador_id
-     */
-    public static function setContadorId($contador_id)
-    {
-        self::$contador_id = $contador_id;
     }
     
     public function getPuntaje(): int
@@ -63,7 +44,8 @@ class Partida
         $this->estado = $estado;
     }
     
-    public function getEstado(){
+    public function getEstado()
+    {
         return $this->estado;
     }
     
@@ -72,9 +54,8 @@ class Partida
         $this->idUsuario = $idUsuario;
     }
     
-    public function getIdUsuario(){
+    public function getIdUsuario()
+    {
         return $this->idUsuario;
     }
-    
-    
 }

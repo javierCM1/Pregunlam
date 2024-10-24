@@ -52,7 +52,7 @@ class UserModel
         $estadoActivo = 'a';
         $query = $this->db->prepare("SELECT id_usuario, userName_usuario, maxPuntaje_usuario, img_usuario, pais_usuario
                                     FROM usuario WHERE id_usuario = ? AND estado_usuario = ?");
-        $query->bind_param('is', $id,$estadoActivo);
+        $query->bind_param('is', $id, $estadoActivo);
         $query->execute();
         return $query->get_result()->fetch_array(MYSQLI_ASSOC);
     }
@@ -149,50 +149,5 @@ class UserModel
         return $this->db->executeStmt($query) == 1;
     }
     
-    public function savePartida($partida)
-    {
-        $query = $this->db->prepare("INSERT INTO partidas (
-                    fechaHora,
-                    puntaje,
-                    estado,
-                    id_usuario
-                ) VALUES (?, ?, ?, ?)");
-        
-        $fechaHora = $partida->getFechaHora();
-        $puntaje = $partida->getPuntaje();
-        $estado = $partida->getEstado();
-        $idUsuario = $partida->getIdUsuario();
-        
-        $query->bind_param('sssi', $fechaHora, $puntaje, $estado, $idUsuario);
-        
-        return $query->execute();
-    }
-    
-    
-    public function getPartidaById($id)
-    {
-        $query = $this->db->prepare("SELECT * FROM partidas WHERE id = ?");
-        $query->bind_param('i', $id);
-        $query->execute();
-        $result = $query->get_result()->fetch_assoc();
-        
-        // Verificamos si encontramos una partida con ese ID
-        if ($result) {
-            // Creamos un objeto Partida con los datos obtenidos
-            $partida = new Partida();
-            $partida->setId($result['id']);
-            $partida->setPuntaje($result['puntaje']);
-            $partida->setEstado($result['estado']);
-            $partida->setIdUsuario($result['id_usuario']);
-            
-            // Establecemos la fecha y hora directamente si es necesario
-            $partida->setFechaHora($result['fechaHora']);
-            
-            return $partida;
-        }
-        
-        // Si no se encuentra la partida, retornamos null
-        return null;
-    }
-    
+
 }
