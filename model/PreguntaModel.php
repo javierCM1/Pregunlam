@@ -59,6 +59,26 @@ class PreguntaModel
         $query->execute();
         return $query->get_result()->fetch_array(MYSQLI_ASSOC)['MAX(id_pregunta)'];
     }
+
+    public function obtenerCantidadPreguntasPorEstado($estado)
+    {
+        $query = $this->db->prepare("SELECT COUNT(id_pregunta) FROM `pregunta` WHERE id_estado = ?");
+        $query->bind_Param('i',$estado);
+        $query->execute();
+        return $query->get_result()->fetch_array(MYSQLI_ASSOC)['COUNT(id_pregunta)'];
+    }
+
+    public function obtenerIdsPreguntasActivasNoVistasPorIdUsuario($idUusario)
+    {
+        $estado = 2;
+        $query = $this->db->prepare("SELECT id_pregunta FROM pregunta P WHERE id_estado = ? 
+                                                                        AND NOT EXISTS(SELECT 1 FROM `pregunta_vista` PV 
+                                                                                        WHERE PV.id_pregunta=P.id_pregunta
+                                                                                        AND id_usuario = ?)");
+        $query->bind_param('ii', $estado,$idUusario);
+        $query->execute();
+        return $query->get_result()->fetch_all();
+    }
     
     public function savePregunta($interrogante,$idUsuarioCreador,$idCategoria,$idEstado)
     {
@@ -72,6 +92,12 @@ class PreguntaModel
 
         $query->bind_Param("siii",$interrogante,$idUsuarioCreador,$idCategoria,$idEstado);
         return $query->execute();
+    }
+
+    public function obtenerPreguntaAleatoria($idUsuario)
+    {
+        $arrayId = $this->obtenerIdsPreguntasActivasNoVistasPorIdUsuario($idUsuario);
+        return $this->obtenerPreguntaPorId(array_rand($arrayId),2);
     }
     
     public function obtenerPreguntaPorId($id,$estado)
@@ -150,35 +176,6 @@ class PreguntaModel
 
 
     }
-
-    public function incrementarCantVistas($id_pregunta, $estadoPregunta)
-    {
-        $incrementoVistas = 1;
-        $query = $this->db->prepare("UPDATE `pregunta` SET `cantVistas_pregunta`= `cantVistas_pregunta` + ?
-                                    WHERE id_pregunta = ? AND id_estado = ?");
-        $query->bind_param('iii',$incrementoVistas,$id_pregunta,$estadoPregunta);
-        return $query->execute();
-    }
-
-    public function establecerPreguntaVista($idUsuario,$id_pregunta)
-    {
-        $query = $this->db->prepare("INSERT INTO `pregunta_vista`(
-                                        `id_usuario`,
-                                        `id_pregunta`
-                                    )
-                                    VALUES(?, ?)");
-        $query->bind_param('ii',$idUsuario,$id_pregunta);
-        return $query->execute();
-    }
-
-    public function getPreguntaVistaById($id)
-    {
-        $query = $this->db->prepare("SELECT * FROM `pregunta_vista` WHERE id_pregunta_vista = ?");
-        $query->bind_param('i',$id);
-        $query->execute();
-        return $query->get_result()->fetch_array(MYSQLI_ASSOC);
-    }
-
 
     public function getRespuestaById($id_respuesta){
         $query = $this->db->prepare("SELECT * FROM `respuesta` WHERE id_respuesta = ?");

@@ -28,7 +28,6 @@ class PartidaModel{
         $query->bind_param('is', $id,$estado);
         $query->execute();
         return $query->get_result()->fetch_array(MYSQLI_ASSOC);
-        
     }
 
     public function obtenerUltimoIdPartida()
@@ -59,6 +58,15 @@ class PartidaModel{
                                     WHERE id_partida = ? AND estado_partida = ?");
         $query->bind_param('iis',$incrementoPuntaje,$id_partida,$estado);
         return $query->execute();
+    }
+
+    public function getPartidaActivaByUserId($userId)
+    {
+        $estado = 'a';
+        $query = $this->db->prepare("SELECT * FROM partida WHERE id_usuario = ? AND estado_partida = ?");
+        $query->bind_param('is', $userId,$estado);
+        $query->execute();
+        return $query->get_result()->fetch_array(MYSQLI_ASSOC);
     }
 
 

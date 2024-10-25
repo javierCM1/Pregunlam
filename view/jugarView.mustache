@@ -5,25 +5,86 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Preguntados</title>
-    <link rel="stylesheet" href="../public/login.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/public/lobby.css">
+    <style>
+        .respuesta-btn {
+            width: 50%;
+            background-color: rgba(76, 61, 153, 0.46);
+            color: #000000;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .respuesta-btn:hover {
+            background-color: #f1c40f;
+        }
+        .img-categoria {
+            width: 7em;
+            height: 7em;
+            border-radius: 50%;
+            border: 3px solid #ffffff;
+            background-color: white;
+        }
+    </style>
 </head>
 <body>
+<div class="container">
+    {{#usuario}}
 
-   {{#pregunta}}
-    <h1>{{interrogante_pregunta}}</h1>
-    <form method="POST" action="/respuesta">
-        <!-- Campo oculto para el id de la pregunta -->
-        <input type="hidden" name="id_pregunta" value="{{id_pregunta}}">
+    <header class="header">
+        <div class="logo">
+            <a href="/lobby">
+                <h3>Pregunlam</h3>
+            </a>
+        </div>
+        <div class="welcome">
+            <span>Bienvenido, {{nombreCompleto_usuario}}</span>
+            <form action="/lobby/logout" method="post">
+                <button type="submit" class="logout" id="btnCerrarSesion">Cerrar Sesión</button>
+            </form>
+        </div>
+    </header>
 
-        {{#respuesta}}
-            <!-- Campo oculto para el id de la respuesta -->
-            <input type="hidden" name="id_respuesta" value="{{id_respuesta}}">
-            <!-- Botón para enviar el formulario con la respuesta -->
-            <button type="submit" class="login-btn">{{descripcion_respuesta}}</button>
-        {{/respuesta}}
-    </form>
+    {{#pregunta}}
+    <div style="background-color: {{color_categoria}}; color: white; max-width: 100%;" class="w3-center w3-margin container">
+        <img src="{{img_categoria}}" alt="{{img_categoria}}" class="img-categoria w3-margin">
+        <h2>{{interrogante_pregunta}}</h2>
+    </div>
+    <div style="margin-left: 31%">
+        <form method="POST" action="/respuesta" class="w3-center" style="display: flex; flex-direction: column;">
+            <!-- Campo oculto para el id de la pregunta -->
+            <input type="hidden" name="id_pregunta" value="{{id_pregunta}}">
+
+            {{#respuesta}}
+                <!-- Campo oculto para el id de la respuesta -->
+                <input type="hidden" name="id_respuesta" value="{{id_respuesta}}">
+                <!-- Botón para enviar el formulario con la respuesta -->
+                <button type="submit" class="respuesta-btn w3-margin">{{descripcion_respuesta}}</button>
+            {{/respuesta}}
+        </form>
+    </div>
     {{/pregunta}}
+    {{/usuario}}
+    <footer class="w3-center">
+        <div class="footer-container w3-gray">
+            <h4 class="w3-text-white"><b>Seguinos</b></h4>
+            <div class="footer-icons">
+                <ul>
+                    <li><a href="#" target="_blank"><i class="fa fa-linkedin fa-2x"></i></a></li>
+                    <li><a href="#" target="_blank"><i class="fa fa-instagram fa-2x"></i></a></li>
+                    <li><a href="#" target="_blank"><i class="fa fa-twitter fa-2x"></i></a></li>
+                </ul>
+            </div>
+        </div>
 
-
+        <div class="copyright w3-dark-gray w3-text-white">
+            <p>2024 - Grupo 3</p>
+        </div>
+    </footer>
+</div>
 </body>
 </html>

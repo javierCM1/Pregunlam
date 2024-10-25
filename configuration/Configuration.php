@@ -17,10 +17,7 @@ include_once("controller/LobbyController.php");
 include_once("controller/ActivarController.php");
 include_once("controller/PerfilController.php");
 include_once("controller/ModificarPerfilController.php");
-include_once("controller/PartidaController.php");
-//excepciones
-include_once ("vendor/phpqrcode/qrlib.php");
-include_once("controller/PartidaController.php");
+include_once("controller/JugarController.php");
 include_once("controller/RespuestaController.php");
 
 //excepciones
@@ -71,7 +68,12 @@ class Configuration
 
     private function getPartidaModel()
     {
+        return new PartidaModel($this->getDatabase());
+    }
 
+    private function getPreguntaModel()
+    {
+        return new PreguntaModel($this->getDatabase());
     }
 
     public function getRegisterController()
@@ -101,6 +103,15 @@ class Configuration
     {
         return new ModificarPerfilController($this->getUserModel(), $this->getPresenter(), $this->getProfilePicHandler(), $this->getInputFormatValidator());
     }
+    public function getJugarController()
+    {
+        return new JugarController($this->getPartidaModel(),$this->getUserModel(),$this->getPreguntaModel(),$this->getPresenter());
+    }
+    public function getRespuestaController()
+    {
+        return new RespuestaController($this->getPreguntaModel(),$this->getPresenter());
+    }
+
     private function getFileEmailSender()
     {
         return new FileEmailSender();
