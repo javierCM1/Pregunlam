@@ -1,16 +1,13 @@
 <?php
-
-class PartidaController
+class CategoriaController
 {
     private $model;
     private $presenter;
 
-    public function __construct($model, $presenter)
-    {
+    public function __construct($model, $presenter){
         $this->model = $model;
         $this->presenter = $presenter;
     }
-
     public function index()
     {
 
@@ -19,7 +16,10 @@ class PartidaController
             exit();
         }
 
-        $data['usuario'] = $this->model->getUserByUsernameOrEmail($_SESSION['user'],'a');
-        $this->presenter->show('jugar', $data);
+
+        $data['categorias'] = $this->model->obtenerCategorias();
+        $this->presenter->show('categoria', $data);
     }
+
+
 }

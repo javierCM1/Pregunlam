@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seleccionar Categoría - Preguntados</title>
+    <link rel="stylesheet" href="/public/categoria.css">
+</head>
+<body>
+
+<h1>Selecciona una Categoría</h1>
+
+<div class="categories-container">
+    {{#categorias}}
+        <div class="category-card">
+            <a href="/jugar/categoria?categoria={{descripcion_categoria}}">
+            <img src="{{img_categoria}}" alt="{{descripcion_categoria}}">
+            <p class="category-name">{{descripcion_categoria}}</p>
+            </a>
+        </div>
+    {{/categorias}}
+</div>
+
+</body>
+</html>

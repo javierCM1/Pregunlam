@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juego de Preguntas</title>
+    <script src="https://cdn.jsdelivr.net/npm/mustache@4.2.0/mustache.min.js"></script>
+    <link rel="stylesheet" href="/public/jugar.css">
+</head>
+<body>
+
+<div class="container">
+    <h2 class="category">{{categoria}}</h2>
+    <div class="question-container">
+        <p class="question">{{pregunta}}</p>
+    </div>
+
+    <div class="answers">
+        {{#respuestas}}
+            <button class="answer" data-es-correcta="{{esCorrecta_respuesta}}">{{descripcion_respuesta}}</button>
+        {{/respuestas}}
+    </div>
+</div>
+
+<script>
+    document.body.style.backgroundColor = '{{color_categoria}}';
+
+    const answerButtons = document.querySelectorAll('.answer');
+
+    answerButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const esCorrecta = this.getAttribute('data-es-correcta');
+
+            if (esCorrecta == '1') {
+                this.style.backgroundColor = 'green';
+                this.style.backgroundColor = 'red';
+            }
+        });
+    });
+</script>
+
+
+</body>
+</html>

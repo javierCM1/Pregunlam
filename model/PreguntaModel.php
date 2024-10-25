@@ -3,17 +3,17 @@
 
 class PreguntaModel
 {
-    
-    
+
+
     private $db;
-    
-    
+
+
     public function __construct($database)
     {
         $this->db = $database;
     }
-    
-    
+
+
     /*public function saveEstado($estado)
     {
         
@@ -30,8 +30,8 @@ class PreguntaModel
         
         
     }*/
-    
-    
+
+
     /*public function saveCategoria($categoria)
     {
         $query = $this->db->prepare("INSERT INTO categoria (
@@ -59,8 +59,8 @@ class PreguntaModel
         $query->execute();
         return $query->get_result()->fetch_array(MYSQLI_ASSOC)['COUNT(id_pregunta)'];
     }
-    
-    public function savePregunta($interrogante,$idUsuarioCreador,$idCategoria,$idEstado)
+
+    public function savePregunta($interrogante, $idUsuarioCreador, $idCategoria, $idEstado)
     {
         $query = $this->db->prepare("INSERT INTO `pregunta`(
                                         `interrogante_pregunta`,
@@ -70,11 +70,11 @@ class PreguntaModel
                                         `id_estado`
                                     ) VALUES (?,NOW(),?,?,?)");
 
-        $query->bind_Param("siii",$interrogante,$idUsuarioCreador,$idCategoria,$idEstado);
+        $query->bind_Param("siii", $interrogante, $idUsuarioCreador, $idCategoria, $idEstado);
         return $query->execute();
     }
-    
-    public function obtenerPreguntaPorId($id,$estado)
+
+    public function obtenerPreguntaPorId($id, $estado)
     {
         $query = $this->db->prepare("SELECT P.id_pregunta, 
                                             P.interrogante_pregunta, 
@@ -90,7 +90,7 @@ class PreguntaModel
                                                                    JOIN Estado E ON P.id_estado=E.id_estado
                                                                    JOIN Usuario U ON P.id_usuarioCreador=U.id_usuario 
                                                                    WHERE P.id_pregunta = ? AND P.id_estado = ?");
-        $query->bind_param('ii', $id,$estado);
+        $query->bind_param('ii', $id, $estado);
         $query->execute();
         return $query->get_result()->fetch_array(MYSQLI_ASSOC);
     }
@@ -102,17 +102,50 @@ class PreguntaModel
         $query->execute();
         return $query->get_result()->fetch_all(MYSQLI_ASSOC);
     }
-    
-    public function obtenerCategoriaPorId( $id)
+
+    public function obtenerCategoriaPorId($id)
     {
-        
+
         $query = $this->db->prepare("SELECT * FROM Categoria WHERE id_categoria = ?");
         $query->bind_param('i', $id);
         $query->execute();
         return $query->get_result()->fetch_array(MYSQLI_ASSOC);
-        
+
     }
-    
+
+    public function obtenerPreguntaPorCategoria($nombreCategoria)
+    {
+
+        $query = $this->db->prepare(
+            "SELECT * 
+         FROM Pregunta P 
+         JOIN Categoria C ON P.id_categoria = C.id_categoria 
+         WHERE C.descripcion_categoria = ? 
+         ORDER BY RAND() LIMIT 1"
+        );
+
+
+        $query->bind_param('s', $nombreCategoria);
+
+
+        $query->execute();
+
+        $result = $query->get_result();
+        $pregunta = $result->fetch_assoc();
+
+        return $pregunta;
+    }
+
+    public function obtenerCategorias()
+    {
+
+        $query = $this->db->prepare("SELECT * FROM Categoria");
+        $query->execute();
+        $resultado = $query->get_result();
+        return $resultado->fetch_all(MYSQLI_ASSOC);
+    }
+
+
     public function obtenerEstadoPorId($id)
     {
         $query = $this->db->prepare("SELECT * FROM Estado WHERE id_estado = ?");
@@ -120,8 +153,6 @@ class PreguntaModel
         $query->execute();
         return $query->get_result()->fetch_array(MYSQLI_ASSOC);
     }
-
-
 
 
 }

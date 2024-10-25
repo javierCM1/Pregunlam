@@ -17,16 +17,18 @@ include_once("controller/LobbyController.php");
 include_once("controller/ActivarController.php");
 include_once("controller/PerfilController.php");
 include_once("controller/ModificarPerfilController.php");
-include_once("controller/PartidaController.php");
+include_once("controller/CategoriaController.php");
+include_once("controller/JugarController.php");
+
 //excepciones
-include_once("controller/InvalidNameException.php");
-include_once("controller/InvalidUsernameException.php");
-include_once("controller/InvalidEmailException.php");
-include_once("controller/InvalidPasswordException.php");
-include_once("controller/InvalidDateException.php");
-include_once("controller/InvalidGenderException.php");
-include_once("controller/EmailExistsException.php");
-include_once("controller/UsernameExistsException.php");
+include_once("exeption/InvalidNameException.php");
+include_once("exeption/InvalidUsernameException.php");
+include_once("exeption/InvalidEmailException.php");
+include_once("exeption/InvalidPasswordException.php");
+include_once("exeption/InvalidDateException.php");
+include_once("exeption/InvalidGenderException.php");
+include_once("exeption/EmailExistsException.php");
+include_once("exeption/UsernameExistsException.php");
 
 class Configuration
 {
@@ -64,15 +66,22 @@ class Configuration
         return new UserModel($this->getDatabase());
     }
 
-    private function getPartidaModel()
+    private function getPreguntaModel()
     {
-
+        return new PreguntaModel($this->getDatabase());
     }
+
+    public function getJugarController()
+    {
+        return new JugarController($this->getPreguntaModel(),$this->getPresenter());
+    }
+
 
     public function getRegisterController()
     {
         return new RegisterController($this->getUserModel(), $this->getPresenter(), $this->getProfilePicHandler(), $this->getFileEmailSender(), $this->getInputFormatValidator());
     }
+
 
     public function getLoginController()
     {
@@ -96,6 +105,16 @@ class Configuration
     {
         return new ModificarPerfilController($this->getUserModel(), $this->getPresenter(), $this->getProfilePicHandler(), $this->getInputFormatValidator());
     }
+
+    public function getCategoriaController()
+    {
+        return new CategoriaController($this->getPreguntaModel(), $this->getPresenter());
+    }
+
+
+
+
+
     private function getFileEmailSender()
     {
         return new FileEmailSender();
