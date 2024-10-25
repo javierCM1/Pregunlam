@@ -10,24 +10,19 @@
 namespace PHPUnit\Util;
 
 use function in_array;
+use function sprintf;
 
 /**
- * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
- *
- * @immutable
+ * @internal This class is not covered by the backward compatibility promise for PHPUnit
+ * @psalm-immutable
  */
-final readonly class VersionComparisonOperator
+final class VersionComparisonOperator
 {
     /**
-     * @var '!='|'<'|'<='|'<>'|'='|'=='|'>'|'>='|'eq'|'ge'|'gt'|'le'|'lt'|'ne'
+     * @psalm-var '<'|'lt'|'<='|'le'|'>'|'gt'|'>='|'ge'|'=='|'='|'eq'|'!='|'<>'|'ne'
      */
-    private string $operator;
+    private $operator;
 
-    /**
-     * @param '!='|'<'|'<='|'<>'|'='|'=='|'>'|'>='|'eq'|'ge'|'gt'|'le'|'lt'|'ne' $operator
-     *
-     * @throws InvalidVersionOperatorException
-     */
     public function __construct(string $operator)
     {
         $this->ensureOperatorIsValid($operator);
@@ -36,7 +31,7 @@ final readonly class VersionComparisonOperator
     }
 
     /**
-     * @return '!='|'<'|'<='|'<>'|'='|'=='|'>'|'>='|'eq'|'ge'|'gt'|'le'|'lt'|'ne'
+     * @return '<'|'lt'|'<='|'le'|'>'|'gt'|'>='|'ge'|'=='|'='|'eq'|'!='|'<>'|'ne'
      */
     public function asString(): string
     {
@@ -44,14 +39,19 @@ final readonly class VersionComparisonOperator
     }
 
     /**
-     * @param '!='|'<'|'<='|'<>'|'='|'=='|'>'|'>='|'eq'|'ge'|'gt'|'le'|'lt'|'ne' $operator
+     * @throws Exception
      *
-     * @throws InvalidVersionOperatorException
+     * @psalm-assert '<'|'lt'|'<='|'le'|'>'|'gt'|'>='|'ge'|'=='|'='|'eq'|'!='|'<>'|'ne' $operator
      */
     private function ensureOperatorIsValid(string $operator): void
     {
         if (!in_array($operator, ['<', 'lt', '<=', 'le', '>', 'gt', '>=', 'ge', '==', '=', 'eq', '!=', '<>', 'ne'], true)) {
-            throw new InvalidVersionOperatorException($operator);
+            throw new Exception(
+                sprintf(
+                    '"%s" is not a valid version_compare() operator',
+                    $operator
+                )
+            );
         }
     }
 }

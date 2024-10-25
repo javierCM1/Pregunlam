@@ -11,38 +11,35 @@ class RespuestaController{
         
         $this->presenter = $presenter;
     }
-    
+
     public function index()
     {
-        
         if (!isset($_SESSION['user'])) {
             header("Location: /login");
             exit();
         }
-        
-        $data['respuesta'] = $this->preguntaModel->getRespuestaById($_GET['id_respuesta']);
-        $data['pregunta'] = $this->preguntaModel->obtenerPreguntaPorId($_GET['id_pregunta'],2);
-        
-        
-        if($data['respuesta']['id_pregunta'] == $data['pregunta']['id_pregunta'] && $data['respuesta']['esCorrecta_respuesta'] != 0 ){
-            $data['message'] = 'Respuesta Correcta';
+        if (isset($_SESSION['message'])) {
+            $data['message'] = $_SESSION['message'];
+            unset($_SESSION['message']); // Limpiar el mensaje después de mostrarlo
         }
-        else{
-            $data['message'] = 'Respuesta Incorrecta';
+
+        if (!isset($_POST['id_respuesta']) || !isset($_POST['id_pregunta'])) {
+            // Manejar el error, tal vez redirigir a una página de error o mostrar un mensaje
+            header("Location: /error"); // Ajusta según sea necesario
+            exit();
         }
-        
-        
-        
-        // En el entorno de pruebas, solo imprimimos el mensaje en lugar de llamar a $presenter
-        if (defined('TEST_ENV') && TEST_ENV === true) {
-            echo $data['message'];
+
+        $data['respuesta'] = $this->preguntaModel->getRespuestaById($_POST['id_respuesta']);
+        $data['pregunta'] = $this->preguntaModel->obtenerPreguntaPorId($_POST['id_pregunta'], 2);
+
+        if ($data['respuesta']['id_pregunta'] == $data['pregunta']['id_pregunta'] && $data['respuesta']['esCorrecta_respuesta'] != 0) {
+            $_SESSION['message'] = 'Respuesta Correcta';
         } else {
-            $this->presenter->show("resultadoPregunta", $data['message']);
+            $_SESSION['message'] = 'Respuesta Incorrecta';
         }
-        
-        
-        
-        
+
+        // Redirigir a la página de resultados
+        $this->presenter->show("resultadoPregunta", $data);
+
     }
-    
 }

@@ -3,29 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Preguntados</title>
+    <title>Resultado - Preguntados</title>
     <link rel="stylesheet" href="../public/login.css">
 </head>
 <body>
 
- {{#message}}
+{{#message}}
 
- <h1>{{message}}</h1>
+    <h1>{{message}}</h1>
 
+    <form method="POST" action="#">
+        <button value='continuar'> continuar</button>
+        <button value='reportar'> reportar</button>
+    </form>
 
-
- <form method="POST" action="#">
-
-    <button value='continuar'> continuar
-    <button value='reportar'> reportar
-
-
-     </form>
-
-
-
- {{/message}}
-
+{{/message}}
 
 </body>
 </html>
