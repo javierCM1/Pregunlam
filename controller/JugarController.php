@@ -25,11 +25,12 @@ class JugarController
         $usuario = $this->usuarioModel->getUserByUsernameOrEmail($_SESSION['user'],'a');
         $partida = $this->partidaModel->getPartidaActivaByUserId($usuario['id_usuario']);
         //crear partida si no hay partida activa
-        if($partida == NULL) {
-            $partida = $this->partidaModel->savePartida(date('Y-m-d H:i:s'),0,'a',$usuario['id_usuario']);
+        if($partida === null) {
+            $this->partidaModel->savePartida(date('Y-m-d H:i:s'),0,'a',$usuario['id_usuario']);
+            $partida = $this->partidaModel->getPartidaActivaByUserId($usuario['id_usuario']);
         }
         $pregunta = $this->preguntaModel->obtenerPreguntaAleatoria($usuario['id_usuario']);
-        if($pregunta == NULL) {
+        if($pregunta === null) {
             $pregunta = $this->preguntaModel->obtenerPreguntaAleatoria($usuario['id_usuario']);
         }
         $respuestas = $this->preguntaModel->getRespuestasPorIdPregunta($pregunta['id_pregunta']);
