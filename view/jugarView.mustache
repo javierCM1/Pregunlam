@@ -25,6 +25,7 @@
 <script>
     document.body.style.backgroundColor = '{{color_categoria}}';
 
+
     const answerButtons = document.querySelectorAll('.answer');
 
     answerButtons.forEach(button => {
@@ -33,6 +34,7 @@
 
             if (esCorrecta == '1') {
                 this.style.backgroundColor = 'green';
+            } else {
                 this.style.backgroundColor = 'red';
             }
         });
