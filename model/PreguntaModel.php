@@ -85,14 +85,35 @@ class PreguntaModel
         return $query->execute();
     }
     
-    public function obtenerPreguntaPorId($id)
+    public function obtenerPreguntaPorId($id,$estado)
     {
-        
-        $query = $this->db->prepare("SELECT * FROM Pregunta WHERE id_pregunta = ?");
-        $query->bind_param('i', $id);
+        $query = $this->db->prepare("SELECT P.id_pregunta,
+                                            P.interrogante_pregunta,
+                                            P.fechaCreacion_pregunta,
+                                            P.cantVistas_pregunta,
+                                            P.cantCorrectas_pregunta,
+                                            C.descripcion_categoria,
+                                            C.img_categoria,
+                                            C.color_categoria,
+                                            E.descripcion_estado,
+                                            U.userName_usuario FROM Pregunta P
+                                                                   JOIN Categoria C ON P.id_categoria=C.id_categoria
+                                                                   JOIN Estado E ON P.id_estado=E.id_estado
+                                                                   JOIN Usuario U ON P.id_usuarioCreador=U.id_usuario
+                                                                   WHERE P.id_pregunta = ? AND P.id_estado = ?");
+        $query->bind_param('ii', $id,$estado);
         $query->execute();
         return $query->get_result()->fetch_array(MYSQLI_ASSOC);
-        
+    }
+    
+    
+
+    public function getRespuestasPorIdPregunta($idPregunta)
+    {
+        $query = $this->db->prepare("SELECT * FROM respuesta WHERE id_pregunta = ?");
+        $query->bind_param('i', $idPregunta);
+        $query->execute();
+        return $query->get_result()->fetch_all(MYSQLI_ASSOC);
     }
     
     public function obtenerCategoriaPorId( $id)
@@ -115,6 +136,43 @@ class PreguntaModel
         
         
     }
+
+    public function incrementarCantVistas($id_pregunta, $estadoPregunta)
+    {
+        $incrementoVistas = 1;
+        $query = $this->db->prepare("UPDATE `pregunta` SET `cantVistas_pregunta`= `cantVistas_pregunta` + ?
+                                    WHERE id_pregunta = ? AND id_estado = ?");
+        $query->bind_param('iii',$incrementoVistas,$id_pregunta,$estadoPregunta);
+        return $query->execute();
+    }
+
+    public function establecerPreguntaVista($idUsuario,$id_pregunta)
+    {
+        $query = $this->db->prepare("INSERT INTO `pregunta_vista`(
+                                        `id_usuario`,
+                                        `id_pregunta`
+                                    )
+                                    VALUES(?, ?)");
+        $query->bind_param('ii',$idUsuario,$id_pregunta);
+        return $query->execute();
+    }
+
+    public function getPreguntaVistaById($id)
+    {
+        $query = $this->db->prepare("SELECT * FROM `pregunta_vista` WHERE id_pregunta_vista = ?");
+        $query->bind_param('i',$id);
+        $query->execute();
+        return $query->get_result()->fetch_array(MYSQLI_ASSOC);
+    }
     
     
+    public function getRespuestaById($id_respuesta){
+        $query = $this->db->prepare("SELECT * FROM `respuesta` WHERE id_respuesta = ?");
+        $query->bind_param('i',$id_respuesta);
+        $query->execute();
+        return $query->get_result()->fetch_array(MYSQLI_ASSOC);
+        
+    }
+    
+
 }

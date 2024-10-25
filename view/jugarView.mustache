@@ -1,0 +1,29 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Preguntados</title>
+    <link rel="stylesheet" href="../public/login.css">
+</head>
+<body>
+
+   {{#pregunta}}
+    <h1>{{interrogante_pregunta}}</h1>
+    <form method="POST" action="/respuesta">
+        <!-- Campo oculto para el id de la pregunta -->
+        <input type="hidden" name="id_pregunta" value="{{id_pregunta}}">
+
+        {{#respuesta}}
+            <!-- Campo oculto para el id de la respuesta -->
+            <input type="hidden" name="id_respuesta" value="{{id_respuesta}}">
+            <!-- Botón para enviar el formulario con la respuesta -->
+            <button type="submit" class="login-btn">{{descripcion_respuesta}}</button>
+        {{/respuesta}}
+    </form>
+    {{/pregunta}}
+
+
+</body>
+</html>
