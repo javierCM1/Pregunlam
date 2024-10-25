@@ -18,3 +18,15 @@ Pregunlam G3 pasos:
 Para instalar el phpunit con composer, deberan ir al archivo php.ini dentro de
 xampp , y en el mismo deberan elimnar el primer ";" de "extensions=zip"
 
+
+---ENTORNO DE PRUEBAS---
+
+define('TEST_ENV', true);
+
+Esto lo que hace en los test es definir los entornos de pruebas para asi evitar el llamado
+de views utilizado el presenter. El mismo se define dentro del mismo metodo de la
+clase a la que estamos llamando
+y en el test mismo. (Ejemplo en respuestaController)
+
+
+

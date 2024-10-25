@@ -147,6 +147,45 @@ class PreguntaModel
         $query->bind_param('i',$id);
         $query->execute();
         return $query->get_result()->fetch_array(MYSQLI_ASSOC);
+
+
+    }
+
+    public function incrementarCantVistas($id_pregunta, $estadoPregunta)
+    {
+        $incrementoVistas = 1;
+        $query = $this->db->prepare("UPDATE `pregunta` SET `cantVistas_pregunta`= `cantVistas_pregunta` + ?
+                                    WHERE id_pregunta = ? AND id_estado = ?");
+        $query->bind_param('iii',$incrementoVistas,$id_pregunta,$estadoPregunta);
+        return $query->execute();
+    }
+
+    public function establecerPreguntaVista($idUsuario,$id_pregunta)
+    {
+        $query = $this->db->prepare("INSERT INTO `pregunta_vista`(
+                                        `id_usuario`,
+                                        `id_pregunta`
+                                    )
+                                    VALUES(?, ?)");
+        $query->bind_param('ii',$idUsuario,$id_pregunta);
+        return $query->execute();
+    }
+
+    public function getPreguntaVistaById($id)
+    {
+        $query = $this->db->prepare("SELECT * FROM `pregunta_vista` WHERE id_pregunta_vista = ?");
+        $query->bind_param('i',$id);
+        $query->execute();
+        return $query->get_result()->fetch_array(MYSQLI_ASSOC);
+    }
+
+
+    public function getRespuestaById($id_respuesta){
+        $query = $this->db->prepare("SELECT * FROM `respuesta` WHERE id_respuesta = ?");
+        $query->bind_param('i',$id_respuesta);
+        $query->execute();
+        return $query->get_result()->fetch_array(MYSQLI_ASSOC);
+
     }
 
 }
