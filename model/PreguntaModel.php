@@ -53,11 +53,11 @@ class PreguntaModel
         
     }*/
 
-    public function obtenerCantidadDePreguntas()
+    public function obtenerUltimoIdPreguntas()
     {
-        $query = $this->db->prepare("SELECT COUNT(id_pregunta) FROM `pregunta`");
+        $query = $this->db->prepare("SELECT MAX(id_pregunta) FROM `pregunta`");
         $query->execute();
-        return $query->get_result()->fetch_array(MYSQLI_ASSOC)['COUNT(id_pregunta)'];
+        return $query->get_result()->fetch_array(MYSQLI_ASSOC)['MAX(id_pregunta)'];
     }
     
     public function savePregunta($interrogante,$idUsuarioCreador,$idCategoria,$idEstado)
@@ -121,7 +121,32 @@ class PreguntaModel
         return $query->get_result()->fetch_array(MYSQLI_ASSOC);
     }
 
+    public function incrementarCantVistas($id_pregunta, $estadoPregunta)
+    {
+        $incrementoVistas = 1;
+        $query = $this->db->prepare("UPDATE `pregunta` SET `cantVistas_pregunta`= `cantVistas_pregunta` + ? 
+                                    WHERE id_pregunta = ? AND id_estado = ?");
+        $query->bind_param('iii',$incrementoVistas,$id_pregunta,$estadoPregunta);
+        return $query->execute();
+    }
 
+    public function establecerPreguntaVista($idUsuario,$id_pregunta)
+    {
+        $query = $this->db->prepare("INSERT INTO `pregunta_vista`(
+                                        `id_usuario`,
+                                        `id_pregunta`
+                                    )
+                                    VALUES(?, ?)");
+        $query->bind_param('ii',$idUsuario,$id_pregunta);
+        return $query->execute();
+    }
 
+    public function getPreguntaVistaById($id)
+    {
+        $query = $this->db->prepare("SELECT * FROM `pregunta_vista` WHERE id_pregunta_vista = ?");
+        $query->bind_param('i',$id);
+        $query->execute();
+        return $query->get_result()->fetch_array(MYSQLI_ASSOC);
+    }
 
 }

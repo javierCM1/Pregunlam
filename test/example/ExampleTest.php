@@ -50,7 +50,7 @@ final class ExampleTest extends TestCase
         $idUsuario = 1;
         $fechaHora = date('Y-m-d H:i:s');
         $puntaje = 0;
-        $expectedIdPartida = $this->partidaModel->obtenerCantidadDePartidas() + 1;
+        $expectedIdPartida = $this->partidaModel->obtenerUltimoIdPartida() + 1;
 
         $this->partidaModel->savePartida($fechaHora,$puntaje,$estado,$idUsuario);
         
@@ -68,7 +68,7 @@ final class ExampleTest extends TestCase
         $idUsuario = 11;
         $idCategoria = 3;
         $idEstado = 1;
-        $expectedId = $this->preguntaModel->obtenerCantidadDePreguntas();
+        $expectedId = $this->preguntaModel->obtenerUltimoIdPreguntas();
 
         $this->preguntaModel->savePregunta($interrogante,$idUsuario,$idCategoria,$idEstado);
         
@@ -91,14 +91,69 @@ final class ExampleTest extends TestCase
                         'La ejecución de Luis XVI',
                         'El inicio de la guerra contra Prusia'];
 
-        var_dump($expectedRes);
-
         for ($i=0; $i<4; $i++) {
             $this->assertEquals($expectedRes[$i],$respuestas[$i]['descripcion_respuesta']);
         }
     }
-    
-    
+
+    private function setNewPartida()
+    {
+        $estado = "a";
+        $idUsuario = 1;
+        $fechaHora = date('Y-m-d H:i:s');
+        $puntaje = 0;
+
+        $this->partidaModel->savePartida($fechaHora,$puntaje,$estado,$idUsuario);
+    }
+
+    public function testQueSePuedaSeleccionarUnaRespuestaCorrecta()
+    {
+        $idUsuario = 1;
+        $idPregunta = 5;
+        $estadoPregunta = 2; //estado activo
+        $respuestaSeleccionada = 0;
+        $estado = "a";
+        $expectedIdPartida = $this->partidaModel->obtenerUltimoIdPartida() + 1;
+        $expectedValue = 1;
+        $correcto = 1;
+        $expectedPuntaje = 1;
+
+        $this->setNewPartida();
+
+        $pregunta = $this->preguntaModel->obtenerPreguntaPorId($idPregunta,$estadoPregunta);
+
+        $this->preguntaModel->incrementarCantVistas($pregunta['id_pregunta'],$estadoPregunta);
+        $this->userModel->incrementarCantPreguntasJugadas($idUsuario);
+        $this->preguntaModel->establecerPreguntaVista($idUsuario,$pregunta['id_pregunta']);
+
+        $partida = $this->partidaModel->getPartidaById($expectedIdPartida,$estado);
+        $pregunta = $this->preguntaModel->obtenerPreguntaPorId($idPregunta,$estadoPregunta);
+        $respuestas = $this->preguntaModel->getRespuestasPorIdPregunta($idPregunta);
+
+        //$usuario = $this->userModel->getUserById($idUsuario);
+        //$this->assertEquals(5,$pregunta['cantVistas_pregunta']);
+        //$this->assertEquals(4,$usuario['cantPreguntasJugadas_usuario']);
+        //$this->assertEquals(1,$this->preguntaModel->getPreguntaVistaById(1)['id_pregunta_vista']);
+
+        $this->assertEquals($expectedValue,$respuestas[$respuestaSeleccionada]['esCorrecta_respuesta']);
+
+        $this->partidaModel->asociarPreguntaPartida($partida['id_partida'],$pregunta['id_pregunta'],$correcto);
+        $this->partidaModel->incrementarPuntajePartida($partida['id_partida'],$estado);
+
+        $partida = $this->partidaModel->getPartidaById($expectedIdPartida,$estado);
+
+        $this->assertEquals($expectedPuntaje,$partida['puntaje_partida']);
+
+        //actualizar correcta usuario y pregunta
+
+        //actualizar max puntaje de usuario
+    }
+
+    //test -> reporte de pregunta
+
+    //test -> evitar repeticion
+
+    //test -> evaluar nivel y dificultad
     
 }
 

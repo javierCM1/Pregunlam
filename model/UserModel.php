@@ -148,6 +148,16 @@ class UserModel
         $query->bind_param('ssi', $nuevoEstado, $username, $token);
         return $this->db->executeStmt($query) == 1;
     }
-    
+
+    public function incrementarCantPreguntasJugadas($idUsuario)
+    {
+        $estado = 'a';
+        $incrementoPreguntasJugadas = 1;
+        $query = $this->db->prepare("UPDATE `usuario` SET `cantPreguntasJugadas_usuario`= `cantPreguntasJugadas_usuario` + ? 
+                                    WHERE id_usuario = ? AND estado_usuario = ?");
+        $query->bind_param('iis',$incrementoPreguntasJugadas,$idUsuario,$estado);
+        return $query->execute();
+    }
+
 
 }
