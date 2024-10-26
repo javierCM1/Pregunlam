@@ -1,5 +1,17 @@
 {
+    "name": "hp/pregunlam",
+    "autoload": {
+        "psr-4": {
+            "Hp\\Pregunlam\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "alexisvh5",
+            "email": "109443139+alexisvh5@users.noreply.github.com"
+        }
+    ],
     "require-dev": {
-        "phpunit/phpunit": "^9.5"
+        "phpunit/phpunit": "9.5"
     }
 }

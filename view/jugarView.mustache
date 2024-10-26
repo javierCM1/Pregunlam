@@ -60,12 +60,11 @@
             <input type="hidden" name="id_pregunta" value="{{id_pregunta}}">
 
             {{#respuesta}}
-                <!-- Campo oculto para el id de la respuesta -->
-                <input type="hidden" name="id_respuesta" value="{{id_respuesta}}">
-                <!-- Botón para enviar el formulario con la respuesta -->
-                <button type="submit" class="respuesta-btn w3-margin">{{descripcion_respuesta}}</button>
+                <!-- Botón para enviar el formulario con la respuesta seleccionada -->
+                <button type="submit" name="id_respuesta" value="{{id_respuesta}}" class="respuesta-btn w3-margin">{{descripcion_respuesta}}</button>
             {{/respuesta}}
         </form>
+
     </div>
     {{/pregunta}}
     {{/usuario}}

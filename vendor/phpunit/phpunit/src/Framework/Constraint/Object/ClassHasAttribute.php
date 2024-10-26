@@ -10,6 +10,10 @@
 namespace PHPUnit\Framework\Constraint;
 
 use function get_class;
+<<<<<<<< HEAD:vendor/phpunit/phpunit/src/Framework/Constraint/Object/ObjectHasProperty.php
+use function gettype;
+========
+>>>>>>>> master:vendor/phpunit/phpunit/src/Framework/Constraint/Object/ClassHasAttribute.php
 use function is_object;
 use function sprintf;
 use PHPUnit\Framework\Exception;
@@ -18,15 +22,17 @@ use ReflectionException;
 
 /**
  * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
- *
- * @deprecated https://github.com/sebastianbergmann/phpunit/issues/4601
  */
 class ClassHasAttribute extends Constraint
 {
     /**
      * @var string
      */
+<<<<<<<< HEAD:vendor/phpunit/phpunit/src/Framework/Constraint/Object/ObjectHasProperty.php
+    private $propertyName;
+========
     private $attributeName;
+>>>>>>>> master:vendor/phpunit/phpunit/src/Framework/Constraint/Object/ClassHasAttribute.php
 
     public function __construct(string $attributeName)
     {
@@ -40,7 +46,7 @@ class ClassHasAttribute extends Constraint
     {
         return sprintf(
             'has attribute "%s"',
-            $this->attributeName,
+            $this->attributeName
         );
     }
 
@@ -58,8 +64,8 @@ class ClassHasAttribute extends Constraint
         } catch (ReflectionException $e) {
             throw new Exception(
                 $e->getMessage(),
-                $e->getCode(),
-                $e,
+                (int) $e->getCode(),
+                $e
             );
         }
         // @codeCoverageIgnoreEnd
@@ -75,11 +81,22 @@ class ClassHasAttribute extends Constraint
      */
     protected function failureDescription($other): string
     {
+<<<<<<<< HEAD:vendor/phpunit/phpunit/src/Framework/Constraint/Object/ObjectHasProperty.php
+        if (is_object($other)) {
+            return sprintf(
+                'object of class "%s" %s',
+                get_class($other),
+                $this->toString(),
+            );
+        }
+
+========
+>>>>>>>> master:vendor/phpunit/phpunit/src/Framework/Constraint/Object/ClassHasAttribute.php
         return sprintf(
             '%sclass "%s" %s',
             is_object($other) ? 'object of ' : '',
             is_object($other) ? get_class($other) : $other,
-            $this->toString(),
+            $this->toString()
         );
     }
 

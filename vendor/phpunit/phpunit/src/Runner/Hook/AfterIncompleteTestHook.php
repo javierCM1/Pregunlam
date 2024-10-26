@@ -15,10 +15,15 @@ namespace PHPUnit\Runner;
  * version of PHPUnit.
  *
  * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
+<<<<<<<< HEAD:vendor/phpunit/phpunit/src/Runner/Hook/TestHook.php
  *
  * @see https://github.com/sebastianbergmann/phpunit/issues/4676
  */
+interface TestHook extends Hook
+========
+ */
 interface AfterIncompleteTestHook extends TestHook
+>>>>>>>> master:vendor/phpunit/phpunit/src/Runner/Hook/AfterIncompleteTestHook.php
 {
     public function executeAfterIncompleteTest(string $test, string $message, float $time): void;
 }

@@ -10,9 +10,21 @@
 namespace PHPUnit\Runner;
 
 /**
+<<<<<<<< HEAD:vendor/phpunit/phpunit/src/Runner/Hook/Hook.php
+ * This interface, as well as the associated mechanism for extending PHPUnit,
+ * will be removed in PHPUnit 10. There is no alternative available in this
+ * version of PHPUnit.
+ *
+ * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
+ *
+ * @see https://github.com/sebastianbergmann/phpunit/issues/4676
+ */
+interface Hook
+========
  * @internal This class is not covered by the backward compatibility promise for PHPUnit
  */
 interface TestResultCache
+>>>>>>>> master:vendor/phpunit/phpunit/src/Runner/TestResultCache.php
 {
     public function setState(string $testName, int $state): void;
 
