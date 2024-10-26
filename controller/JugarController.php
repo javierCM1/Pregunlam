@@ -49,6 +49,8 @@ class JugarController
         $data['partida'] = $partida;
         $data['pregunta'] = $pregunta;
         $data['respuesta'] = $respuestas;
+
+
         $this->presenter->show('jugar', $data);
     }
 
