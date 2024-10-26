@@ -29,6 +29,7 @@ include_once("controller/InvalidDateException.php");
 include_once("controller/InvalidGenderException.php");
 include_once("controller/EmailExistsException.php");
 include_once("controller/UsernameExistsException.php");
+include_once("controller/PreguntaExpiradaException.php");
 
 class Configuration
 {

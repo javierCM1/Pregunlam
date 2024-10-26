@@ -39,13 +39,13 @@ class PartidaModel{
 
     public function asociarPreguntaPartida($idPartida,$idPregunta,$correcto)
     {
+        $timestamp = time();
         $query = $this->db->prepare("INSERT INTO `pregunta_partida`(
                                         `respondeCorrecto_pregunta_partida`,
-                                        `fechaHoraEntrega_pregunta_partida`,
                                         `id_partida`,
                                         `id_pregunta`
                                     )
-                                    VALUES(?, NOW(), ?, ?)");
+                                    VALUES(?, ?, ?)");
 
         $query->bind_param('iii', $correcto, $idPartida, $idPregunta);
         return $query->execute();

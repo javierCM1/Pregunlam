@@ -99,6 +99,33 @@ class PreguntaModel
         $arrayId = $this->obtenerIdsPreguntasActivasNoVistasPorIdUsuario($idUsuario);
         return $this->obtenerPreguntaPorId(array_rand($arrayId),2);
     }
+
+    /**
+     * @throws PreguntaExpiradaException
+     */
+    public function getUltimaPreguntaEntregadaDePartida($idPartida)
+    {
+        $estado = 'a';
+        $respondio = 0;
+        $respondeCorrecto = 0;
+        $query = $this->db->prepare("SELECT PP.id_pregunta, PP.fechaHoraEntrega_pregunta_partida FROM pregunta_partida PP
+                                    JOIN partida PA ON PA.id_partida=PP.id_partida
+                                    WHERE PA.estado_partida = ? 
+                                    AND PP.id_partida = ? 
+                                    AND PP.respondio_pregunta_partida = ?
+                                    AND PP.respondeCorrecto_pregunta_partida = ?");
+        $query->bind_param('siii',$estado,$idPartida,$respondio,$respondeCorrecto);
+        $query->execute();
+        $result = $query->get_result()->fetch_array(MYSQLI_ASSOC);
+
+        if($result != null) {
+            if(time()-strtotime($result['fechaHoraEntrega_pregunta_partida']) > 30) {
+                throw new PreguntaExpiradaException();
+            }
+            return $this->obtenerPreguntaPorId($result['id_pregunta'],2);
+        }
+        return null;
+    }
     
     public function obtenerPreguntaPorId($id,$estado)
     {
