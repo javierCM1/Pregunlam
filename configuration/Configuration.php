@@ -109,7 +109,8 @@ class Configuration
     }
     public function getRespuestaController()
     {
-        return new RespuestaController($this->getPreguntaModel(),$this->getPresenter());
+        return new RespuestaController($this->getUserModel(),$this->getPreguntaModel(),$this->getPresenter());
+
     }
 
     private function getFileEmailSender()

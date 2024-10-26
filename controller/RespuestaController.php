@@ -1,15 +1,14 @@
 <?php
 class RespuestaController{
-    private $preguntaModel;
-    
     private $presenter;
-    
-    public function __construct($model, $presenter)
+    private $usuarioModel;
+    private $preguntaModel;
+
+    public function __construct($usuarioModel,$preguntaModel,$presenter)
     {
-        $this->preguntaModel = $model;
-        
-        
         $this->presenter = $presenter;
+        $this->usuarioModel = $usuarioModel;
+        $this->preguntaModel = $preguntaModel;
     }
 
     public function index()
@@ -23,7 +22,7 @@ class RespuestaController{
             header("Location: /error"); // Ajusta según sea necesario
             exit();
         }
-
+        $data['usuario'] = $this->usuarioModel->getUserByUsernameOrEmail($_SESSION['user'],'a');
         $data['respuesta'] = $this->preguntaModel->getRespuestaById($_POST['id_respuesta']);
         $data['pregunta'] = $this->preguntaModel->obtenerPreguntaPorId($_POST['id_pregunta'], 2);
 
