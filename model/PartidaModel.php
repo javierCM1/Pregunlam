@@ -69,5 +69,13 @@ class PartidaModel{
         return $query->get_result()->fetch_array(MYSQLI_ASSOC);
     }
 
+    public function terminarPartida($idPartida,$idUsuario)
+    {
+        $nuevoEstado = 'i';
+        $query = $this->db->prepare("UPDATE partida SET estado_partida = ? WHERE id_partida = ? AND id_usuario = ?");
+        $query->bind_param('sii', $nuevoEstado, $idPartida, $idUsuario);
+        return $this->db->executeStmt($query) == 1;
+    }
+
 
 }

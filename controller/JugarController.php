@@ -34,6 +34,7 @@ class JugarController
                 $this->partidaModel->asociarPreguntaPartida($partida['id_partida'], $pregunta['id_pregunta'], 0);
             }
             $respuestas = $this->preguntaModel->getRespuestasPorIdPregunta($pregunta['id_pregunta']);//relacionar pregunta con partida. correcto por defecto en 0, se actualiza a 1 si responde correcto en tiempo:
+
             /* falta:
                          * relacionar a pregunta vista (pregunta - usuario)
                          * incrementar vistas pregunta
@@ -45,7 +46,9 @@ class JugarController
             $data['pregunta'] = $pregunta;
             $data['respuesta'] = $respuestas;
             $this->presenter->show('jugar', $data);
-        } catch (PreguntaExpiradaException $e) {
+        }
+        catch (PreguntaExpiradaException $e) {
+            $this->partidaModel->terminarPartida($partida['id_partida'],$usuario['id_usuario']);
             $data['message'] = $e->getMessage();
             $this->presenter->show('resultadoPregunta', $data);
         }

@@ -35,6 +35,7 @@ class Configuration
 {
     public function __construct()
     {
+        date_default_timezone_set('America/Argentina/Buenos_Aires');
     }
 
     private function getPresenter()
@@ -110,7 +111,7 @@ class Configuration
     }
     public function getRespuestaController()
     {
-        return new RespuestaController($this->getPreguntaModel(),$this->getPresenter());
+        return new RespuestaController($this->getPartidaModel(),$this->getUserModel(),$this->getPreguntaModel(),$this->getPresenter());
     }
 
     private function getFileEmailSender()

@@ -159,5 +159,16 @@ class UserModel
         return $query->execute();
     }
 
+    public function determinarPuntajeMaximo($usuario,$partida)
+    {
+        if($usuario['maxPuntaje_usuario'] < $partida['puntaje_partida']){
+            $estado = 'a';
+            $query = $this->db->prepare("UPDATE `usuario` SET `maxPuntaje_usuario` = ? 
+                                        WHERE id_usuario = ? AND estado_usuario = ?");
+            $query->bind_param('iis',$partida['puntaje_partida'],$usuario['id_usuario'],$estado);
+            return $query->execute();
+        }
+        return false;
+    }
 
 }

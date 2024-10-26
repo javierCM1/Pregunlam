@@ -1,19 +1,13 @@
 <?php
-
-
 class PreguntaModel
 {
-    
-    
     private $db;
-    
-    
+
     public function __construct($database)
     {
         $this->db = $database;
     }
-    
-    
+
     /*public function saveEstado($estado)
     {
         
@@ -30,7 +24,6 @@ class PreguntaModel
         
         
     }*/
-    
     
     /*public function saveCategoria($categoria)
     {
@@ -155,6 +148,11 @@ class PreguntaModel
         $query->execute();
         return $query->get_result()->fetch_all(MYSQLI_ASSOC);
     }
+
+    public function respuestaEsCorrecta($respuesta)
+    {
+        return $respuesta['esCorrecta_respuesta'] === 1;
+    }
     
     public function obtenerCategoriaPorId( $id)
     {
@@ -200,8 +198,6 @@ class PreguntaModel
         $query->bind_param('i',$id);
         $query->execute();
         return $query->get_result()->fetch_array(MYSQLI_ASSOC);
-
-
     }
 
     public function getRespuestaById($id_respuesta){
@@ -210,6 +206,22 @@ class PreguntaModel
         $query->execute();
         return $query->get_result()->fetch_array(MYSQLI_ASSOC);
 
+    }
+
+    public function respondePregunta($idPartida,$idPregunta)
+    {
+        $responde = 1;
+        $query = $this->db->prepare("UPDATE pregunta_partida SET respondio_pregunta_partida = ? WHERE id_partida = ? AND id_pregunta = ?");
+        $query->bind_param('iii', $responde, $idPartida, $idPregunta);
+        return $this->db->executeStmt($query) == 1;
+    }
+
+    public function respondeCorrecto($idPartida,$idPregunta)
+    {
+        $respondeCorrecto = 1;
+        $query = $this->db->prepare("UPDATE pregunta_partida SET respondeCorrecto_pregunta_partida = ? WHERE id_partida = ? AND id_pregunta = ?");
+        $query->bind_param('iii', $respondeCorrecto, $idPartida, $idPregunta);
+        return $this->db->executeStmt($query) == 1;
     }
 
 }

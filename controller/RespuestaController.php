@@ -1,15 +1,17 @@
 <?php
 class RespuestaController{
-    private $preguntaModel;
-    
+
     private $presenter;
-    
-    public function __construct($model, $presenter)
+    private $partidaModel;
+    private $usuarioModel;
+    private $preguntaModel;
+
+    public function __construct($partidaModel,$usuarioModel,$preguntaModel,$presenter)
     {
-        $this->preguntaModel = $model;
-        
-        
         $this->presenter = $presenter;
+        $this->partidaModel = $partidaModel;
+        $this->usuarioModel = $usuarioModel;
+        $this->preguntaModel = $preguntaModel;
     }
 
     public function index()
@@ -20,23 +22,33 @@ class RespuestaController{
         }
         if (!isset($_POST['id_respuesta']) || !isset($_POST['id_pregunta'])) {
             // Manejar el error, tal vez redirigir a una página de error o mostrar un mensaje
-            header("Location: /error"); // Ajusta según sea necesario
+            header("Location: /jugar"); // Ajusta según sea necesario
             exit();
         }
 
-        $data['respuesta'] = $this->preguntaModel->getRespuestaById($_POST['id_respuesta']);
-        $data['pregunta'] = $this->preguntaModel->obtenerPreguntaPorId($_POST['id_pregunta'], 2);
+        $usuario = $this->usuarioModel->getUserByUsernameOrEmail($_SESSION['user'], 'a');
+        $partida = $this->partidaModel->getPartidaActivaByUserId($usuario['id_usuario']);
+        $pregunta = $this->preguntaModel->obtenerPreguntaPorId($_POST['id_pregunta'], 2);
+        $respuestaSeleccionada = $this->preguntaModel->getRespuestaById($_POST['id_respuesta']);
 
+        if($respuestaSeleccionada['id_pregunta'] === $pregunta['id_pregunta'])
+            $this->preguntaModel->respondePregunta($partida['id_partida'],$pregunta['id_pregunta']);
 
-        $respuestaIdPregunta = (int)$data['respuesta']['id_pregunta'];
-        $preguntaIdPregunta = (int)$data['pregunta']['id_pregunta'];
-        $esCorrecta = (int)$data['respuesta']['esCorrecta_respuesta'];
-
-        if ($respuestaIdPregunta === $preguntaIdPregunta && $esCorrecta !== 0) {
+        if ($this->preguntaModel->respuestaEsCorrecta($respuestaSeleccionada)) {
+            $this->partidaModel->incrementarPuntajePartida($partida['id_partida'],'a');
+            $this->preguntaModel->respondeCorrecto($partida['id_partida'],$pregunta['id_pregunta']);
             $data['message'] = 'Respuesta Correcta';
         } else {
+            $this->partidaModel->terminarPartida($partida['id_partida'],$usuario['id_usuario']);
+            $this->usuarioModel->determinarPuntajeMaximo($usuario,$partida);
             $data['message'] = 'Respuesta Incorrecta';
-    }
+        }
+
+        $data['usuario'] = $usuario;
+        $data['partida'] = $partida;
+        $data['respuesta'] = $respuestaSeleccionada;
+        $data['pregunta'] = $pregunta;
         // Redirigir a la página de resultados
-        $this->presenter->show("resultadoPregunta", $data);  }
+        $this->presenter->show("resultadoPregunta", $data);
+    }
 }
