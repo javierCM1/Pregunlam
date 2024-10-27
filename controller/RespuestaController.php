@@ -17,6 +17,8 @@ class RespuestaController{
     public function index()
     {
         try {
+            
+            
             if (!isset($_SESSION['user'])) {
                 header("Location: /login");
                 exit();
@@ -25,6 +27,9 @@ class RespuestaController{
                 header("Location: /jugar");
                 exit();
             }
+            
+         
+          
 
             $usuario = $this->usuarioModel->getUserByUsernameOrEmail($_SESSION['user'], 'a');
             $partida = $this->partidaModel->getPartidaActivaByUserId($usuario['id_usuario']);
@@ -69,7 +74,10 @@ class RespuestaController{
 
             $this->partidaModel->terminarPartida($partida['id_partida'], $usuario['id_usuario']);
             $this->usuarioModel->determinarPuntajeMaximo($usuario, $partida);
+            
+            
 
+            $data['puntaje_final'] = $partida['puntaje_partida'];
             $data['message'] = $_SESSION['message'];
             $data['usuario'] = $usuario;
             $data['respuesta'] = $respuestaCorrecta['descripcion_respuesta'];
@@ -84,5 +92,8 @@ class RespuestaController{
             exit();
         }
     }
+    
+    
+ 
 
 }

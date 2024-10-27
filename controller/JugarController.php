@@ -27,11 +27,28 @@ class JugarController
 
 
             $pregunta = $this->preguntaModel->getUltimaPreguntaEntregadaDePartida($partida['id_partida']);
+            
+            
+         
+            
             if ($pregunta === null) {
-                $pregunta = $this->preguntaModel->obtenerPreguntaAleatoria($usuario['id_usuario']); //cada tanto trae un null
-                //implementar dificultad
+                
+                
+                do {
+                    $pregunta = $this->preguntaModel->obtenerPreguntaAleatoria($usuario['id_usuario']);
+                } while ($pregunta === null);
+                
+                
                 $this->partidaModel->asociarPreguntaPartida($partida['id_partida'], $pregunta['id_pregunta'], 0);
+                
+                
             }
+          
+            
+            
+            
+            var_dump($pregunta);
+            
             $respuestas = $this->preguntaModel->getRespuestasPorIdPregunta($pregunta['id_pregunta']);//relacionar pregunta con partida. correcto por defecto en 0, se actualiza a 1 si responde correcto en tiempo:
 
             $this->preguntaModel->establecerPreguntaVista($usuario['id_usuario'],$pregunta['id_pregunta']);
@@ -55,8 +72,6 @@ class JugarController
             exit();
         }
     }
-    
-    // Y es que cuando esté mal la respuesta,
-    // te redirija al lobby después de mostrar la vista con respuesta incorrecta
+   
 
 }
