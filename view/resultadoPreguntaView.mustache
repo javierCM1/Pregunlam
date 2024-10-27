@@ -52,10 +52,24 @@
 
             <h1>{{message}}</h1>
 
-            <form method="POST" action="#">
+            {{#puntaje_partida}}
+            <form method="POST" action="/lobby">
+                <h2>{{puntaje_partida}}</h2>
                 <button value='continuar'> continuar</button>
                 <button value='reportar'> reportar</button>
             </form>
+
+            {{/puntaje_partida}}
+
+
+
+            {{^puntaje_partida}}
+                        <form method="POST" action="/jugar">
+                            <h2>{{puntaje_partida}}</h2>
+                            <button value='continuar'> continuar</button>
+                            <button value='reportar'> reportar</button>
+                        </form>
+                        {{/puntaje_partida}}
 
         {{/message}}
     {{/usuario}}

@@ -41,9 +41,18 @@ class RespuestaController{
         } else {
             $this->partidaModel->terminarPartida($partida['id_partida'],$usuario['id_usuario']);
             $this->usuarioModel->determinarPuntajeMaximo($usuario,$partida);
+            
+            
+            $partida = $this->partidaModel->getPartidaById($partida['id_partida'],'i');
+            
+            
             $data['message'] = 'Respuesta Incorrecta';
+            $data['puntaje_partida'] = $partida['puntaje_partida'] . ' Puntos';
+            
+            
         }
 
+        
         $data['usuario'] = $usuario;
         $data['partida'] = $partida;
         $data['respuesta'] = $respuestaSeleccionada;

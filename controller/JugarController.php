@@ -53,5 +53,8 @@ class JugarController
             $this->presenter->show('resultadoPregunta', $data);
         }
     }
+    
+    // Y es que cuando esté mal la respuesta,
+    // te redirija al lobby después de mostrar la vista con respuesta incorrecta
 
 }

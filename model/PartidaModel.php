@@ -54,7 +54,7 @@ class PartidaModel{
     public function incrementarPuntajePartida($id_partida,$estado)
     {
         $incrementoPuntaje = 1;
-        $query = $this->db->prepare("UPDATE `partida` SET `puntaje_partida`= `puntaje_partida` + ? 
+        $query = $this->db->prepare("UPDATE `partida` SET `puntaje_partida`= `puntaje_partida` + ?
                                     WHERE id_partida = ? AND estado_partida = ?");
         $query->bind_param('iis',$incrementoPuntaje,$id_partida,$estado);
         return $query->execute();
@@ -76,6 +76,10 @@ class PartidaModel{
         $query->bind_param('sii', $nuevoEstado, $idPartida, $idUsuario);
         return $this->db->executeStmt($query) == 1;
     }
+    
+    
+    
+    
 
 
 }
