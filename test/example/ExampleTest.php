@@ -136,7 +136,7 @@ final class ExampleTest extends TestCase
 
         $pregunta = $this->preguntaModel->obtenerPreguntaPorId($idPregunta,$estadoPregunta);
 
-        $this->preguntaModel->incrementarCantVistas($pregunta['id_pregunta'],$estadoPregunta);
+        $this->preguntaModel->incrementarCantVistas($pregunta['id_pregunta']);
         $this->userModel->incrementarCantPreguntasJugadas($idUsuario);
         $this->preguntaModel->establecerPreguntaVista($idUsuario,$pregunta['id_pregunta']);
 
