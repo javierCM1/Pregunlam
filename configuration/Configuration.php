@@ -105,7 +105,7 @@ class Configuration
 
     public function getLobbyController()
     {
-        return new LobbyController($this->getUserModel(), $this->getPresenter());
+        return new LobbyController($this->getUserModel(), $this->getPartidaModel(), $this->getPresenter());
     }
 
     public function getActivarController()
