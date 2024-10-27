@@ -409,6 +409,9 @@ CREATE TABLE `usuario` (
 --
 -- Volcado de datos para la tabla `usuario`
 --
+INSERT INTO usuario (userName_usuario, password_usuario, id_tipo_usuario,estado_usuario)
+VALUES ('editor', '$2y$10$N..AFA6v1Q5ic8EAxjPV9OzelwaFWCAoGsKXmucMw8ZbXgGBO1Ct6', 2, 'a');
+
 
 INSERT INTO `usuario` (`id_usuario`, `userName_usuario`, `password_usuario`, `email_usuario`, `img_usuario`, `maxPuntaje_usuario`, `nombreCompleto_usuario`, `fechaNacimiento_usuario`, `pais_usuario`, `fechaRegistro_usuario`, `estado_usuario`, `token_usuario`, `cantPreguntasJugadas_usuario`, `cantPreguntasCorrectas_usuario`, `id_tipo_usuario`, `id_sexo`) VALUES
 (1, 'kvnrot03', '$2y$10$E876Xs/IYsR1A./UVgxlrOcDUk5F2CUaOtkW74VAnRvlxsW33SiIW', 'kvnrotela@gmail.com', 'public/images/fotoDePerfil/triangle-dancing.gif', NULL, 'Kevin', '2024-10-16', 'Argentina', '2024-10-20', 'a', 126085, 7, 0, 3, 1),

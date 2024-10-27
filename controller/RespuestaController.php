@@ -6,7 +6,7 @@ class RespuestaController{
     private $usuarioModel;
     private $preguntaModel;
 
-    public function __construct($partidaModel,$usuarioModel,$preguntaModel,$presenter)
+    public function __construct($partidaModel, $usuarioModel, $preguntaModel, $presenter)
     {
         $this->presenter = $presenter;
         $this->partidaModel = $partidaModel;
@@ -43,7 +43,10 @@ class RespuestaController{
             $data['message'] = 'Respuesta Correcta';
             $data['usuario'] = $usuario;
             $data['partida'] = $partida;
-            $data['pregunta'] = $pregunta;// Redirigir a la página de resultados
+            $data['pregunta'] = $pregunta;
+            $data['id_usuario'] = $usuario['id_usuario'];
+            $data['id_pregunta'] = $pregunta['id_pregunta'];
+
             $this->presenter->show("resultadoPregunta", $data);
         }
         catch (PreguntaExpiradaException|RespuestaIncorrectaException $e) {
@@ -64,7 +67,7 @@ class RespuestaController{
         try {
             $usuario = $this->usuarioModel->getUserByUsernameOrEmail($_SESSION['user'], 'a');
             $partida = $this->partidaModel->getPartidaActivaByUserId($usuario['id_usuario']);
-            $pregunta = $this->preguntaModel->obtenerPreguntaPorId($_SESSION['id_pregunta'],2);
+            $pregunta = $this->preguntaModel->obtenerPreguntaPorId($_SESSION['id_pregunta'], 2);
             $respuestaCorrecta = $this->preguntaModel->getRespuestaCorrectaDePregunta($pregunta['id_pregunta']);
 
             $this->partidaModel->terminarPartida($partida['id_partida'], $usuario['id_usuario']);
@@ -76,7 +79,9 @@ class RespuestaController{
             $data['usuario'] = $usuario;
             $data['respuesta'] = $respuestaCorrecta['descripcion_respuesta'];
             $data['pregunta'] = $pregunta;
-            $this->presenter->show("resultadoPregunta",$data);
+            $data['id_usuario'] = $usuario['id_usuario'];
+            $data['id_pregunta'] = $pregunta['id_pregunta'];
+            $this->presenter->show("resultadoPregunta", $data);
             unset($_SESSION['id_pregunta']);
             unset($_SESSION['message']);
         }
@@ -86,8 +91,24 @@ class RespuestaController{
             exit();
         }
     }
-    
-    
- 
+
+    public function reportar()
+    {
+        $motivo_reporte = $_POST['motivo_reporte'];
+        $fecha_reporte = $_POST['fecha_reporte'];
+        $id_usuario = $_POST['id_usuarioMandado'];
+        $id_pregunta = $_POST['id_pregunta'];
+
+        if (!isset($motivo_reporte)) {
+            echo "Error: Todos los campos son obligatorios.";
+            return;
+        }
+
+        $this->usuarioModel->guardarReporte($motivo_reporte, $fecha_reporte, $id_usuario, $id_pregunta);
+
+        header("Location: /lobby");
+
+    }
+
 
 }
