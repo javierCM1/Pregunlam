@@ -22,32 +22,18 @@ class JugarController
                 header("Location: /login");
                 exit();
             }
+
             $usuario = $this->usuarioModel->getUserByUsernameOrEmail($_SESSION['user'], 'a');
             $partida = $this->partidaModel->getPartidaActivaByUserId($usuario['id_usuario']);//crear partida si no hay partida activa
-
-
             $pregunta = $this->preguntaModel->getUltimaPreguntaEntregadaDePartida($partida['id_partida']);
-            
-            
-         
-            
+
             if ($pregunta === null) {
-                
-                
                 do {
                     $pregunta = $this->preguntaModel->obtenerPreguntaAleatoria($usuario['id_usuario']);
                 } while ($pregunta === null);
-                
-                
+
                 $this->partidaModel->asociarPreguntaPartida($partida['id_partida'], $pregunta['id_pregunta'], 0);
-                
-                
             }
-          
-            
-            
-            
-            var_dump($pregunta);
             
             $respuestas = $this->preguntaModel->getRespuestasPorIdPregunta($pregunta['id_pregunta']);//relacionar pregunta con partida. correcto por defecto en 0, se actualiza a 1 si responde correcto en tiempo:
 
