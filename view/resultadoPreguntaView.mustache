@@ -18,9 +18,11 @@
             cursor: pointer;
             font-size: 16px;
         }
+
         .respuesta-btn:hover {
             background-color: #f1c40f;
         }
+
         .img-categoria {
             width: 7em;
             height: 7em;
@@ -49,7 +51,8 @@
         </header>
 
         {{#pregunta}}
-            <div style="background-color: {{color_categoria}}; color: white; max-width: 100%; max-height: 70%" class="w3-center w3-margin container">
+            <div style="background-color: {{color_categoria}}; color: white; max-width: 100%; max-height: 70%"
+                 class="w3-center w3-margin container">
                 <img src="{{img_categoria}}" alt="{{img_categoria}}" class="img-categoria w3-margin">
                 <h2>{{interrogante_pregunta}}</h2>
             </div>
@@ -59,12 +62,12 @@
         {{#message}}
             <h2>{{message}}</h2>
             {{#respuesta}}
-            <h3>Respuesta correcta: {{respuesta}}</h3>
-            <h3>Puntaje final: {{puntaje_final}}</h3>
+                <h3>Respuesta correcta: {{respuesta}}</h3>
+                <h3>Puntaje final: {{puntaje_final}}</h3>
             {{/respuesta}}
             <form method="POST" action="#">
                 <button value='{{message}}' name="continuar">continuar</button>
-                <button value='reportar'>reportar</button>
+                <button type="button" onclick="abrirModal()">Reportar</button>
             </form>
         {{/message}}
 
@@ -86,5 +89,38 @@
         </div>
     </footer>
 </div>
+<!-- Modal para reporte -->
+<div id="modalReporte" class="w3-modal" style="display:none;">
+    <div class="w3-modal-content w3-animate-top w3-card-4">
+        <header class="w3-container w3-teal">
+            <span onclick="cerrarModal()" class="w3-button w3-display-topright">&times;</span>
+            <h2>Reportar Pregunta</h2>
+        </header>
+        <div class="w3-container">
+            <form id="formReporte" method="POST" action="/respuesta/reportar">
+                <label for="motivoReporte">Motivo del Reporte:</label>
+                <input type="text" id="motivoReporte" name="motivo_reporte" required class="w3-input">
+                <input type="hidden" id="fechaReporte" name="fecha_reporte">
+                <input type="hidden" id="idUsuario" name="id_usuarioMandado" value="{{id_usuario}}">
+                <input type="hidden" id="idPregunta" name="id_pregunta" value="{{pregunta.id_pregunta}}">
+                <button type="submit" class="w3-button w3-teal w3-margin-top">Enviar Reporte</button>
+            </form>
+        </div>
+    </div>
+</div>
+
 </body>
+<script>
+    function abrirModal() {
+        const modal = document.getElementById('modalReporte');
+        const fechaActual = new Date().toISOString().slice(0, 19).replace('T', ' ');
+        document.getElementById('fechaReporte').value = fechaActual;
+        modal.style.display = 'block';
+    }
+
+    function cerrarModal() {
+        document.getElementById('modalReporte').style.display = 'none';
+    }
+</script>
+
 </html>

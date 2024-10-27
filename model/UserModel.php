@@ -1,7 +1,6 @@
 <?php
 
 
-
 class UserModel
 {
     private $db;
@@ -20,7 +19,7 @@ class UserModel
         $query->bind_param('s', $email);
         $query->execute();
         $result = $query->get_result()->fetch_all(MYSQLI_ASSOC);
-        if(empty($result))
+        if (empty($result))
             return false;
         throw new EmailExistsException();
     }
@@ -34,7 +33,7 @@ class UserModel
         $query->bind_param('s', $username);
         $query->execute();
         $result = $query->get_result()->fetch_all(MYSQLI_ASSOC);
-        if(empty($result))
+        if (empty($result))
             return false;
         throw new UsernameExistsException();
     }
@@ -105,7 +104,7 @@ class UserModel
     {
         $idSexoResult = $this->getIdSexo($gender);
 
-        if($profilePic === '') {
+        if ($profilePic === '') {
             $profilePic = $this->getUserById($id_usuario)['img_usuario'];
         }
 
@@ -155,7 +154,7 @@ class UserModel
         $incrementoPreguntasJugadas = 1;
         $query = $this->db->prepare("UPDATE `usuario` SET `cantPreguntasJugadas_usuario`= `cantPreguntasJugadas_usuario` + ? 
                                     WHERE id_usuario = ? AND estado_usuario = ?");
-        $query->bind_param('iis',$incrementoPreguntasJugadas,$idUsuario,$estado);
+        $query->bind_param('iis', $incrementoPreguntasJugadas, $idUsuario, $estado);
         return $query->execute();
     }
 
@@ -165,20 +164,36 @@ class UserModel
         $incrementoPreguntasCorrectas = 1;
         $query = $this->db->prepare("UPDATE `usuario` SET `cantPreguntasCorrectas_usuario`= `cantPreguntasCorrectas_usuario` + ? 
                                     WHERE id_usuario = ? AND estado_usuario = ?");
-        $query->bind_param('iis',$incrementoPreguntasCorrectas,$idUsuario,$estado);
+        $query->bind_param('iis', $incrementoPreguntasCorrectas, $idUsuario, $estado);
         return $query->execute();
     }
 
-    public function determinarPuntajeMaximo($usuario,$partida)
+    public function determinarPuntajeMaximo($usuario, $partida)
     {
-        if($usuario['maxPuntaje_usuario'] < $partida['puntaje_partida']){
+        if ($usuario['maxPuntaje_usuario'] < $partida['puntaje_partida']) {
             $estado = 'a';
             $query = $this->db->prepare("UPDATE `usuario` SET `maxPuntaje_usuario` = ? 
                                         WHERE id_usuario = ? AND estado_usuario = ?");
-            $query->bind_param('iis',$partida['puntaje_partida'],$usuario['id_usuario'],$estado);
+            $query->bind_param('iis', $partida['puntaje_partida'], $usuario['id_usuario'], $estado);
             return $query->execute();
         }
         return false;
+    }
+
+    public function guardarReporte($motivo_reporte, $fecha_reporte, $id_usuario, $id_pregunta)
+    {
+        $query = $this->db->prepare("INSERT INTO reporte_pregunta (motivo_reporte, fecha_reporte, id_usuario, id_pregunta) VALUES (?, ?, ?, ?)");
+        $query->bind_param("ssii", $motivo_reporte, $fecha_reporte, $id_usuario, $id_pregunta);
+        $query->execute();
+    }
+
+    public function getTipoUsuario($username)
+    {
+        $query = $this->db->prepare("SELECT id_tipo_usuario FROM usuario WHERE username_usuario = ?");
+        $query->bind_param('s', $username);
+        $query->execute();
+        $result = $query->get_result()->fetch_assoc();
+        return $result['id_tipo_usuario'];
     }
 
 }

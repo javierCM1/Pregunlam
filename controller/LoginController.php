@@ -19,15 +19,19 @@ class LoginController
     public function auth()
     {
         $user = $_POST['user'] ?? '';
-        //$user = isset($_POST['user']) && !preg_match('/\W/',$_POST['user']) ? $_POST['user'] : '';
         $password = $_POST['password'] ?? '';
-        //$password = isset($_POST['password']) && !preg_match('/\S/',$_POST['password']) ? $_POST['password'] : '';
 
         if ($this->model->validateLogin($user, $password, 'a'))
         {
             $_SESSION['user'] = $user;
-            header('Location: /lobby');
-            exit();
+            $tipoUsuario = $this->model->getTipoUsuario($user);
+            if ($tipoUsuario == 2) {
+                header('Location: /editor');
+                exit();
+            } else {
+                header('Location: /lobby');
+                exit();
+            }
         }
         else if($this->model->validateLogin($user, $password, 'p'))
         {

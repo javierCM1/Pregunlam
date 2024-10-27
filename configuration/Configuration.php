@@ -19,6 +19,8 @@ include_once("controller/PerfilController.php");
 include_once("controller/ModificarPerfilController.php");
 include_once("controller/JugarController.php");
 include_once("controller/RespuestaController.php");
+include_once("controller/EditorController.php");
+include_once("model/EditorModel.php");
 
 //excepciones
 include_once("controller/InvalidNameException.php");
@@ -44,6 +46,7 @@ class Configuration
     {
         return new MustachePresenter("./view");
     }
+
 
 
     public function getRouter()
@@ -78,6 +81,16 @@ class Configuration
     private function getPreguntaModel()
     {
         return new PreguntaModel($this->getDatabase());
+    }
+
+    private function getEditorModel(){
+        return new EditorModel($this->getDatabase());
+    }
+
+
+    public function getEditorController()
+    {
+        return new EditorController($this->getEditorModel(),$this->getUserModel(),$this->getPresenter());
     }
 
     public function getRegisterController()
