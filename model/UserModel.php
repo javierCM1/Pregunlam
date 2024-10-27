@@ -159,6 +159,16 @@ class UserModel
         return $query->execute();
     }
 
+    public function incrementarPreguntasCorrectasUsuario($idUsuario)
+    {
+        $estado = 'a';
+        $incrementoPreguntasCorrectas = 1;
+        $query = $this->db->prepare("UPDATE `usuario` SET `cantPreguntasCorrectas_usuario`= `cantPreguntasCorrectas_usuario` + ? 
+                                    WHERE id_usuario = ? AND estado_usuario = ?");
+        $query->bind_param('iis',$incrementoPreguntasCorrectas,$idUsuario,$estado);
+        return $query->execute();
+    }
+
     public function determinarPuntajeMaximo($usuario,$partida)
     {
         if($usuario['maxPuntaje_usuario'] < $partida['puntaje_partida']){

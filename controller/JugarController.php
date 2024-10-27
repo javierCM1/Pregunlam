@@ -24,23 +24,20 @@ class JugarController
             }
             $usuario = $this->usuarioModel->getUserByUsernameOrEmail($_SESSION['user'], 'a');
             $partida = $this->partidaModel->getPartidaActivaByUserId($usuario['id_usuario']);//crear partida si no hay partida activa
-            if ($partida === null) {
-                $this->partidaModel->savePartida(date('Y-m-d H:i:s'), 0, 'a', $usuario['id_usuario']);
-                $partida = $this->partidaModel->getPartidaActivaByUserId($usuario['id_usuario']);
-            }
+
+
             $pregunta = $this->preguntaModel->getUltimaPreguntaEntregadaDePartida($partida['id_partida']);
             if ($pregunta === null) {
-                $pregunta = $this->preguntaModel->obtenerPreguntaAleatoria($usuario['id_usuario']);
+                $pregunta = $this->preguntaModel->obtenerPreguntaAleatoria($usuario['id_usuario']); //cada tanto trae un null
+                //implementar dificultad
                 $this->partidaModel->asociarPreguntaPartida($partida['id_partida'], $pregunta['id_pregunta'], 0);
             }
             $respuestas = $this->preguntaModel->getRespuestasPorIdPregunta($pregunta['id_pregunta']);//relacionar pregunta con partida. correcto por defecto en 0, se actualiza a 1 si responde correcto en tiempo:
 
-            /* falta:
-                         * relacionar a pregunta vista (pregunta - usuario)
-                         * incrementar vistas pregunta
-                         * incrementar vistas usuario
-                         * no permitir que usuario reciba nueva pregunta recargando la pantalla
-                        */
+            $this->preguntaModel->establecerPreguntaVista($usuario['id_usuario'],$pregunta['id_pregunta']);
+            $this->preguntaModel->incrementarCantVistas($pregunta['id_pregunta']);
+            $this->usuarioModel->incrementarCantPreguntasJugadas($usuario['id_usuario']);
+
             $data['usuario'] = $usuario;
             $data['partida'] = $partida;
             $data['pregunta'] = $pregunta;
@@ -51,6 +48,11 @@ class JugarController
             $this->partidaModel->terminarPartida($partida['id_partida'],$usuario['id_usuario']);
             $data['message'] = $e->getMessage();
             $this->presenter->show('resultadoPregunta', $data);
+        }
+        catch (PartidaActivaNoExisteException $e) {
+            $this->partidaModel->savePartida(date('Y-m-d H:i:s'), 0, 'a', $usuario['id_usuario']);
+            header('Location: /jugar');
+            exit();
         }
     }
 

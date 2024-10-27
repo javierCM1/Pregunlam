@@ -30,6 +30,8 @@ include_once("controller/InvalidGenderException.php");
 include_once("controller/EmailExistsException.php");
 include_once("controller/UsernameExistsException.php");
 include_once("controller/PreguntaExpiradaException.php");
+include_once("controller/PartidaActivaNoExisteException.php");
+include_once("controller/RespuestaIncorrectaException.php");
 
 class Configuration
 {

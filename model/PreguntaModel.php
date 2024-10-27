@@ -61,18 +61,6 @@ class PreguntaModel
         return $query->get_result()->fetch_array(MYSQLI_ASSOC)['COUNT(id_pregunta)'];
     }
 
-    public function obtenerIdsPreguntasActivasNoVistasPorIdUsuario($idUusario)
-    {
-        $estado = 2;
-        $query = $this->db->prepare("SELECT id_pregunta FROM pregunta P WHERE id_estado = ? 
-                                                                        AND NOT EXISTS(SELECT 1 FROM `pregunta_vista` PV 
-                                                                                        WHERE PV.id_pregunta=P.id_pregunta
-                                                                                        AND id_usuario = ?)");
-        $query->bind_param('ii', $estado,$idUusario);
-        $query->execute();
-        return $query->get_result()->fetch_all();
-    }
-    
     public function savePregunta($interrogante,$idUsuarioCreador,$idCategoria,$idEstado)
     {
         $query = $this->db->prepare("INSERT INTO `pregunta`(
@@ -87,6 +75,20 @@ class PreguntaModel
         return $query->execute();
     }
 
+    //corregir, trae preguntas vistas
+    public function obtenerIdsPreguntasActivasNoVistasPorIdUsuario($idUusario)
+    {
+        $estado = 2;
+        $query = $this->db->prepare("SELECT id_pregunta FROM pregunta P WHERE id_estado = ? 
+                                                                        AND NOT EXISTS(SELECT 1 FROM `pregunta_vista` PV 
+                                                                                        WHERE PV.id_pregunta=P.id_pregunta
+                                                                                        AND id_usuario = ?)");
+        $query->bind_param('ii', $estado,$idUusario);
+        $query->execute();
+        return $query->get_result()->fetch_all();
+    }
+
+    //cada tanto trae un null
     public function obtenerPreguntaAleatoria($idUsuario)
     {
         $arrayId = $this->obtenerIdsPreguntasActivasNoVistasPorIdUsuario($idUsuario);
@@ -149,9 +151,15 @@ class PreguntaModel
         return $query->get_result()->fetch_all(MYSQLI_ASSOC);
     }
 
+    /**
+     * @throws RespuestaIncorrectaException
+     */
     public function respuestaEsCorrecta($respuesta)
     {
-        return $respuesta['esCorrecta_respuesta'] === 1;
+        if($respuesta['esCorrecta_respuesta'] === 1)
+            return true;
+
+        throw new RespuestaIncorrectaException();
     }
     
     public function obtenerCategoriaPorId( $id)
@@ -172,12 +180,23 @@ class PreguntaModel
         return $query->get_result()->fetch_array(MYSQLI_ASSOC);
     }
 
-    public function incrementarCantVistas($id_pregunta, $estadoPregunta)
+    public function incrementarCantVistas($id_pregunta)
     {
         $incrementoVistas = 1;
+        $estadoPregunta = 2;
         $query = $this->db->prepare("UPDATE `pregunta` SET `cantVistas_pregunta`= `cantVistas_pregunta` + ? 
                                     WHERE id_pregunta = ? AND id_estado = ?");
         $query->bind_param('iii',$incrementoVistas,$id_pregunta,$estadoPregunta);
+        return $query->execute();
+    }
+
+    public function incrementarCantCorrectas($id_pregunta)
+    {
+        $incrementoCorrectas = 1;
+        $estadoPregunta = 2;
+        $query = $this->db->prepare("UPDATE `pregunta` SET `cantCorrectas_pregunta`= `cantCorrectas_pregunta` + ? 
+                                    WHERE id_pregunta = ? AND id_estado = ?");
+        $query->bind_param('iii',$incrementoCorrectas,$id_pregunta,$estadoPregunta);
         return $query->execute();
     }
 
@@ -208,11 +227,24 @@ class PreguntaModel
 
     }
 
+    public function getRespuestaCorrectaDePregunta($idPregunta)
+    {
+        $correcta = 1;
+        $query = $this->db->prepare("SELECT * FROM `respuesta` WHERE id_pregunta = ? AND esCorrecta_respuesta = ?");
+        $query->bind_param('ii',$idPregunta,$correcta);
+        $query->execute();
+        return $query->get_result()->fetch_array(MYSQLI_ASSOC);
+    }
+
     public function respondePregunta($idPartida,$idPregunta)
     {
         $responde = 1;
-        $query = $this->db->prepare("UPDATE pregunta_partida SET respondio_pregunta_partida = ? WHERE id_partida = ? AND id_pregunta = ?");
-        $query->bind_param('iii', $responde, $idPartida, $idPregunta);
+        $timestamp = time() - 30;
+        $query = $this->db->prepare("UPDATE pregunta_partida SET respondio_pregunta_partida = ? 
+                                    WHERE id_partida = ? 
+                                    AND id_pregunta = ?
+                                    AND fechaHoraEntrega_pregunta_partida > ?");
+        $query->bind_param('iiii', $responde, $idPartida, $idPregunta, $timestamp);
         return $this->db->executeStmt($query) == 1;
     }
 

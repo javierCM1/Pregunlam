@@ -66,7 +66,12 @@ class PartidaModel{
         $query = $this->db->prepare("SELECT * FROM partida WHERE id_usuario = ? AND estado_partida = ?");
         $query->bind_param('is', $userId,$estado);
         $query->execute();
-        return $query->get_result()->fetch_array(MYSQLI_ASSOC);
+        $result = $query->get_result()->fetch_array(MYSQLI_ASSOC);
+
+        if($result === null) {
+            throw new PartidaActivaNoExisteException();
+        }
+        return $result;
     }
 
     public function terminarPartida($idPartida,$idUsuario)
