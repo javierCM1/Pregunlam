@@ -80,34 +80,31 @@ class PreguntaModel
     public function obtenerIdsPreguntasActivasNoVistasPorIdUsuario($idUsuario)
     {
         $estado = 2;
-        
-        $query = $this->db->prepare("
-        SELECT id_pregunta
-        FROM pregunta P
-        WHERE id_estado = ?
-        AND NOT EXISTS (
-            SELECT 1
-            FROM pregunta_vista PV
-            WHERE PV.id_pregunta = P.id_pregunta
-            AND PV.id_usuario = ?
-        )
-    ");
-        
-        // Vinculando los parámetros de manera más clara
-        $query->bind_param('ii', $estado, $idUsuario);
-        
-        // Ejecutar la consulta
+
+        $query = $this->db->prepare("SELECT p.id_pregunta
+                                    FROM pregunta p
+                                    LEFT JOIN pregunta_vista pv ON p.id_pregunta = pv.id_pregunta AND pv.id_usuario = ? 
+                                    WHERE pv.id_pregunta IS NULL AND p.id_estado = ?;");
+
+        $query->bind_param('ii', $idUsuario, $estado);
         $query->execute();
-        
-        // Obtener y retornar los resultados
-        return $query->get_result()->fetch_all(MYSQLI_ASSOC); // Usar MYSQLI_ASSOC para obtener resultados como un array asociativo
+        $resultado = $query->get_result()->fetch_all(MYSQLI_ASSOC);
+
+        if(sizeof($resultado) === 0)
+            $this->eliminarPreguntasVistasDeUsuario($idUsuario);
+
+        return $resultado;
     }
-    
-    //cada tanto trae un null
+
     public function obtenerPreguntaAleatoria($idUsuario)
     {
-        $arrayId = $this->obtenerIdsPreguntasActivasNoVistasPorIdUsuario($idUsuario);
-        return $this->obtenerPreguntaPorId(array_rand($arrayId), 2);
+        do {
+            $arrayId = $this->obtenerIdsPreguntasActivasNoVistasPorIdUsuario($idUsuario);
+            $idSel = $arrayId[array_rand($arrayId)];
+            $pregunta = $this->obtenerPreguntaPorId($idSel['id_pregunta'], 2);
+        }while($arrayId === null);
+
+        return $pregunta;
     }
     
     /**
@@ -151,8 +148,9 @@ class PreguntaModel
                                             U.userName_usuario FROM Pregunta P
                                                                    JOIN Categoria C ON P.id_categoria=C.id_categoria
                                                                    JOIN Estado E ON P.id_estado=E.id_estado
-                                                                   JOIN Usuario U ON P.id_usuarioCreador=U.id_usuario
+                                                                   LEFT JOIN Usuario U ON P.id_usuarioCreador=U.id_usuario
                                                                    WHERE P.id_pregunta = ? AND P.id_estado = ?");
+
         $query->bind_param('ii', $id, $estado);
         $query->execute();
         return $query->get_result()->fetch_array(MYSQLI_ASSOC);
@@ -271,5 +269,12 @@ class PreguntaModel
         $query->bind_param('iii', $respondeCorrecto, $idPartida, $idPregunta);
         return $this->db->executeStmt($query) == 1;
     }
-    
+
+    private function eliminarPreguntasVistasDeUsuario($idUsuario)
+    {
+        $query = $this->db->prepare("DELETE FROM `pregunta_vista` WHERE id_usuario = ?");
+        $query->bind_param('i', $idUsuario);
+        return $this->db->executeStmt($query) == 35;
+    }
+
 }

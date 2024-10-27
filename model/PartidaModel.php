@@ -60,6 +60,9 @@ class PartidaModel{
         return $query->execute();
     }
 
+    /**
+     * @throws PartidaActivaNoExisteException
+     */
     public function getPartidaActivaByUserId($userId)
     {
         $estado = 'a';

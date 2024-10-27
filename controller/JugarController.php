@@ -22,6 +22,11 @@ class JugarController
                 header("Location: /login");
                 exit();
             }
+            if (isset($_SESSION['terminoPartida']) && $_SESSION['terminoPartida'] === true) {
+                header("Location: /lobby");
+                unset($_SESSION['terminoPartida']);
+                exit();
+            }
 
             $usuario = $this->usuarioModel->getUserByUsernameOrEmail($_SESSION['user'], 'a');
             $partida = $this->partidaModel->getPartidaActivaByUserId($usuario['id_usuario']);//crear partida si no hay partida activa
