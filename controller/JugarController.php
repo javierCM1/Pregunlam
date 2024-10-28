@@ -23,7 +23,7 @@ class JugarController
                 exit();
             }
             if (isset($_SESSION['terminoPartida']) && $_SESSION['terminoPartida'] === true) {
-                header("Location: /lobby");
+                header("Location: /jugar");//inicia otra partida. no redirigir al lobby porque se rompe el botón jugar
                 unset($_SESSION['terminoPartida']);
                 exit();
             }
@@ -33,14 +33,12 @@ class JugarController
             $pregunta = $this->preguntaModel->getUltimaPreguntaEntregadaDePartida($partida['id_partida']);
 
             if ($pregunta === null) {
-                do {
-                    $pregunta = $this->preguntaModel->obtenerPreguntaAleatoria($usuario['id_usuario']);
-                } while ($pregunta === null);
-
+                $pregunta = $this->preguntaModel->obtenerPreguntaAleatoria($usuario['id_usuario']);
                 $this->partidaModel->asociarPreguntaPartida($partida['id_partida'], $pregunta['id_pregunta'], 0);
             }
             
             $respuestas = $this->preguntaModel->getRespuestasPorIdPregunta($pregunta['id_pregunta']);//relacionar pregunta con partida. correcto por defecto en 0, se actualiza a 1 si responde correcto en tiempo:
+            shuffle($respuestas);
 
             $this->preguntaModel->establecerPreguntaVista($usuario['id_usuario'],$pregunta['id_pregunta']);
             $this->preguntaModel->incrementarCantVistas($pregunta['id_pregunta']);

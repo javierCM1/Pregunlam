@@ -100,11 +100,9 @@ class PreguntaModel
     {
         do {
             $arrayId = $this->obtenerIdsPreguntasActivasNoVistasPorIdUsuario($idUsuario);
-            $idSel = $arrayId[array_rand($arrayId)];
-            $pregunta = $this->obtenerPreguntaPorId($idSel['id_pregunta'], 2);
-        }while($arrayId === null);
+        }while(sizeof($arrayId) === 0);
 
-        return $pregunta;
+        return $this->obtenerPreguntaPorId($arrayId[array_rand($arrayId)]['id_pregunta'], 2);
     }
     
     /**
