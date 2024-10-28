@@ -1,4 +1,5 @@
 <?php
+//helper
 include_once("helper/MysqlObjectDatabase.php");
 include_once("helper/IncludeFilePresenter.php");
 include_once("helper/Router.php");
@@ -6,11 +7,19 @@ include_once("helper/MustachePresenter.php");
 include_once("helper/FileEmailSender.php");
 include_once("helper/ProfilePicHandler.php");
 include_once("helper/InputFormatValidator.php");
+include_once("helper/QRCodeGenerator.php");
+
+//vendor
 include_once('vendor/mustache/src/Mustache/Autoloader.php');
 include_once("vendor/phpqrcode/qrlib.php");
+
+//model
 include_once("model/UserModel.php");
 include_once("model/PreguntaModel.php");
 include_once("model/PartidaModel.php");
+include_once("model/EditorModel.php");
+
+//controller
 include_once("controller/RegisterController.php");
 include_once("controller/LoginController.php");
 include_once("controller/LobbyController.php");
@@ -20,7 +29,6 @@ include_once("controller/ModificarPerfilController.php");
 include_once("controller/JugarController.php");
 include_once("controller/RespuestaController.php");
 include_once("controller/EditorController.php");
-include_once("model/EditorModel.php");
 
 //excepciones
 include_once("controller/InvalidNameException.php");
@@ -114,7 +122,7 @@ class Configuration
     }
     public function getPerfilController()
     {
-        return new PerfilController($this->getUserModel(), $this->getPresenter());
+        return new PerfilController($this->getUserModel(), $this->getPartidaModel(), $this->getPresenter(), $this->getQRCodeGenerator());
     }
     public function getModificarPerfilController()
     {
@@ -140,6 +148,10 @@ class Configuration
     private function getInputFormatValidator()
     {
         return new InputFormatValidator();
+    }
+    private function getQRCodeGenerator()
+    {
+        return new QRCodeGenerator();
     }
 
 }

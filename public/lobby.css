@@ -167,7 +167,8 @@ body {
     padding: 20px;
     background-color: #725FEC;
     border-radius: 4em;
-    margin: 2em;
+    margin-left: 5em;
+    margin-right: 5em;
 }
 
 table {

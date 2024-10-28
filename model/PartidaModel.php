@@ -85,7 +85,13 @@ class PartidaModel{
         return $this->db->executeStmt($query) == 1;
     }
     
-    
+    public function getPartidasByUserId($idUsuario)
+    {
+        $query = $this->db->prepare("SELECT * FROM partida WHERE id_usuario = ?");
+        $query->bind_param('i', $idUsuario);
+        $query->execute();
+        return array_reverse($query->get_result()->fetch_all(MYSQLI_ASSOC));
+    }
     
     
 

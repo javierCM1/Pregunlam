@@ -15,13 +15,13 @@ class LobbyController
 
     public function index()
     {
-        
         if (!isset($_SESSION['user'])) {
             header("Location: /login");
             exit();
         }
         
         $data['usuario'] = $this->userModel->getUserByUsernameOrEmail($_SESSION['user'],'a');
+        $data['partidas'] = $this->partidaModel->getPartidasByUserId($data['usuario']['id_usuario']);
         $this->presenter->show('lobby', $data);
     }
 

@@ -4,13 +4,17 @@
 class PerfilController
 {
 
-    private $model;
+    private $userModel;
     private $presenter;
+    private $partidaModel;
+    private $qrHandler;
 
-    public function __construct($model, $presenter)
+    public function __construct($userModel, $partidaModel, $presenter, $qrHandler)
     {
-        $this->model = $model;
+        $this->userModel = $userModel;
         $this->presenter = $presenter;
+        $this->partidaModel = $partidaModel;
+        $this->qrHandler = $qrHandler;
     }
 
     public function index()
@@ -20,32 +24,19 @@ class PerfilController
             exit();
         }
 
-        $data['usuario'] = $this->model->getUserByUsernameOrEmail($_SESSION['user'], 'a');
+        $data['usuario'] = $this->userModel->getUserByUsernameOrEmail($_SESSION['user'], 'a');
         $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
-        $data['perfil'] = $this->model->getUserProfileById($id);
+        $data['perfil'] = $this->userModel->getUserProfileById($id);
+        $data['partidas'] = $this->partidaModel->getPartidasByUserId($data['perfil']['id_usuario']);
 
         if ($data['perfil'] == null) {
             header("Location: /perfil?id=" . $data['usuario']['id_usuario']);
             exit();
         }
 
-        $param = $data['usuario']['id_usuario'];
-        $codeText = "/perfil?id=" . $param;
-
+        $codeText = "/perfil?id=" . $data['perfil']['id_usuario']; //agregar ip de localhost antes de /perfil?
         $outputDir = __DIR__ . '/../public/imagesQr';
-        if (!file_exists($outputDir)) {
-            mkdir($outputDir, 0777, true);
-        }
-
-        $outputFile = $outputDir . '/mi_qr.png';
-
-        QRcode::png($codeText, $outputFile);
-
-        if (file_exists($outputFile)) {
-            $data['qrUsuario'] = '/public/imagesQr/mi_qr.png';
-        } else {
-            echo 'Error al guardar el QR.';
-        }
+        $data['qrUsuario'] = $this->qrHandler->generateQRCode($codeText, $outputDir);
 
         $data['message'] = $_SESSION['errorActualizacion'] ?? '';
 
