@@ -83,7 +83,7 @@ class PreguntaModel
 
         $query = $this->db->prepare("SELECT p.id_pregunta
                                     FROM pregunta p
-                                    LEFT JOIN pregunta_vista pv ON p.id_pregunta = pv.id_pregunta AND pv.id_usuario = ? 
+                                    LEFT JOIN pregunta_vista pv ON p.id_pregunta = pv.id_pregunta AND pv.id_usuario = ?
                                     WHERE pv.id_pregunta IS NULL AND p.id_estado = ?;");
 
         $query->bind_param('ii', $idUsuario, $estado);
@@ -274,5 +274,16 @@ class PreguntaModel
         $query->bind_param('i', $idUsuario);
         return $this->db->executeStmt($query) == 35;
     }
-
+    
+    public function obtenerPreguntaDificil() {
+    
+    
+    
+    }
+    public function obtenerPreguntaFacil() {
+    
+    
+    }
+    
+    
 }
