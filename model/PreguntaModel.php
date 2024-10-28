@@ -77,11 +77,11 @@ class PreguntaModel
     }
     
     //corregir, trae preguntas vistas
-    public function obtenerIdsPreguntasActivasNoVistasPorIdUsuario($idUsuario)
+    public function obtenerPreguntasActivasNoVistasPorIdUsuario($idUsuario)
     {
         $estado = 2;
 
-        $query = $this->db->prepare("SELECT p.id_pregunta
+        $query = $this->db->prepare("SELECT p.id_pregunta, p.cantVistas_pregunta, p.cantCorrectas_pregunta
                                     FROM pregunta p
                                     LEFT JOIN pregunta_vista pv ON p.id_pregunta = pv.id_pregunta AND pv.id_usuario = ?
                                     WHERE pv.id_pregunta IS NULL AND p.id_estado = ?;");
@@ -96,13 +96,40 @@ class PreguntaModel
         return $resultado;
     }
 
-    public function obtenerPreguntaAleatoria($idUsuario)
+    public function obtenerPreguntaAleatoria($idUsuario, $nivel)
     {
         do {
-            $arrayId = $this->obtenerIdsPreguntasActivasNoVistasPorIdUsuario($idUsuario);
-        }while(sizeof($arrayId) === 0);
+            $arrayNoVistas = $this->obtenerPreguntasActivasNoVistasPorIdUsuario($idUsuario);
+        }while(sizeof($arrayNoVistas) === 0);
 
-        return $this->obtenerPreguntaPorId($arrayId[array_rand($arrayId)]['id_pregunta'], 2);
+        $arrayDeNivel = $this->seleccionarPreguntasDeNivel($arrayNoVistas, $nivel);
+        $arrayPreguntas = sizeof($arrayDeNivel) !== 0 ? $arrayDeNivel : $arrayNoVistas;
+
+        return $this->obtenerPreguntaPorId($arrayPreguntas[array_rand($arrayPreguntas)]['id_pregunta'], 2);
+    }
+
+    private function seleccionarPreguntasDeNivel($preguntas,$nivel)
+    {
+        foreach ($preguntas as $index => $pregunta) {
+            if($this->determinarDificultadPregunta($pregunta) !== $nivel)
+                unset($preguntas[$index]);
+        }
+        return array_values($preguntas);
+    }
+
+    private function determinarDificultadPregunta($pregunta)
+    {
+        if($pregunta['cantVistas_pregunta'] > 10) {
+            $dificultad = ($pregunta['cantCorrectas_pregunta'] / $pregunta['cantVistas_pregunta']) * 100;
+
+            if($dificultad <= 30) {
+                return 'dificil';
+            } else if($dificultad >= 70) {
+                return 'facil';
+            }
+        }
+
+        return 'medio';
     }
     
     /**
@@ -274,16 +301,5 @@ class PreguntaModel
         $query->bind_param('i', $idUsuario);
         return $this->db->executeStmt($query) == 35;
     }
-    
-    public function obtenerPreguntaDificil() {
-    
-    
-    
-    }
-    public function obtenerPreguntaFacil() {
-    
-    
-    }
-    
-    
+
 }

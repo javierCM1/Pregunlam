@@ -196,4 +196,19 @@ class UserModel
         return $result['id_tipo_usuario'];
     }
 
+    public function determinarNivelUsuario($usuario)
+    {
+        if($usuario['cantPreguntasJugadas_usuario'] > 10) {
+            $nivel = ($usuario['cantPreguntasCorrectas_usuario'] / $usuario['cantPreguntasJugadas_usuario']) * 100;
+
+            if($nivel >= 70) {
+                return 'dificil';
+            } else if($nivel <= 30) {
+                return 'facil';
+            }
+        }
+
+        return 'medio';
+    }
+
 }
