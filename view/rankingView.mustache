@@ -12,7 +12,6 @@
 
 <div class="container">
     {{#usuario}}
-
     <header class="header">
         <div class="logo">
             <img src="/public/images/logo.png" alt="logo.png">
@@ -29,59 +28,36 @@
     </header>
 
     <main>
-        <section class="user-info">
-            <div class="avatar">
-                <a href="/perfil?id={{id_usuario}}"> <img src="{{img_usuario}}" alt="Avatar"> </a>
-            </div>
-            <div class="user-data w3-margin">
-                <h2 id="datosUsuario">
-                    {{userName_usuario}}
-                    {{#maxPuntaje_usuario}}
-                        <span class="points">{{maxPuntaje_usuario}} puntos</span>
-                    {{/maxPuntaje_usuario}}
-                    {{^maxPuntaje_usuario}}
-                        <span class="points">0 puntos</span>
-                    {{/maxPuntaje_usuario}}
-                </h2>
-            </div>
-        </section>
-
         {{#message}}
             <p style="color: #42a501;">{{message}}</p>
         {{/message}}
+    {{/usuario}}
 
-        <section class="actions">
-            <a href="/jugar">
-                <button class="play-button">¡JUGAR!</button>
-            </a>
-            <a href="/ranking">
-                <button class="ranking-button">Ranking</button>
-            </a>
-            <button class="create-button">¡Crea!</button>
-        </section>
-
-        <section class="game-history" style="margin-left: 5em; margin-right: 5em;">
+        <section class="game-history w3-margin" style="margin-left: 5em; margin-right: 5em;">
             <table class="w3-center w3-text-white">
                 <thead>
                 <tr>
+                    <th>Posicion</th>
+                    <th>Usuario</th>
                     <th>Partida</th>
                     <th>Puntos</th>
                 </tr>
                 </thead>
                 <tbody>
-                {{#partidas}}
-                <tr>
-                    <td>{{fechaHora_partida}}</td>
-                    <td>{{puntaje_partida}}</td>
-                </tr>
-                {{/partidas}}
+                {{#rankingUsuarios}}
+                    <tr>
+                        <td>{{posicion}}</td>
+                        <td><a href="/perfil?id={{id_usuario}}">{{userName_usuario}}</a></td>
+                        <td>{{fechaHora_partida}}</td>
+                        <td>{{puntaje_partida}}</td>
+                    </tr>
+                {{/rankingUsuarios}}
                 </tbody>
             </table>
             <button class="see-more">Ver más</button>
         </section>
     </main>
 
-    {{/usuario}}
     <footer class="w3-center">
         <div class="footer-container w3-gray">
             <h4 class="w3-text-white"><b>Seguinos</b></h4>

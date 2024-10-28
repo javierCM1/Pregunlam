@@ -211,4 +211,41 @@ class UserModel
         return 'medio';
     }
 
+    public function getRankingUsuarios()
+    {
+        $query = $this->db->prepare("SELECT 
+                                            u.id_usuario, 
+                                            u.userName_usuario, 
+                                            p.fechaHora_partida, 
+                                            p.puntaje_partida
+                                    FROM usuario u
+                                    JOIN partida p ON u.id_usuario = p.id_usuario
+                                    GROUP BY u.id_usuario
+                                    ORDER BY p.puntaje_partida DESC
+                                    LIMIT 50");
+        $query->execute();
+        return $query->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function getRankingPositions($ranking) {
+        $i = 1;
+        $lastScore = 0;
+        $lastPos = 0;
+
+        foreach($ranking as &$posicion) {
+            $myPosition = $i;
+
+            if( $lastScore > 0 && $posicion['puntaje_partida'] == $lastScore )
+                $myPosition = $lastPos;
+
+            $lastScore = $posicion['puntaje_partida'];
+            $lastPos = $myPosition;
+
+            ++$i;
+            $posicion['posicion'] = $myPosition;
+        }
+
+        return $ranking;
+    }
+
 }

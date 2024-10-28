@@ -29,6 +29,7 @@ include_once("controller/ModificarPerfilController.php");
 include_once("controller/JugarController.php");
 include_once("controller/RespuestaController.php");
 include_once("controller/EditorController.php");
+include_once("controller/RankingController.php");
 
 //excepciones
 include_once("controller/InvalidNameException.php");
@@ -135,6 +136,10 @@ class Configuration
     public function getRespuestaController()
     {
         return new RespuestaController($this->getPartidaModel(),$this->getUserModel(),$this->getPreguntaModel(),$this->getPresenter());
+    }
+    public function getRankingController()
+    {
+        return new RankingController($this->getUserModel(),$this->getPresenter());
     }
 
     private function getFileEmailSender()
