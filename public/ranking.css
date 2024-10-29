@@ -1,0 +1,240 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+}
+
+.container {
+    max-width: 60%;
+    margin: 0 auto;
+    background-color: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.header {
+    background-color: #4c3d99;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo a{
+    text-decoration: none;
+    color: #ffffff;
+}
+
+.logo img {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+}
+
+.welcome {
+    font-size: 18px;
+}
+
+.logout {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+#informacionDeUsuario{
+    margin: 2em;
+    background-color: #D8D3E9;
+    border-radius: 3em;
+}
+
+
+.user-info {
+    display: flex;
+    align-items: flex-start;
+    padding: 1em;
+    align-content: flex-start;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+}
+
+#qr_code{
+    width: 10em;
+    height: 10em;
+    margin-bottom: 10px;
+}
+.avatar{
+    margin: 2em;
+}
+
+
+.botonM{
+    text-align: center;
+
+}
+
+
+#botonModificar{
+    border-radius: 50px;
+
+}
+
+
+
+
+.avatar img {
+    width: 10em;
+    height: 10em;
+    border-radius: 50%;
+    border: 3px solid #4c3d99;
+    margin-right: 20px;
+}
+
+.user-data{
+    display: flex;
+    flex-wrap: wrap; /* Permite que los elementos se ajusten a la siguiente fila si es necesario */
+    gap: 10px; /* Espacio entre las filas */
+}
+
+
+.qr_class{
+    margin: 2em;
+}
+
+#datosUsuario{
+    flex: 1 1 100%; /* Cada fila ocupará el 100% del ancho, forzando a crear una nueva fila */
+    padding: 20px;
+    text-align: center;
+}
+
+.user-data h2 {
+    font-size: 5vh;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.user-data .points {
+    background-color: #f1c40f;
+    color: black;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-weight: bold;
+}
+
+.actions {
+    display: flex;
+    justify-content: space-around;
+    padding: 20px;
+}
+
+.play-button, .ranking-button, .create-button {
+    padding: 15px 30px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    color: white;
+}
+
+.play-button {
+    background-color: #27ae60;
+}
+
+.ranking-button {
+    background-color: #e74c3c;
+}
+
+.create-button {
+    background-color: #6c5ce7;
+}
+
+.game-history {
+    padding: 20px;
+    background-color: #725FEC;
+    border-radius: 4em;
+    margin-left: 5em;
+    margin-right: 5em;
+}
+
+table {
+    width: 100%;
+    border: none;
+    margin-bottom: 20px;
+    border-collapse: collapse!important;
+}
+
+table th{
+    padding: 10px;
+    text-align: center;
+}
+
+
+table th {
+    background-color: #725FEC;
+    color: white;
+}
+
+#cuerpoTabla tbody {
+    background-color: white;
+}
+
+.see-more {
+    background-color: #2980b9;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    display: block;
+    margin: 0 auto;
+}
+
+.fa {
+    padding-bottom: 0.5em;
+    padding-top: 0.5em;
+    margin-left: 1em;
+    margin-right: 1em;
+    font-size: 30px;
+    width: 30px;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 50%;
+}
+
+/* Add a hover effect if you want */
+.fa:hover {
+    opacity: 0.7;
+}
+
+.footer-container a {
+    color: #ffffff;
+    text-decoration: none;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    font-size: medium;
+}
+
+.footer-icons ul {
+    list-style-type: none;
+}
+
+.footer-icons li {
+    display: inline-block;
+}
+
