@@ -5,8 +5,11 @@ class RankingController
     private $userModel;
     private $presenter;
 
-    public function __construct($userModel, $presenter)
+    private $qrHandler;
+
+    public function __construct($userModel, $presenter,$qrHandler)
     {
+        $this->qrHandler = $qrHandler;
         $this->userModel = $userModel;
         $this->presenter = $presenter;
     }
@@ -20,6 +23,10 @@ class RankingController
 
         $ranking = $this->userModel->getRankingUsuarios();
         $ranking = $this->userModel->getRankingPositions($ranking);
+
+        foreach ($ranking as $usuario) {
+            $data['qr'] = $this->qrHandler->generateQRCode($usuario['id_usuario']);
+        }
 
         $data['usuario'] = $this->userModel->getUserByUsernameOrEmail($_SESSION['user'],'a');
         $data['rankingUsuarios'] = $ranking;
