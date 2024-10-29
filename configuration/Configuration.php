@@ -32,17 +32,17 @@ include_once("controller/EditorController.php");
 include_once("controller/RankingController.php");
 
 //excepciones
-include_once("model/InvalidNameException.php");
-include_once("model/InvalidUsernameException.php");
-include_once("model/InvalidEmailException.php");
-include_once("model/InvalidPasswordException.php");
-include_once("model/InvalidDateException.php");
-include_once("model/InvalidGenderException.php");
-include_once("model/EmailExistsException.php");
-include_once("model/UsernameExistsException.php");
-include_once("model/PreguntaExpiradaException.php");
-include_once("model/PartidaActivaNoExisteException.php");
-include_once("model/RespuestaIncorrectaException.php");
+include_once("model/exeption/InvalidNameException.php");
+include_once("model/exeption/InvalidUsernameException.php");
+include_once("model/exeption/InvalidEmailException.php");
+include_once("model/exeption/InvalidPasswordException.php");
+include_once("model/exeption/InvalidDateException.php");
+include_once("model/exeption/InvalidGenderException.php");
+include_once("model/exeption/EmailExistsException.php");
+include_once("model/exeption/UsernameExistsException.php");
+include_once("model/exeption/PreguntaExpiradaException.php");
+include_once("model/exeption/PartidaActivaNoExisteException.php");
+include_once("model/exeption/RespuestaIncorrectaException.php");
 
 class Configuration
 {
