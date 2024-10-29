@@ -29,6 +29,7 @@
             background-color: white;
         }
     </style>
+
 </head>
 <body>
 <div class="container">
@@ -114,6 +115,7 @@
 
 </body>
 <script>
+
     function abrirModal() {
         const modal = document.getElementById('modalReporte');
         const fechaActual = new Date().toISOString().slice(0, 19).replace('T', ' ');
@@ -124,6 +126,8 @@
     function cerrarModal() {
         document.getElementById('modalReporte').style.display = 'none';
     }
+
+
 </script>
 
 </html>

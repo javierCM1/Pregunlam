@@ -82,8 +82,7 @@ class RespuestaController{
             $data['id_usuario'] = $usuario['id_usuario'];
             $data['id_pregunta'] = $pregunta['id_pregunta'];
             $this->presenter->show("resultadoPregunta", $data);
-            unset($_SESSION['id_pregunta']);
-            unset($_SESSION['message']);
+           
         }
         catch (PartidaActivaNoExisteException $e) {
             $_SESSION['message'] = $e->getMessage();
