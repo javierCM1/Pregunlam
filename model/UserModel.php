@@ -220,6 +220,7 @@ class UserModel
                                             p.puntaje_partida
                                     FROM usuario u
                                     JOIN partida p ON u.id_usuario = p.id_usuario
+                                    AND p.puntaje_partida = (SELECT MAX(p2.puntaje_partida) FROM partida p2 WHERE p2.id_usuario = u.id_usuario)
                                     GROUP BY u.id_usuario
                                     ORDER BY p.puntaje_partida DESC
                                     LIMIT 50");
