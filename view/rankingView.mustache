@@ -40,6 +40,7 @@
                     <tr>
                         <th>Posicion</th>
                         <th>Usuario</th>
+                        <th>QR</th>
                         <th>Partida</th>
                         <th>Puntos</th>
                     </tr>
@@ -48,7 +49,12 @@
                     {{#rankingUsuarios}}
                         <tr>
                             <td >{{posicion}}</td>
-                            <td><img src="{{qr}}" id="qr_code"></td>
+                            <td>
+                                <a href="/perfil?id={{id_usuario}}">
+                                    {{userName_usuario}}
+                                </a>
+                            </td>
+                            <td><img src="{{qr}}" id="qr_code" alt="{{qr}}" style="width: 4em; height: 4em"></td>
                             <td>{{fechaHora_partida}}</td>
                             <td>{{puntaje_partida}}</td>
                         </tr>

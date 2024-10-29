@@ -34,10 +34,7 @@ class PerfilController
             exit();
         }
 
-        $codeText = "/perfil?id=" . $data['perfil']['id_usuario']; //agregar ip de localhost antes de /perfil?
-        $outputDir = __DIR__ . '/../public/imagesQr';
-        $data['qrUsuario'] = $this->qrHandler->generateQRCode($codeText, $outputDir);
-
+        $data['qrUsuario'] = $this->qrHandler->generateQRCode($data['perfil']['id_usuario']);
         $data['message'] = $_SESSION['errorActualizacion'] ?? '';
 
         if ($data['usuario']['id_usuario'] === $data['perfil']['id_usuario']) {
