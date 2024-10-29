@@ -139,7 +139,7 @@ class Configuration
     }
     public function getRankingController()
     {
-        return new RankingController($this->getUserModel(),$this->getPresenter());
+        return new RankingController($this->getUserModel(),$this->getPresenter(), $this->getQRCodeGenerator());
     }
 
     private function getFileEmailSender()
