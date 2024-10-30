@@ -7,22 +7,6 @@
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="/public/lobby.css">
-
-
-
-     <script>
-
-          function DisableBackButton() {
-          window.history.forward()
-          }
-          DisableBackButton();
-          window.onload = DisableBackButton;
-          window.onpageshow = function(evt) { if (evt.persisted) DisableBackButton() }
-          window.onunload = function() { void (0) }
-
-
-        </script>
-
 </head>
 <body>
 
@@ -116,4 +100,15 @@
     </footer>
 </div>
 </body>
+
+<script>
+    function DisableBackButton() {
+        window.history.forward()
+    }
+    DisableBackButton();
+    window.onload = DisableBackButton;
+    window.onpageshow = function(evt) { if (evt.persisted) DisableBackButton() }
+    window.onunload = function() { void (0) }
+</script>
+
 </html>

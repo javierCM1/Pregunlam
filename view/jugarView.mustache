@@ -31,15 +31,10 @@
         }
     </style>
 
-      <script>
-
-
-              window.history.forward()
-
-
-            </script>
+    <script>
+        window.history.forward()
+    </script>
 </head>
-
 
 <body>
 <div class="container">
@@ -48,8 +43,9 @@
     <header class="header">
         <div class="logo">
             <img src="/public/images/logo.png" alt="logo.png">
+            <a href="/lobby">
                 <h3>Pregunlam</h3>
-
+            </a>
         </div>
         <div class="welcome">
             <span>Bienvenido, {{nombreCompleto_usuario}}</span>
@@ -74,7 +70,6 @@
                 <button type="submit" name="id_respuesta" value="{{id_respuesta}}" class="respuesta-btn w3-margin">{{descripcion_respuesta}}</button>
             {{/respuesta}}
         </form>
-
     </div>
     {{/pregunta}}
     {{/usuario}}
