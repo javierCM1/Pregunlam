@@ -61,7 +61,7 @@ class RespuestaController{
             exit();
         }
     }
-
+    
     public function respondeIncorrecto()
     {
         try {
@@ -69,11 +69,8 @@ class RespuestaController{
             $partida = $this->partidaModel->getPartidaActivaByUserId($usuario['id_usuario']);
             $pregunta = $this->preguntaModel->obtenerPreguntaPorId($_SESSION['id_pregunta'], 2);
             $respuestaCorrecta = $this->preguntaModel->getRespuestaCorrectaDePregunta($pregunta['id_pregunta']);
-
-            $this->partidaModel->terminarPartida($partida['id_partida'], $usuario['id_usuario']);
-            $this->usuarioModel->determinarPuntajeMaximo($usuario, $partida);
-
             $_SESSION['terminoPartida'] = true;
+            
             $data['puntaje_final'] = $partida['puntaje_partida'];
             $data['message'] = $_SESSION['message'];
             $data['usuario'] = $usuario;
@@ -81,11 +78,27 @@ class RespuestaController{
             $data['pregunta'] = $pregunta;
             $data['id_usuario'] = $usuario['id_usuario'];
             $data['id_pregunta'] = $pregunta['id_pregunta'];
+            
+            
+            if ($_SESSION['message'] == 'Respuesta Incorrecta' && isset($_POST['continuar'])  )  {
+                $this->partidaModel->terminarPartida($partida['id_partida'], $usuario['id_usuario']);
+                $this->usuarioModel->determinarPuntajeMaximo($usuario, $partida);
+                header("Location: /lobby");
+                exit();
+            }
+            
             $this->presenter->show("resultadoPregunta", $data);
-            unset($_SESSION['id_pregunta']);
-            unset($_SESSION['message']);
-        }
-        catch (PartidaActivaNoExisteException $e) {
+            
+            
+            
+           
+            
+           
+            
+            
+            
+            
+        } catch (PartidaActivaNoExisteException $e) {
             $_SESSION['message'] = $e->getMessage();
             header('Location: /lobby');
             exit();

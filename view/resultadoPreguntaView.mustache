@@ -29,6 +29,7 @@
             background-color: white;
         }
     </style>
+
 </head>
 <body>
 <div class="container">
@@ -37,9 +38,8 @@
         <header class="header">
             <div class="logo">
                 <img src="/public/images/logo.png" alt="logo.png">
-                <a href="/lobby">
                     <h3>Pregunlam</h3>
-                </a>
+
             </div>
             <div class="welcome">
                 <span>Bienvenido, {{nombreCompleto_usuario}}</span>
@@ -67,7 +67,7 @@
                     {{/respuesta}}
                 </div>
                 <form method="POST" action="#" class="w3-center" style="display: flex; flex-direction: column;">
-                    <button value='{{message}}' name="continuar" class="respuesta-btn w3-margin">Continuar</button>
+                    <button  value='{{message}}' name="continuar" class="respuesta-btn w3-margin">Continuar</button>
                     <!-- <a href="#">reportar</a> -->
                     <button type="button" value='reportar' class="respuesta-btn w3-margin" onclick="abrirModal()">Reportar</button>
                 </form>
@@ -114,6 +114,7 @@
 
 </body>
 <script>
+
     function abrirModal() {
         const modal = document.getElementById('modalReporte');
         const fechaActual = new Date().toISOString().slice(0, 19).replace('T', ' ');
@@ -124,6 +125,8 @@
     function cerrarModal() {
         document.getElementById('modalReporte').style.display = 'none';
     }
+
+
 </script>
 
 </html>
