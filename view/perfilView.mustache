@@ -6,8 +6,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pregunlam</title>
+    <style>
+        #map {
+            height: 20em;
+            width: 20em;
+        }
+    </style>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <link rel="stylesheet" href="/public/lobby.css">
 
 </head>
@@ -69,7 +76,9 @@
                 </div>
             {{/perfilUsuario}}
 
-                <section class="game-history" style="margin-left: 5em; margin-right: 5em;">
+                <div id="map" style="margin-left: 7em; margin-bottom: -3.5%; display: inline-block"></div>
+
+                <section class="game-history" style="margin-left: 5em; margin-right: 5em; display: inline-block; width: 35em">
                     <table class="w3-center w3-text-white">
                         <thead>
                         <tr>
@@ -91,7 +100,7 @@
 
             </article>
         </main>
-    {{/perfil}}
+
     <footer class="w3-center">
         <div class="footer-container w3-gray">
             <h4 class="w3-text-white"><b>Seguinos</b></h4>
@@ -110,6 +119,19 @@
     </footer>
 </div>
 </body>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        let map = L.map('map').setView([{{lat}},{{lng}}], 13);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '© OpenStreetMap'
+        }).addTo(map);
+    });
+</script>
+{{/perfil}}
 </html>
 
 

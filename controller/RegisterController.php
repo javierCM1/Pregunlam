@@ -37,8 +37,7 @@ class RegisterController
                 $repeat_password = $_POST['repeat_pass'] ?? '';
                 $birthYear = $_POST['birth_year'] ?? '';
                 $gender = $_POST['gender'] ?? '';
-                $country = $_POST['country'] ?? '';
-                $city = $_POST['city'] ?? '';
+                $country = $_POST['coordenadas'] ?? '-34.670554, -58.562810';
 
                 $this->inputFormatValidator->validateNames($fullname);
                 $this->inputFormatValidator->validateUsername($username);
@@ -47,8 +46,6 @@ class RegisterController
                 $this->inputFormatValidator->validateDate($birthYear);
                 $this->model->validateGender($gender);
                 $this->model->usernameExists($username);
-                //$this->inputFormatValidator->validateNames($country); tiene que validar una coordenada
-                //$this->inputFormatValidator->validateNames($city);
                 //$this->model->emailExists($email);
 
                 if ($password !== $repeat_password) {
@@ -61,7 +58,7 @@ class RegisterController
                 $token = random_int(100000,999999);
                 $success = $this->model->register(
                     $fullname, $username, $email, $password,
-                    $birthYear, $gender, $country, $city, $profilePic, $token
+                    $birthYear, $gender, $country, $profilePic, $token
                 );
 
                 if ($success) {
