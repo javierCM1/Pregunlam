@@ -28,6 +28,10 @@
             border: 3px solid #ffffff;
             background-color: white;
         }
+        .color {
+            background-color: #9458ef;
+            color: white;
+        }
     </style>
 
 </head>
@@ -96,7 +100,7 @@
 <!-- Modal para reporte -->
 <div id="modalReporte" class="w3-modal" style="display:none;">
     <div class="w3-modal-content w3-animate-top w3-card-4">
-        <header class="w3-container w3-teal">
+        <header class="w3-container color">
             <span onclick="cerrarModal()" class="w3-button w3-display-topright">&times;</span>
             <h2>Reportar Pregunta</h2>
         </header>
@@ -107,7 +111,7 @@
                 <input type="hidden" id="fechaReporte" name="fecha_reporte">
                 <input type="hidden" id="idUsuario" name="id_usuarioMandado" value="{{id_usuario}}">
                 <input type="hidden" id="idPregunta" name="id_pregunta" value="{{pregunta.id_pregunta}}">
-                <button type="submit" class="w3-button w3-teal w3-margin-top">Enviar Reporte</button>
+                <button type="submit" class="w3-button color w3-margin-top">Enviar Reporte</button>
             </form>
         </div>
     </div>

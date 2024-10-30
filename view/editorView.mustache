@@ -7,84 +7,7 @@
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="../public/lobby.css">
-    <style>
-        .action-btn {
-            display: block;
-            width: 60%;
-            margin: 15px auto;
-            padding: 15px;
-            font-size: 18px;
-            color: #fff;
-            background-color: #4CAF50;
-            border: none;
-            border-radius: 8px;
-            text-align: center;
-            cursor: pointer;
-        }
-        .action-btn:hover {
-            background-color: #45a049;
-        }
-        .edit-btn {
-            background-color: #2196F3;
-        }
-        .delete-btn {
-            background-color: #f44336;
-        }
-        .container {
-            text-align: center;
-            margin-top: 50px;
-        }
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0, 0, 0, 0.5);
-        }
-
-        .modal-content {
-            background-color: #fefefe;
-            margin: 10% auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 80%;
-            border-radius: 8px;
-        }
-
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-        }
-
-        .close:hover,
-        .close:focus {
-            color: black;
-            text-decoration: none;
-            cursor: pointer;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-
-        th {
-            background-color: #4CAF50;
-            color: white;
-        }
-    </style>
+    <link rel="stylesheet" href="../public/editor.css">
 </head>
 <body>
 
@@ -103,15 +26,11 @@
     </header>
 
     <main>
-        <button class="action-btn" onclick="mostrarModal()">Reportes</button>
-
-        <button class="action-btn edit-btn" >
-            Modificar Pregunta
-        </button>
-
-        <button class="action-btn">
-            Crear Nueva Pregunta
-        </button>
+        <div class="button-container">
+            <button class="action-btn reports" onclick="mostrarModal()">Reportes</button>
+            <button class="action-btn edit" >Modificar Pregunta</button>
+            <button class="action-btn create"onclick="mostrarModalPregunta()">Crear Nueva Pregunta</button>
+        </div>
     </main>
 
     <div id="modalReportes" class="modal">
@@ -143,6 +62,54 @@
         </div>
     </div>
 
+
+    <div id="modalPregunta" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="cerrarModalPregunta()">&times;</span>
+            <h2>Crear Nueva Pregunta</h2>
+            <form method="post" action="/editor/guardarPreguntaCreada">
+                <div class="form-group">
+                    <label for="pregunta">Pregunta:</label>
+                    <input type="text" id="pregunta" name="pregunta" placeholder="Ejemplo: ¿Cuál es la capital de Francia?" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="respuesta1">Respuesta Correcta:</label>
+                    <input type="text" id="respuesta1" name="respuestaCorrecta" placeholder="Ejemplo: París" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="respuesta2">Respuesta incorrecta 1:</label>
+                    <input type="text" id="respuesta2" name="respuestaincorrecta1" placeholder="Ejemplo: Londres" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="respuesta3">Respuesta incorrecta 2:</label>
+                    <input type="text" id="respuesta3" name="respuestaincorrecta2" placeholder="Ejemplo: Roma" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="respuesta4">Respuesta incorrecta 3:</label>
+                    <input type="text" id="respuesta4" name="respuestaincorrecta3" placeholder="Ejemplo: Berlín" required>
+                </div>
+                <div class="form-group">
+                    <label for="categoria">Categoría:</label>
+                    <select id="categoria" name="id_categoria" required>
+                        <option value="">Selecciona una categoría</option>
+                        <option value="1">Historia</option>
+                        <option value="2">Deporte</option>
+                        <option value="3">Entretenimiento</option>
+                        <option value="4">Arte</option>
+                        <option value="5">Tecnología</option>
+                        <option value="6">Geografía</option>
+                        <option value="7">Ciencia</option>
+                    </select>
+                </div>
+                <button type="submit" class="submit-btn">Guardar Pregunta</button>
+            </form>
+        </div>
+    </div>
+
     <footer class="w3-center">
         <div class="footer-container w3-gray">
             <h4 class="w3-text-white"><b>Seguinos</b></h4>
@@ -158,23 +125,34 @@
             <p>2024 - Grupo 3</p>
         </div>
     </footer>
-
-
-
 </div>
 
-</body>
-
-
 <script>
-
     function mostrarModal() {
         document.getElementById('modalReportes').style.display = 'block';
         cargarReportes();
     }
+
     function cerrarModal() {
         document.getElementById('modalReportes').style.display = 'none';
     }
 
+
+    function mostrarModalPregunta() {
+        document.getElementById('modalPregunta').style.display = 'block';
+    }
+
+    function cerrarModalPregunta() {
+        document.getElementById('modalPregunta').style.display = 'none';
+    }
+
+    document.getElementById('formPregunta').addEventListener('submit', function (e) {
+        e.preventDefault();
+        alert('Pregunta creada correctamente');
+        cerrarModalPregunta();
+    });
+
 </script>
+
+</body>
 </html>

@@ -3,12 +3,12 @@
 class PreguntaModel
 {
     private $db;
-
+    
     public function __construct($database)
     {
         $this->db = $database;
     }
-
+    
     /*public function saveEstado($estado)
     {
         
@@ -25,7 +25,7 @@ class PreguntaModel
         
         
     }*/
-
+    
     /*public function saveCategoria($categoria)
     {
         $query = $this->db->prepare("INSERT INTO categoria (
@@ -46,14 +46,14 @@ class PreguntaModel
         
         
     }*/
-
+    
     public function obtenerUltimoIdPreguntas()
     {
         $query = $this->db->prepare("SELECT MAX(id_pregunta) FROM `pregunta`");
         $query->execute();
         return $query->get_result()->fetch_array(MYSQLI_ASSOC)['MAX(id_pregunta)'];
     }
-
+    
     public function obtenerCantidadPreguntasPorEstado($estado)
     {
         $query = $this->db->prepare("SELECT COUNT(id_pregunta) FROM `pregunta` WHERE id_estado = ?");
@@ -61,7 +61,7 @@ class PreguntaModel
         $query->execute();
         return $query->get_result()->fetch_array(MYSQLI_ASSOC)['COUNT(id_pregunta)'];
     }
-
+    
     public function savePregunta($interrogante, $idUsuarioCreador, $idCategoria, $idEstado)
     {
         $query = $this->db->prepare("INSERT INTO `pregunta`(
@@ -71,11 +71,11 @@ class PreguntaModel
                                         `id_categoria`,
                                         `id_estado`
                                     ) VALUES (?,NOW(),?,?,?)");
-
+        
         $query->bind_Param("siii", $interrogante, $idUsuarioCreador, $idCategoria, $idEstado);
         return $query->execute();
     }
-
+    
     //corregir, trae preguntas vistas
     public function obtenerPreguntasActivasNoVistasPorIdUsuario($idUsuario)
     {
@@ -90,7 +90,7 @@ class PreguntaModel
         $query->execute();
         $resultado = $query->get_result()->fetch_all(MYSQLI_ASSOC);
 
-        if (sizeof($resultado) === 0)
+        if(sizeof($resultado) === 0)
             $this->eliminarPreguntasVistasDeUsuario($idUsuario);
 
         return $resultado;
@@ -100,7 +100,7 @@ class PreguntaModel
     {
         do {
             $arrayNoVistas = $this->obtenerPreguntasActivasNoVistasPorIdUsuario($idUsuario);
-        } while (sizeof($arrayNoVistas) === 0);
+        }while(sizeof($arrayNoVistas) === 0);
 
         $arrayDeNivel = $this->seleccionarPreguntasDeNivel($arrayNoVistas, $nivel);
         $arrayPreguntas = sizeof($arrayDeNivel) !== 0 ? $arrayDeNivel : $arrayNoVistas;
@@ -108,10 +108,10 @@ class PreguntaModel
         return $this->obtenerPreguntaPorId($arrayPreguntas[array_rand($arrayPreguntas)]['id_pregunta'], 2);
     }
 
-    private function seleccionarPreguntasDeNivel($preguntas, $nivel)
+    private function seleccionarPreguntasDeNivel($preguntas,$nivel)
     {
         foreach ($preguntas as $index => $pregunta) {
-            if ($this->determinarDificultadPregunta($pregunta) !== $nivel)
+            if($this->determinarDificultadPregunta($pregunta) !== $nivel)
                 unset($preguntas[$index]);
         }
         return array_values($preguntas);
@@ -119,19 +119,19 @@ class PreguntaModel
 
     private function determinarDificultadPregunta($pregunta)
     {
-        if ($pregunta['cantVistas_pregunta'] > 10) {
+        if($pregunta['cantVistas_pregunta'] > 10) {
             $dificultad = ($pregunta['cantCorrectas_pregunta'] / $pregunta['cantVistas_pregunta']) * 100;
 
-            if ($dificultad <= 30) {
+            if($dificultad <= 30) {
                 return 'dificil';
-            } else if ($dificultad >= 70) {
+            } else if($dificultad >= 70) {
                 return 'facil';
             }
         }
 
         return 'medio';
     }
-
+    
     /**
      * @throws PreguntaExpiradaException
      */
@@ -149,7 +149,7 @@ class PreguntaModel
         $query->bind_param('siii', $estado, $idPartida, $respondio, $respondeCorrecto);
         $query->execute();
         $result = $query->get_result()->fetch_array(MYSQLI_ASSOC);
-
+        
         if ($result != null) {
             if (time() - strtotime($result['fechaHoraEntrega_pregunta_partida']) > 30) {
                 throw new PreguntaExpiradaException();
@@ -158,7 +158,7 @@ class PreguntaModel
         }
         return null;
     }
-
+    
     public function obtenerPreguntaPorId($id, $estado)
     {
         $query = $this->db->prepare("SELECT P.id_pregunta,
@@ -180,7 +180,7 @@ class PreguntaModel
         $query->execute();
         return $query->get_result()->fetch_array(MYSQLI_ASSOC);
     }
-
+    
     public function getRespuestasPorIdPregunta($idPregunta)
     {
         $query = $this->db->prepare("SELECT * FROM respuesta WHERE id_pregunta = ?");
@@ -188,7 +188,7 @@ class PreguntaModel
         $query->execute();
         return $query->get_result()->fetch_all(MYSQLI_ASSOC);
     }
-
+    
     /**
      * @throws RespuestaIncorrectaException
      */
@@ -196,20 +196,20 @@ class PreguntaModel
     {
         if ($respuesta['esCorrecta_respuesta'] === 1)
             return true;
-
+        
         throw new RespuestaIncorrectaException();
     }
-
+    
     public function obtenerCategoriaPorId($id)
     {
-
+        
         $query = $this->db->prepare("SELECT * FROM Categoria WHERE id_categoria = ?");
         $query->bind_param('i', $id);
         $query->execute();
         return $query->get_result()->fetch_array(MYSQLI_ASSOC);
-
+        
     }
-
+    
     public function obtenerEstadoPorId($id)
     {
         $query = $this->db->prepare("SELECT * FROM Estado WHERE id_estado = ?");
@@ -217,7 +217,7 @@ class PreguntaModel
         $query->execute();
         return $query->get_result()->fetch_array(MYSQLI_ASSOC);
     }
-
+    
     public function incrementarCantVistas($id_pregunta)
     {
         $incrementoVistas = 1;
@@ -227,7 +227,7 @@ class PreguntaModel
         $query->bind_param('iii', $incrementoVistas, $id_pregunta, $estadoPregunta);
         return $query->execute();
     }
-
+    
     public function incrementarCantCorrectas($id_pregunta)
     {
         $incrementoCorrectas = 1;
@@ -237,7 +237,7 @@ class PreguntaModel
         $query->bind_param('iii', $incrementoCorrectas, $id_pregunta, $estadoPregunta);
         return $query->execute();
     }
-
+    
     public function establecerPreguntaVista($idUsuario, $id_pregunta)
     {
         $query = $this->db->prepare("INSERT INTO `pregunta_vista`(
@@ -248,7 +248,7 @@ class PreguntaModel
         $query->bind_param('ii', $idUsuario, $id_pregunta);
         return $query->execute();
     }
-
+    
     public function getPreguntaVistaById($id)
     {
         $query = $this->db->prepare("SELECT * FROM `pregunta_vista` WHERE id_pregunta_vista = ?");
@@ -256,16 +256,16 @@ class PreguntaModel
         $query->execute();
         return $query->get_result()->fetch_array(MYSQLI_ASSOC);
     }
-
+    
     public function getRespuestaById($id_respuesta)
     {
         $query = $this->db->prepare("SELECT * FROM `respuesta` WHERE id_respuesta = ?");
         $query->bind_param('i', $id_respuesta);
         $query->execute();
         return $query->get_result()->fetch_array(MYSQLI_ASSOC);
-
+        
     }
-
+    
     public function getRespuestaCorrectaDePregunta($idPregunta)
     {
         $correcta = 1;
@@ -274,7 +274,7 @@ class PreguntaModel
         $query->execute();
         return $query->get_result()->fetch_array(MYSQLI_ASSOC);
     }
-
+    
     public function respondePregunta($idPartida, $idPregunta)
     {
         $responde = 1;
@@ -286,7 +286,7 @@ class PreguntaModel
         $query->bind_param('iiii', $responde, $idPartida, $idPregunta, $timestamp);
         return $this->db->executeStmt($query) == 1;
     }
-
+    
     public function respondeCorrecto($idPartida, $idPregunta)
     {
         $respondeCorrecto = 1;
@@ -300,48 +300,6 @@ class PreguntaModel
         $query = $this->db->prepare("DELETE FROM `pregunta_vista` WHERE id_usuario = ?");
         $query->bind_param('i', $idUsuario);
         return $this->db->executeStmt($query) == 35;
-    }
-
-    public function guardarPregunta($pregunta, $respuestaCorrecta, $respuestaIncorrecta1, $respuestaIncorrecta2, $respuestaIncorrecta3, $categoria, $fechaCreacion, $usuarioCreador)
-    {
-        $queryPregunta = $this->db->prepare(
-            "INSERT INTO pregunta (interrogante_pregunta, fechaCreacion_pregunta, cantVistas_pregunta, cantCorrectas_pregunta, id_usuarioCreador, id_categoria, id_estado) 
-        VALUES (?, ?, ?, ?, ?, ?, ?)"
-        );
-
-        $cantVistas = 0;
-        $cantCorrectas = 0;
-        $estado = 2;
-
-        $queryPregunta->bind_param("ssiiiii", $pregunta, $fechaCreacion, $cantVistas, $cantCorrectas, $usuarioCreador, $categoria, $estado);
-        $queryPregunta->execute();
-
-        $idPregunta = $queryPregunta->insert_id;
-
-        $queryRespuestaCorrecta = $this->db->prepare(
-            "INSERT INTO respuesta (descripcion_respuesta, esCorrecta_respuesta, id_pregunta) 
-        VALUES (?, ?, ?)"
-        );
-
-        $correcta = 1;
-        $queryRespuestaCorrecta->bind_param("sii", $respuestaCorrecta, $correcta, $idPregunta);
-        $queryRespuestaCorrecta->execute();
-
-        $this->insertarRespuesta($respuestaIncorrecta1, 0, $idPregunta);
-        $this->insertarRespuesta($respuestaIncorrecta2, 0, $idPregunta);
-        $this->insertarRespuesta($respuestaIncorrecta3, 0, $idPregunta);
-    }
-
-    private function insertarRespuesta($respuesta, $esCorrecta, $idPregunta)
-    {
-        $query = $this->db->prepare(
-            "INSERT INTO respuesta (descripcion_respuesta, esCorrecta_respuesta, id_pregunta) 
-        VALUES (?, ?, ?)"
-        );
-
-        $query->bind_param("sii", $respuesta, $esCorrecta, $idPregunta);
-        $query->execute();
-        $query->close();
     }
 
 }
