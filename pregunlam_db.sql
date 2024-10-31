@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 26-10-2024 a las 16:20:19
+-- Tiempo de generación: 31-10-2024 a las 19:10:50
 -- Versión del servidor: 10.4.32-MariaDB
--- Versión de PHP: 8.0.30
+-- Versión de PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -93,8 +93,8 @@ CREATE TABLE `pregunta` (
   `id_pregunta` int(11) NOT NULL,
   `interrogante_pregunta` varchar(255) NOT NULL,
   `fechaCreacion_pregunta` date NOT NULL,
-  `cantVistas_pregunta` int(11) NOT NULL,
-  `cantCorrectas_pregunta` int(11) NOT NULL,
+  `cantVistas_pregunta` int(11) NOT NULL DEFAULT 0,
+  `cantCorrectas_pregunta` int(11) NOT NULL DEFAULT 0,
   `id_usuarioCreador` int(11) DEFAULT NULL,
   `id_categoria` int(11) NOT NULL,
   `id_estado` int(11) NOT NULL
@@ -105,41 +105,41 @@ CREATE TABLE `pregunta` (
 --
 
 INSERT INTO `pregunta` (`id_pregunta`, `interrogante_pregunta`, `fechaCreacion_pregunta`, `cantVistas_pregunta`, `cantCorrectas_pregunta`, `id_usuarioCreador`, `id_categoria`, `id_estado`) VALUES
-(1, '¿Quién fue el primer emperador de China?', '2024-10-22', 0, 0, 1, 1, 2),
-(2, '¿En qué año cayó el Muro de Berlín?', '2024-10-22', 0, 0, 2, 1, 2),
+(1, '¿Quién fue el primer emperador de China?', '2024-10-22', 1, 0, 1, 1, 2),
+(2, '¿En qué año cayó el Muro de Berlín?', '2024-10-22', 1, 0, 2, 1, 2),
 (3, '¿Cuál fue la civilización que construyó Machu Picchu?', '2024-10-22', 0, 0, 3, 1, 2),
-(4, '¿Quién fue el líder del Imperio Mongol?', '2024-10-22', 0, 0, 4, 1, 2),
+(4, '¿Quién fue el líder del Imperio Mongol?', '2024-10-22', 1, 1, 4, 1, 2),
 (5, '¿Qué evento marcó el inicio de la Revolución Francesa?', '2024-10-22', 8, 0, 5, 1, 2),
-(6, '¿Cuál es el deporte nacional de Brasil?', '2024-10-22', 0, 0, 1, 2, 2),
-(7, '¿En qué país se originó el rugby?', '2024-10-22', 0, 0, 2, 2, 2),
-(8, '¿Qué deporte se juega en la Liga Premier?', '2024-10-22', 0, 0, 3, 2, 2),
+(6, '¿Cuál es el deporte nacional de Brasil?', '2024-10-22', 1, 1, 1, 2, 2),
+(7, '¿En qué país se originó el rugby?', '2024-10-22', 1, 1, 2, 2, 2),
+(8, '¿Qué deporte se juega en la Liga Premier?', '2024-10-22', 1, 0, 3, 2, 2),
 (9, '¿Cuál es el evento más importante de ciclismo en Europa?', '2024-10-22', 0, 0, 4, 2, 2),
-(10, '¿Quién es el máximo goleador de la historia de la UEFA Champions League?', '2024-10-22', 0, 0, 5, 2, 2),
-(11, '¿Cuál es la serie argentina más famosa de Netflix?', '2024-10-22', 0, 0, 1, 3, 2),
-(12, '¿Qué película ganó el Oscar a la Mejor Película en 2021?', '2024-10-22', 0, 0, 2, 3, 2),
-(13, '¿Quién es el creador de la famosa serie \"The Simpsons\"?', '2024-10-22', 0, 0, 3, 3, 2),
-(14, '¿Cuál es la película que ganó el Oscar a la Mejor Película en 2022?', '2024-10-22', 0, 0, 4, 3, 2),
+(10, '¿Quién es el máximo goleador de la historia de la UEFA Champions League?', '2024-10-22', 1, 0, 5, 2, 2),
+(11, '¿Cuál es la serie argentina más famosa de Netflix?', '2024-10-22', 1, 0, 1, 3, 2),
+(12, '¿Qué película ganó el Oscar a la Mejor Película en 2021?', '2024-10-22', 1, 0, 2, 3, 2),
+(13, '¿Quién es el creador de la famosa serie \"The Simpsons\"?', '2024-10-22', 3, 0, 3, 3, 2),
+(14, '¿Cuál es la película que ganó el Oscar a la Mejor Película en 2022?', '2024-10-22', 1, 1, 4, 3, 2),
 (15, '¿Cuál es la película de Disney que se basa en la historia de un joven llamado Aladino?', '2024-10-22', 0, 0, 5, 3, 2),
-(16, '¿Quién pintó \"La noche estrellada\"?', '2024-10-22', 0, 0, 1, 4, 2),
-(17, '¿Qué artista es conocido por sus murales en México?', '2024-10-22', 0, 0, 1, 4, 2),
-(18, '¿Cuál es la técnica utilizada en la obra \"La creación de Adán\"?', '2024-10-22', 0, 0, 1, 4, 2),
-(19, '¿Qué estilo artístico representa \"El grito\"?', '2024-10-22', 0, 0, 1, 4, 2),
-(20, '¿Quién es el autor de la escultura \"El pensador\"?', '2024-10-22', 0, 0, 1, 4, 2),
-(21, '¿Cuál es el lenguaje de programación más utilizado para desarrollo web del lado del cliente?', '2024-10-22', 0, 0, 1, 5, 2),
-(22, '¿Qué tecnología se utiliza para hacer comunicaciones a larga distancia sin cables?', '2024-10-22', 0, 0, 2, 5, 2),
-(23, '¿Qué dispositivo se utiliza para almacenar datos de manera permanente?', '2024-10-22', 0, 0, 3, 5, 2),
-(24, '¿Cuál es el sistema operativo de código abierto más popular?', '2024-10-22', 0, 0, 4, 5, 2),
-(25, '¿Qué red social fue lanzada por Mark Zuckerberg en 2004?', '2024-10-22', 0, 0, 5, 5, 2),
+(16, '¿Quién pintó \"La noche estrellada\"?', '2024-10-22', 1, 0, 1, 4, 2),
+(17, '¿Qué artista es conocido por sus murales en México?', '2024-10-22', 1, 0, 1, 4, 2),
+(18, '¿Cuál es la técnica utilizada en la obra \"La creación de Adán\"?', '2024-10-22', 1, 0, 1, 4, 2),
+(19, '¿Qué estilo artístico representa \"El grito\"?', '2024-10-22', 1, 1, 1, 4, 2),
+(20, '¿Quién es el autor de la escultura \"El pensador\"?', '2024-10-22', 1, 1, 1, 4, 2),
+(21, '¿Cuál es el lenguaje de programación más utilizado para desarrollo web del lado del cliente?', '2024-10-22', 1, 0, 1, 5, 2),
+(22, '¿Qué tecnología se utiliza para hacer comunicaciones a larga distancia sin cables?', '2024-10-22', 1, 0, 2, 5, 2),
+(23, '¿Qué dispositivo se utiliza para almacenar datos de manera permanente?', '2024-10-22', 1, 0, 3, 5, 2),
+(24, '¿Cuál es el sistema operativo de código abierto más popular?', '2024-10-22', 1, 0, 4, 5, 2),
+(25, '¿Qué red social fue lanzada por Mark Zuckerberg en 2004?', '2024-10-22', 3, 1, 5, 5, 2),
 (26, '¿Cuál es la capital de Argentina?', '2024-10-22', 0, 0, 1, 6, 2),
 (27, '¿Qué país tiene la mayor extensión territorial del mundo?', '2024-10-22', 0, 0, 2, 6, 2),
-(28, '¿Cuál es el río más largo de Argentina?', '2024-10-22', 0, 0, 3, 6, 2),
-(29, '¿En qué continente se encuentra el país de Egipto?', '2024-10-22', 0, 0, 4, 6, 2),
-(30, '¿Cuál es el océano que baña las costas de Argentina?', '2024-10-22', 0, 0, 5, 6, 2),
-(31, '¿Cuál es el elemento químico más abundante en el universo?', '2024-10-22', 0, 0, 1, 7, 2),
+(28, '¿Cuál es el río más largo de Argentina?', '2024-10-22', 2, 1, 3, 6, 2),
+(29, '¿En qué continente se encuentra el país de Egipto?', '2024-10-22', 1, 0, 4, 6, 2),
+(30, '¿Cuál es el océano que baña las costas de Argentina?', '2024-10-22', 1, 1, 5, 6, 2),
+(31, '¿Cuál es el elemento químico más abundante en el universo?', '2024-10-22', 7, 0, 1, 7, 2),
 (32, '¿Qué planeta es conocido como el planeta rojo?', '2024-10-22', 0, 0, 2, 7, 2),
-(33, '¿Cuál es la unidad básica de la vida?', '2024-10-22', 0, 0, 3, 7, 2),
+(33, '¿Cuál es la unidad básica de la vida?', '2024-10-22', 1, 0, 3, 7, 2),
 (34, '¿Qué tipo de energía es la del sol?', '2024-10-22', 0, 0, 4, 7, 2),
-(35, '¿Quién propuso la teoría de la relatividad?', '2024-10-22', 0, 0, 5, 7, 2);
+(35, '¿Quién propuso la teoría de la relatividad?', '2024-10-22', 3, 1, 5, 7, 2);
 
 -- --------------------------------------------------------
 
@@ -409,29 +409,27 @@ CREATE TABLE `usuario` (
 --
 -- Volcado de datos para la tabla `usuario`
 --
-INSERT INTO usuario (userName_usuario, password_usuario, id_tipo_usuario,estado_usuario)
-VALUES ('editor', '$2y$10$N..AFA6v1Q5ic8EAxjPV9OzelwaFWCAoGsKXmucMw8ZbXgGBO1Ct6', 2, 'a');
-
 
 INSERT INTO `usuario` (`id_usuario`, `userName_usuario`, `password_usuario`, `email_usuario`, `img_usuario`, `maxPuntaje_usuario`, `nombreCompleto_usuario`, `fechaNacimiento_usuario`, `pais_usuario`, `fechaRegistro_usuario`, `estado_usuario`, `token_usuario`, `cantPreguntasJugadas_usuario`, `cantPreguntasCorrectas_usuario`, `id_tipo_usuario`, `id_sexo`) VALUES
-(1, 'kvnrot03', '$2y$10$E876Xs/IYsR1A./UVgxlrOcDUk5F2CUaOtkW74VAnRvlxsW33SiIW', 'kvnrotela@gmail.com', 'public/images/fotoDePerfil/triangle-dancing.gif', NULL, 'Kevin', '2024-10-16', 'Argentina', '2024-10-20', 'a', 126085, 7, 0, 3, 1),
-(2, 'Ernesto01', '$2y$10$AAdI21YZNK6o6J382gEhf.aHt4s86WkzZ7TzkUwsMTWsfFLqXLWce', 'ernesto@gmail.com', 'public/images/fotoDePerfil/triangle-dancing.gif', NULL, 'Ernesto', '2024-10-14', 'Argentina', '2024-10-20', 'a', 273684, 0, 0, 3, 1),
-(3, 'alex09', '$2y$10$ue3cU5A5ZPNY8GgsrXwPNukdy.SrvGJq84igb2hplGEx/532YaYla', 'alexis@gmail.com', 'public/images/fotoDePerfil/triangle-dancing.gif', NULL, 'alexis', '2024-10-08', 'Argentina', '2024-10-20', 'a', 852260, 0, 0, 3, 1),
-(4, 'pablo01', '$2y$10$z42HPSOFsaq8a2uQmgV7X.Ns1MHRfttJEoyVMcs75FK/cqZX7oT4q', 'pablo@gmail.com', '/public/images/fotoDePerfil/triangle-dancing.gif', NULL, 'pablo', '2024-10-08', 'Argentina', '2024-10-20', 'a', 166403, 0, 0, 3, 1),
-(5, 'ivan01', '$2y$10$b7UN26.ZW.tS3D67OJcOuOM6RrDwrODIf5qitKQDrMdVAyv8PSVWG', 'ivan@gmail.com', 'public/images/fotoDePerfil/portrait-german-shepherd-head-years-old-front-white-background-copy-space-171994255.jpg', NULL, 'Ivan', '2024-10-03', 'x', '2024-10-21', 'a', 893743, 0, 0, 3, 1),
-(6, 'elias04', '$2y$10$6mZqIfdfJEn/axf8ntPdpOgLdVe9OZkjD4aIZI4HWbtUY1/AtPqqO', 'elias@gmail.com', 'public/images/fotoDePerfil/portrait-german-shepherd-head-years-old-front-white-background-copy-space-171994255.jpg', NULL, 'Elias', '2024-10-01', 'Argentina', '2024-10-21', 'a', 296399, 0, 0, 3, 1),
-(7, 'wolverine04', '$2y$10$WorEezbFgMOyKDJ1IvfIOeUEf7iWbukrsueIHT7N/OhbVC8mS21Ny', 'wolverine@gmail.com', 'public/images/fotoDePerfil/portrait-german-shepherd-head-years-old-front-white-background-copy-space-171994255.jpg', NULL, 'wolverine', '2024-10-09', 'Argentina', '2024-10-21', 'a', 508803, 0, 0, 3, 1),
-(8, 'usuario1', '$2y$10$Fq9ZhU/8qnp1tnpSjD5RBe8B3H8aBzzrIfdp5GD9psg4FVXmS27Ki', 'usuario1@gmail.com', 'public/images/default.jpg', NULL, 'Usuario Uno', '2000-01-01', 'Argentina', '2024-10-20', 'a', 206740, 0, 0, 3, 1),
-(9, 'usuario2', '$2y$10$Fq9ZhU/8qnp1tnpSjD5RBe8B3H8aBzzrIfdp5GD9psg4FVXmS27Ki', 'usuario2@gmail.com', 'public/images/default.jpg', NULL, 'Usuario Dos', '2000-02-02', 'Argentina', '2024-10-20', 'a', 936270, 0, 0, 3, 1),
-(10, 'usuario3', '$2y$10$Fq9ZhU/8qnp1tnpSjD5RBe8B3H8aBzzrIfdp5GD9psg4FVXmS27Ki', 'usuario3@gmail.com', 'public/images/default.jpg', NULL, 'Usuario Tres', '2000-03-03', 'Argentina', '2024-10-20', 'a', 361128, 0, 0, 3, 1),
-(11, 'usuario4', '$2y$10$Fq9ZhU/8qnp1tnpSjD5RBe8B3H8aBzzrIfdp5GD9psg4FVXmS27Ki', 'usuario4@gmail.com', 'public/images/default.jpg', NULL, 'Usuario Cuatro', '2000-04-04', 'Argentina', '2024-10-20', 'a', 696831, 0, 0, 3, 1),
-(12, 'usuario5', '$2y$10$Fq9ZhU/8qnp1tnpSjD5RBe8B3H8aBzzrIfdp5GD9psg4FVXmS27Ki', 'usuario5@gmail.com', 'public/images/default.jpg', NULL, 'Usuario Cinco', '2000-05-05', 'Argentina', '2024-10-20', 'a', 500770, 0, 0, 3, 1),
-(13, 'usuario6', '$2y$10$Fq9ZhU/8qnp1tnpSjD5RBe8B3H8aBzzrIfdp5GD9psg4FVXmS27Ki', 'usuario6@gmail.com', 'public/images/default.jpg', NULL, 'Usuario Seis', '2000-06-06', 'Argentina', '2024-10-20', 'a', 313359, 0, 0, 3, 1),
-(14, 'usuario7', '$2y$10$Fq9ZhU/8qnp1tnpSjD5RBe8B3H8aBzzrIfdp5GD9psg4FVXmS27Ki', 'usuario7@gmail.com', 'public/images/default.jpg', NULL, 'Usuario Siete', '2000-07-07', 'Argentina', '2024-10-20', 'a', 864485, 0, 0, 3, 1),
-(15, 'usuario8', '$2y$10$Fq9ZhU/8qnp1tnpSjD5RBe8B3H8aBzzrIfdp5GD9psg4FVXmS27Ki', 'usuario8@gmail.com', 'public/images/default.jpg', NULL, 'Usuario Ocho', '2000-08-08', 'Argentina', '2024-10-20', 'a', 582348, 0, 0, 3, 1),
-(16, 'usuario9', '$2y$10$Fq9ZhU/8qnp1tnpSjD5RBe8B3H8aBzzrIfdp5GD9psg4FVXmS27Ki', 'usuario9@gmail.com', 'public/images/default.jpg', NULL, 'Usuario Nueve', '2000-09-09', 'Argentina', '2024-10-20', 'a', 218286, 0, 0, 3, 1),
-(17, 'usuario10', '$2y$10$Fq9ZhU/8qnp1tnpSjD5RBe8B3H8aBzzrIfdp5GD9psg4FVXmS27Ki', 'usuario10@gmail.com', 'public/images/default.jpg', NULL, 'Usuario Diez', '2000-10-10', 'Argentina', '2024-10-20', 'a', 144385, 0, 0, 3, 1),
-(18, 'ivan', '$2y$10$YGQNKdVsgZCt74FKpNlqHevz1SPavnJqZ3udAbfJX1HCICSir6xda', 'ivan@gmail.com', 'public/images/fotoDePerfil/cheems.jpg', NULL, 'Ivan', '1997-04-02', 'Argentina', '2024-10-25', 'a', 312325, 0, 0, 3, 1);
+(0, 'editor', '$2y$10$N..AFA6v1Q5ic8EAxjPV9OzelwaFWCAoGsKXmucMw8ZbXgGBO1Ct6', '', '', NULL, '', '0000-00-00', '', '0000-00-00', 'a', 0, 1, 0, 2, 0),
+(1, 'kvnrot03', '$2y$10$E876Xs/IYsR1A./UVgxlrOcDUk5F2CUaOtkW74VAnRvlxsW33SiIW', 'kvnrotela@gmail.com', 'public/images/fotoDePerfil/triangle-dancing.gif', NULL, 'Kevin', '2024-10-16', '-34.828868, -58.635762', '2024-10-20', 'a', 126085, 7, 0, 3, 1),
+(2, 'Ernesto01', '$2y$10$AAdI21YZNK6o6J382gEhf.aHt4s86WkzZ7TzkUwsMTWsfFLqXLWce', 'ernesto@gmail.com', 'public/images/fotoDePerfil/triangle-dancing.gif', NULL, 'Ernesto', '2024-10-14', '-34.670554, -58.562810', '2024-10-20', 'a', 273684, 0, 0, 3, 1),
+(3, 'alex09', '$2y$10$ue3cU5A5ZPNY8GgsrXwPNukdy.SrvGJq84igb2hplGEx/532YaYla', 'alexis@gmail.com', 'public/images/fotoDePerfil/triangle-dancing.gif', NULL, 'alexis', '2024-10-08', '-34.670554, -58.562810', '2024-10-20', 'a', 852260, 0, 0, 3, 1),
+(4, 'pablo01', '$2y$10$z42HPSOFsaq8a2uQmgV7X.Ns1MHRfttJEoyVMcs75FK/cqZX7oT4q', 'pablo@gmail.com', '/public/images/fotoDePerfil/triangle-dancing.gif', NULL, 'pablo', '2024-10-08', '-34.670554, -58.562810', '2024-10-20', 'a', 166403, 0, 0, 3, 1),
+(5, 'ivan01', '$2y$10$b7UN26.ZW.tS3D67OJcOuOM6RrDwrODIf5qitKQDrMdVAyv8PSVWG', 'ivan@gmail.com', 'public/images/fotoDePerfil/portrait-german-shepherd-head-years-old-front-white-background-copy-space-171994255.jpg', NULL, 'Ivan', '2024-10-03', '-34.828868, -58.635762', '2024-10-21', 'a', 893743, 0, 0, 3, 1),
+(6, 'elias04', '$2y$10$6mZqIfdfJEn/axf8ntPdpOgLdVe9OZkjD4aIZI4HWbtUY1/AtPqqO', 'elias@gmail.com', 'public/images/fotoDePerfil/portrait-german-shepherd-head-years-old-front-white-background-copy-space-171994255.jpg', NULL, 'Elias', '2024-10-01', '-34.670554, -58.562810', '2024-10-21', 'a', 296399, 0, 0, 3, 1),
+(7, 'wolverine04', '$2y$10$WorEezbFgMOyKDJ1IvfIOeUEf7iWbukrsueIHT7N/OhbVC8mS21Ny', 'wolverine@gmail.com', 'public/images/fotoDePerfil/portrait-german-shepherd-head-years-old-front-white-background-copy-space-171994255.jpg', NULL, 'wolverine', '2024-10-09', '-34.670554, -58.562810', '2024-10-21', 'a', 508803, 0, 0, 3, 1),
+(8, 'usuario1', '$2y$10$YGQNKdVsgZCt74FKpNlqHevz1SPavnJqZ3udAbfJX1HCICSir6xda', 'usuario1@gmail.com', 'public/images/default.jpg', NULL, 'Usuario Uno', '2000-01-01', '-34.670554, -58.562810', '2024-10-20', 'a', 206740, 0, 0, 3, 1),
+(9, 'usuario2', '$2y$10$YGQNKdVsgZCt74FKpNlqHevz1SPavnJqZ3udAbfJX1HCICSir6xda', 'usuario2@gmail.com', 'public/images/default.jpg', NULL, 'Usuario Dos', '2000-02-02', '-34.670554, -58.562810', '2024-10-20', 'a', 936270, 0, 0, 3, 1),
+(10, 'usuario3', '$2y$10$YGQNKdVsgZCt74FKpNlqHevz1SPavnJqZ3udAbfJX1HCICSir6xda', 'usuario3@gmail.com', 'public/images/default.jpg', NULL, 'Usuario Tres', '2000-03-03', '-34.670554, -58.562810', '2024-10-20', 'a', 361128, 0, 0, 3, 1),
+(11, 'usuario4', '$2y$10$YGQNKdVsgZCt74FKpNlqHevz1SPavnJqZ3udAbfJX1HCICSir6xda', 'usuario4@gmail.com', 'public/images/default.jpg', NULL, 'Usuario Cuatro', '2000-04-04', '-34.670554, -58.562810', '2024-10-20', 'a', 696831, 0, 0, 3, 1),
+(12, 'usuario5', '$2y$10$YGQNKdVsgZCt74FKpNlqHevz1SPavnJqZ3udAbfJX1HCICSir6xda', 'usuario5@gmail.com', 'public/images/default.jpg', NULL, 'Usuario Cinco', '2000-05-05', '-34.670554, -58.562810', '2024-10-20', 'a', 500770, 0, 0, 3, 1),
+(13, 'usuario6', '$2y$10$YGQNKdVsgZCt74FKpNlqHevz1SPavnJqZ3udAbfJX1HCICSir6xda', 'usuario6@gmail.com', 'public/images/default.jpg', NULL, 'Usuario Seis', '2000-06-06', '-34.670554, -58.562810', '2024-10-20', 'a', 313359, 0, 0, 3, 1),
+(14, 'usuario7', '$2y$10$YGQNKdVsgZCt74FKpNlqHevz1SPavnJqZ3udAbfJX1HCICSir6xda', 'usuario7@gmail.com', 'public/images/default.jpg', NULL, 'Usuario Siete', '2000-07-07', '-34.670554, -58.562810', '2024-10-20', 'a', 864485, 0, 0, 3, 1),
+(15, 'usuario8', '$2y$10$YGQNKdVsgZCt74FKpNlqHevz1SPavnJqZ3udAbfJX1HCICSir6xda', 'usuario8@gmail.com', 'public/images/default.jpg', NULL, 'Usuario Ocho', '2000-08-08', '-34.670554, -58.562810', '2024-10-20', 'a', 582348, 0, 0, 3, 1),
+(16, 'usuario9', '$2y$10$YGQNKdVsgZCt74FKpNlqHevz1SPavnJqZ3udAbfJX1HCICSir6xda', 'usuario9@gmail.com', 'public/images/default.jpg', NULL, 'Usuario Nueve', '2000-09-09', '-34.670554, -58.562810', '2024-10-20', 'a', 218286, 0, 0, 3, 1),
+(17, 'usuario10', '$2y$10$YGQNKdVsgZCt74FKpNlqHevz1SPavnJqZ3udAbfJX1HCICSir6xda', 'usuario10@gmail.com', 'public/images/default.jpg', NULL, 'Usuario Diez', '2000-10-10', '-34.670554, -58.562810', '2024-10-20', 'a', 144385, 0, 0, 3, 1),
+(18, 'ivan', '$2y$10$YGQNKdVsgZCt74FKpNlqHevz1SPavnJqZ3udAbfJX1HCICSir6xda', 'ivan@gmail.com', 'public/images/fotoDePerfil/cheems.jpg', 3, 'Ivan', '1997-04-02', '-34.665257, -58.586273', '2024-10-25', 'a', 312325, 39, 10, 3, 1);
 
 --
 -- Índices para tablas volcadas
@@ -584,7 +582,7 @@ ALTER TABLE `tipo_usuario`
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- Restricciones para tablas volcadas

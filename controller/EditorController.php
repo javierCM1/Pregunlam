@@ -18,17 +18,7 @@ class EditorController
 
     public function index()
     {
-
         if (!isset($_SESSION['user'])) {
-            header("Location: /login");
-            exit();
-        }
-
-        $user = $_SESSION['user'];
-
-        $tipoUsuario = $this->userModel->getTipoUsuario($user);
-
-        if ($tipoUsuario != 2) {
             header("Location: /login");
             exit();
         }
@@ -74,5 +64,14 @@ class EditorController
         exit();
     }
 
+    public function logout()
+    {
+        session_start();
+        session_unset();
+        session_destroy();
+
+        header("Location: /login");
+        exit();
+    }
 
 }
