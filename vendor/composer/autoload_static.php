@@ -25,6 +25,7 @@ class ComposerStaticInitfbee484fbcb98ba45566f17e8eb69e9b
             'Prophecy\\' => 9,
             'PhpParser\\' => 10,
             'PHPStan\\PhpDocParser\\' => 21,
+            'PHPMailer\\PHPMailer\\' => 20,
         ),
         'H' => 
         array (
@@ -60,6 +61,10 @@ class ComposerStaticInitfbee484fbcb98ba45566f17e8eb69e9b
         'PHPStan\\PhpDocParser\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpstan/phpdoc-parser/src',
+        ),
+        'PHPMailer\\PHPMailer\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phpmailer/phpmailer/src',
         ),
         'Hp\\Pregunlam\\' => 
         array (

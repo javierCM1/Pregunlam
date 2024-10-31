@@ -1,10 +1,48 @@
 <?php
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require 'vendor/autoload.php';
 
 class FileEmailSender
 {
-    //implementar envio de correos
-    public function sendEmailToFile($to,$subject,$message)
+    private PHPMailer $mail;
+
+    public function __construct()
     {
-        file_put_contents($to, $message, FILE_APPEND);
+        $this->mail = new PHPMailer(true);
+        try {
+            $this->mail->isSMTP();
+            $this->mail->Host = 'smtp.gmail.com';
+            $this->mail->SMTPAuth = true;
+            $this->mail->Username = 'ivan.landin24@gmail.com';
+            $this->mail->Password = 'qaaq bfgh jhdf hwvf';
+            $this->mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+            $this->mail->Port = 587;
+        } catch (Exception $e) {
+            $this->sendEmailToFile("El correo no pudo ser enviado. Error: {$mail->ErrorInfo}");
+        }
+    }
+
+    //implementar envio de correos
+    public function sendEmailToFile($message)
+    {
+        file_put_contents('C:\xampp\htdocs\Pregunlam\dev.log', $message, FILE_APPEND);
+    }
+
+    public function sendEmail($from,$to,$subject,$message)
+    {
+        try {
+            $this->mail->setFrom($from);
+            $this->mail->addAddress($to);
+
+            $this->mail->isHTML();
+            $this->mail->Subject = $subject;
+            $this->mail->Body = $message;
+
+            $this->mail->send();
+        } catch (Exception $e) {
+            $this->sendEmailToFile("El correo no pudo ser enviado. Error: {$this->mail->ErrorInfo}");
+        }
     }
 }
