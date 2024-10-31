@@ -3,7 +3,7 @@
         'name' => 'hp/pregunlam',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => '4ad203239a712e96224c15cd6f992e820116f7cf',
+        'reference' => 'aa9304950fc9a9bff9d03374b6268191b457b90f',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -31,7 +31,7 @@
         'hp/pregunlam' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => '4ad203239a712e96224c15cd6f992e820116f7cf',
+            'reference' => 'aa9304950fc9a9bff9d03374b6268191b457b90f',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -107,7 +107,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../phpmailer/phpmailer',
             'aliases' => array(),
-            'dev_requirement' => true,
+            'dev_requirement' => false,
         ),
         'phpspec/prophecy' => array(
             'pretty_version' => 'v1.19.0',
