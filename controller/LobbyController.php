@@ -28,8 +28,6 @@ class LobbyController
     public function logout()
     {
         try {
-            session_start();
-
             $idUsuario = $this->userModel->getUserByUsernameOrEmail($_SESSION['user'],'a')['id_usuario'];
             $idPartida = $this->partidaModel->getPartidaActivaByUserId($idUsuario)['id_partida'];
             $this->partidaModel->terminarPartida($idPartida,$idUsuario);

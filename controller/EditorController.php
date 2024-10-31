@@ -64,11 +64,11 @@ class EditorController
         $respuestaIncorrecta2 = $_POST['respuestaincorrecta2'];
         $respuestaIncorrecta3 = $_POST['respuestaincorrecta3'];
         $categoria = $_POST['id_categoria'];
-        $fechaCreacion = date('Y-m-d H:i:s');
 
         $usuarioCreador = $this->userModel->getUserByUsernameOrEmail($_SESSION['user'], 'a')['id_usuario'];
 
-        $this->preguntaModel->guardarPregunta($pregunta, $respuestaCorrecta, $respuestaIncorrecta1, $respuestaIncorrecta2, $respuestaIncorrecta3, $categoria, $fechaCreacion, $usuarioCreador);
+        $this->preguntaModel->guardarPregunta($pregunta, $respuestaCorrecta, $respuestaIncorrecta1, $respuestaIncorrecta2,
+            $respuestaIncorrecta3, $categoria, $usuarioCreador, 2);
 
         header("Location: /editor");
         exit();
