@@ -15,8 +15,8 @@ class FileEmailSender
             $this->mail->isSMTP();
             $this->mail->Host = 'smtp.gmail.com';
             $this->mail->SMTPAuth = true;
-            $this->mail->Username = 'ivan.landin24@gmail.com';
-            $this->mail->Password = 'qaaq bfgh jhdf hwvf';
+            $this->mail->Username = 'pregunlam@gmail.com';
+            $this->mail->Password = 'gbkf fqcc bnje twon';
             $this->mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
             $this->mail->Port = 587;
         } catch (Exception $e) {
