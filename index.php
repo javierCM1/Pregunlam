@@ -9,15 +9,15 @@ validarAccesoUsuario($configuration,$_GET['page']); //agregado
 $methodName = isset($_GET['action']) ? $_GET['action'] : '';
 $router->route($_GET['page'], $methodName);
 
-
+//agregado
 function validarAccesoUsuario($configuration,$page)
 {
     if(isset($_SESSION['user'])) {
         $tipoUsuario = $configuration->getUserModel()->getTipoUsuario($_SESSION['user']);
 
-        $whiteListAdmin = ['login','admin'];
-        $whiteListEditor = ['editor','login'];
-        $whiteListJugador = ['activar','codigoActivado','jugar','lobby','login','modificarPerfil','ranking','register','respuesta','perfil'];
+        $whiteListAdmin = ['admin'];
+        $whiteListEditor = ['editor'];
+        $whiteListJugador = ['activar','jugar','lobby','modificarPerfil','ranking','respuesta','perfil'];
 
         switch ($tipoUsuario)
         {
