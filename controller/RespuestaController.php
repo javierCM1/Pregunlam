@@ -47,7 +47,9 @@ class RespuestaController{
             $data['id_usuario'] = $usuario['id_usuario'];
             $data['id_pregunta'] = $pregunta['id_pregunta'];
 
-            $this->presenter->show("resultadoPregunta", $data);
+            $data['audio_src'] = '/public/music/WhatsApp Audio 2024-10-28 at 23.22.09.mpeg';
+
+            $this->presenter->show('ranking', $data);
         }
         catch (PreguntaExpiradaException|RespuestaIncorrectaException $e) {
             $_SESSION['id_pregunta'] = $_POST['id_pregunta'];

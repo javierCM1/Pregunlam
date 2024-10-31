@@ -31,12 +31,13 @@
         }
     </style>
 
-    <script src="/public/audio.js">
+    <script >
         window.history.forward();
     </script>
 </head>
 
 <body>
+{{> audio.mustache}}
 <div class="container" id="contenido">
     {{#usuario}}
 
@@ -91,4 +92,14 @@
     </footer>
 </div>
 </body>
+<script>
+    // Reproduce el audio al cargar la página
+    document.addEventListener("DOMContentLoaded", function() {
+        var audio = document.getElementById("background-audio");
+        audio.play().catch(function(error) {
+            // Manejo de errores si el audio no se reproduce automáticamente
+            console.error("No se pudo reproducir el audio: ", error);
+        });
+    });
+</script>
 </html>

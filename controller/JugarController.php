@@ -48,6 +48,9 @@ class JugarController
             $data['partida'] = $partida;
             $data['pregunta'] = $pregunta;
             $data['respuesta'] = $respuestas;
+            $data['audio_src'] = '/public/music/WhatsApp Audio 2024-10-28 at 23.22.09.mpeg';
+
+            // Renderizar la vista del juego
             $this->presenter->show('jugar', $data);
         }
         catch (PreguntaExpiradaException $e) {
