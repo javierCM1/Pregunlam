@@ -37,7 +37,7 @@ class RegisterController
                 $repeat_password = $_POST['repeat_pass'] ?? '';
                 $birthYear = $_POST['birth_year'] ?? '';
                 $gender = $_POST['gender'] ?? '';
-                $country = $_POST['coordenadas'] ?? '-34.670554, -58.562810';
+                $country = $_POST['coordenadas'] ?? '-34.670554,-58.562810';
 
                 $this->inputFormatValidator->validateNames($fullname);
                 $this->inputFormatValidator->validateUsername($username);
@@ -62,7 +62,9 @@ class RegisterController
                 );
 
                 if ($success) {
-                    $this->fileEmailSender->sendEmailToFile('C:\xampp\htdocs\Pregunlam\dev.log', 'Activar cuenta', $fullname .", presiona <a href='http://localhost/activar/auth?username=$username&token=$token'>aquí</a> para activar la cuenta con el siguiente código: ". $token ."\r\n");
+                    $mensaje = $fullname .", presiona <a href='http://localhost/activar/auth?username=$username&token=$token'>aquí</a> para activar la cuenta con el siguiente código: ". $token;
+                    //$this->fileEmailSender->sendEmailToFile($mensaje ."\r\n");
+                    $this->fileEmailSender->sendEmail('ivan.landin24@gmail.com',$email,'Activar cuenta',$mensaje);
                     header('Location: /login');
                     exit();
                 } else {

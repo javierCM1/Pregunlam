@@ -30,6 +30,9 @@ class RankingController
 
         $data['usuario'] = $this->userModel->getUserByUsernameOrEmail($_SESSION['user'],'a');
         $data['rankingUsuarios'] = $ranking;
+        $data['audio_src'] = '/public/music/WhatsApp Audio 2024-10-28 at 23.22.09.mpeg';
+
+        // Renderizar la vista 'lobby' con los datos
         $this->presenter->show('ranking', $data);
     }
 

@@ -22,13 +22,14 @@ class LobbyController
         
         $data['usuario'] = $this->userModel->getUserByUsernameOrEmail($_SESSION['user'],'a');
         $data['partidas'] = $this->partidaModel->getPartidasByUserId($data['usuario']['id_usuario']);
+        $data['audio_src'] = '/public/music/WhatsApp Audio 2024-10-28 at 23.22.09.mpeg';
+
+        // Renderizar la vista 'lobby' con los datos
         $this->presenter->show('lobby', $data);
     }
-
     public function logout()
     {
         try {
-
             $idUsuario = $this->userModel->getUserByUsernameOrEmail($_SESSION['user'],'a')['id_usuario'];
             $idPartida = $this->partidaModel->getPartidaActivaByUserId($idUsuario)['id_partida'];
             $this->partidaModel->terminarPartida($idPartida,$idUsuario);

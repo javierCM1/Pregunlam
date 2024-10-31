@@ -36,19 +36,21 @@ class JugarController
                 $nivel = $this->usuarioModel->determinarNivelUsuario($usuario);
                 $pregunta = $this->preguntaModel->obtenerPreguntaAleatoria($usuario['id_usuario'], $nivel);
                 $this->partidaModel->asociarPreguntaPartida($partida['id_partida'], $pregunta['id_pregunta'], 0);
+                $this->preguntaModel->establecerPreguntaVista($usuario['id_usuario'], $pregunta['id_pregunta']);
+                $this->preguntaModel->incrementarCantVistas($pregunta['id_pregunta']);
+                $this->usuarioModel->incrementarCantPreguntasJugadas($usuario['id_usuario']);
             }
 
-            $respuestas = $this->preguntaModel->getRespuestasPorIdPregunta($pregunta['id_pregunta']);//relacionar pregunta con partida. correcto por defecto en 0, se actualiza a 1 si responde correcto en tiempo:
+            $respuestas = $this->preguntaModel->getRespuestasPorIdPregunta($pregunta['id_pregunta']);
             shuffle($respuestas);
-            
-            $this->preguntaModel->establecerPreguntaVista($usuario['id_usuario'], $pregunta['id_pregunta']);
-            $this->preguntaModel->incrementarCantVistas($pregunta['id_pregunta']);
-            $this->usuarioModel->incrementarCantPreguntasJugadas($usuario['id_usuario']);
-            
+
             $data['usuario'] = $usuario;
             $data['partida'] = $partida;
             $data['pregunta'] = $pregunta;
             $data['respuesta'] = $respuestas;
+            $data['audio_src'] = '/public/music/WhatsApp Audio 2024-10-28 at 23.22.09.mpeg';
+
+            // Renderizar la vista del juego
             $this->presenter->show('jugar', $data);
         }
         catch (PreguntaExpiradaException $e) {

@@ -62,21 +62,8 @@ class PreguntaModel
         return $query->get_result()->fetch_array(MYSQLI_ASSOC)['COUNT(id_pregunta)'];
     }
 
-    public function savePregunta($interrogante, $idUsuarioCreador, $idCategoria, $idEstado)
-    {
-        $query = $this->db->prepare("INSERT INTO `pregunta`(
-                                        `interrogante_pregunta`,
-                                        `fechaCreacion_pregunta`,
-                                        `id_usuarioCreador`,
-                                        `id_categoria`,
-                                        `id_estado`
-                                    ) VALUES (?,NOW(),?,?,?)");
-
-        $query->bind_Param("siii", $interrogante, $idUsuarioCreador, $idCategoria, $idEstado);
-        return $query->execute();
-    }
-
     //corregir, trae preguntas vistas
+
     public function obtenerPreguntasActivasNoVistasPorIdUsuario($idUsuario)
     {
         $estado = 2;
@@ -95,7 +82,6 @@ class PreguntaModel
 
         return $resultado;
     }
-
     public function obtenerPreguntaAleatoria($idUsuario, $nivel)
     {
         do {
@@ -302,31 +288,22 @@ class PreguntaModel
         return $this->db->executeStmt($query) == 35;
     }
 
-    public function guardarPregunta($pregunta, $respuestaCorrecta, $respuestaIncorrecta1, $respuestaIncorrecta2, $respuestaIncorrecta3, $categoria, $fechaCreacion, $usuarioCreador)
+    public function guardarPregunta($pregunta, $respuestaCorrecta, $respuestaIncorrecta1, $respuestaIncorrecta2, $respuestaIncorrecta3, $idCategoria, $usuarioCreador, $idEstado)
     {
-        $queryPregunta = $this->db->prepare(
-            "INSERT INTO pregunta (interrogante_pregunta, fechaCreacion_pregunta, cantVistas_pregunta, cantCorrectas_pregunta, id_usuarioCreador, id_categoria, id_estado) 
-        VALUES (?, ?, ?, ?, ?, ?, ?)"
-        );
+        $queryPregunta = $this->db->prepare("INSERT INTO pregunta (
+                                                interrogante_pregunta, 
+                                                fechaCreacion_pregunta, 
+                                                id_usuarioCreador, 
+                                                id_categoria, 
+                                                id_estado) 
+                                            VALUES (?, NOW(), ?, ?, ?)");
 
-        $cantVistas = 0;
-        $cantCorrectas = 0;
-        $estado = 2;
-
-        $queryPregunta->bind_param("ssiiiii", $pregunta, $fechaCreacion, $cantVistas, $cantCorrectas, $usuarioCreador, $categoria, $estado);
+        $queryPregunta->bind_param("siii", $pregunta, $usuarioCreador, $idCategoria, $idEstado);
         $queryPregunta->execute();
 
         $idPregunta = $queryPregunta->insert_id;
 
-        $queryRespuestaCorrecta = $this->db->prepare(
-            "INSERT INTO respuesta (descripcion_respuesta, esCorrecta_respuesta, id_pregunta) 
-        VALUES (?, ?, ?)"
-        );
-
-        $correcta = 1;
-        $queryRespuestaCorrecta->bind_param("sii", $respuestaCorrecta, $correcta, $idPregunta);
-        $queryRespuestaCorrecta->execute();
-
+        $this->insertarRespuesta($respuestaCorrecta, 1, $idPregunta);
         $this->insertarRespuesta($respuestaIncorrecta1, 0, $idPregunta);
         $this->insertarRespuesta($respuestaIncorrecta2, 0, $idPregunta);
         $this->insertarRespuesta($respuestaIncorrecta3, 0, $idPregunta);
@@ -334,14 +311,14 @@ class PreguntaModel
 
     private function insertarRespuesta($respuesta, $esCorrecta, $idPregunta)
     {
-        $query = $this->db->prepare(
-            "INSERT INTO respuesta (descripcion_respuesta, esCorrecta_respuesta, id_pregunta) 
-        VALUES (?, ?, ?)"
-        );
+        $query = $this->db->prepare("INSERT INTO respuesta (
+                                        descripcion_respuesta, 
+                                        esCorrecta_respuesta, 
+                                        id_pregunta) 
+                                    VALUES (?, ?, ?)");
 
         $query->bind_param("sii", $respuesta, $esCorrecta, $idPregunta);
         $query->execute();
-        $query->close();
     }
 
 }

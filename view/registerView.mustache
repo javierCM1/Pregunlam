@@ -79,13 +79,13 @@
             attribution: '© OpenStreetMap'
         }).addTo(map);
 
+        document.getElementById('coordenadas').value = -34.670554 + ', ' + -58.562810;
+
         let marcador;
 
         map.on('click', function(e) {
             let latlng = e.latlng;
-            if(latlng === null){
-                latlng = [-34.670554,-58.562810];
-            }
+
             document.getElementById('coordenadas').value = latlng.lat.toFixed(6) + ', ' + latlng.lng.toFixed(6);
 
             if (marcador) {

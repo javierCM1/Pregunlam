@@ -18,17 +18,7 @@ class EditorController
 
     public function index()
     {
-
         if (!isset($_SESSION['user'])) {
-            header("Location: /login");
-            exit();
-        }
-
-        $user = $_SESSION['user'];
-
-        $tipoUsuario = $this->userModel->getTipoUsuario($user);
-
-        if ($tipoUsuario != 2) {
             header("Location: /login");
             exit();
         }
@@ -64,15 +54,24 @@ class EditorController
         $respuestaIncorrecta2 = $_POST['respuestaincorrecta2'];
         $respuestaIncorrecta3 = $_POST['respuestaincorrecta3'];
         $categoria = $_POST['id_categoria'];
-        $fechaCreacion = date('Y-m-d H:i:s');
 
         $usuarioCreador = $this->userModel->getUserByUsernameOrEmail($_SESSION['user'], 'a')['id_usuario'];
 
-        $this->preguntaModel->guardarPregunta($pregunta, $respuestaCorrecta, $respuestaIncorrecta1, $respuestaIncorrecta2, $respuestaIncorrecta3, $categoria, $fechaCreacion, $usuarioCreador);
+        $this->preguntaModel->guardarPregunta($pregunta, $respuestaCorrecta, $respuestaIncorrecta1, $respuestaIncorrecta2,
+            $respuestaIncorrecta3, $categoria, $usuarioCreador, 2);
 
         header("Location: /editor");
         exit();
     }
 
+    public function logout()
+    {
+        session_start();
+        session_unset();
+        session_destroy();
+
+        header("Location: /login");
+        exit();
+    }
 
 }

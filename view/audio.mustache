@@ -1,0 +1,46 @@
+<audio id="background-audio" loop>
+    <source src="{{audio_src}}" type="audio/mpeg">
+    Tu navegador no soporta el elemento de audio.
+</audio>
+
+<button id="mute-button">Mute</button>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var audio = document.getElementById("background-audio");
+        var muteButton = document.getElementById("mute-button");
+
+        // Comprobar si el audio debe reproducirse
+        if (localStorage.getItem("audioPlaying") === "true") {
+            audio.play().catch(function(error) {
+                console.error("No se pudo reproducir el audio: ", error);
+            });
+        }
+
+        // Si hay una posición guardada, restaurarla
+        var savedTime = localStorage.getItem("audioTime");
+        if (savedTime) {
+            audio.currentTime = parseFloat(savedTime);
+        }
+
+        // Manejar la reproducción del audio
+        audio.addEventListener("play", function() {
+            localStorage.setItem("audioPlaying", "true");
+        });
+
+        audio.addEventListener("pause", function() {
+            localStorage.setItem("audioPlaying", "false");
+        });
+
+        // Guardar la posición actual del audio en localStorage cuando se pausa o se detiene
+        audio.addEventListener("timeupdate", function() {
+            localStorage.setItem("audioTime", audio.currentTime);
+        });
+
+        // Manejar el evento de clic en el botón de muteo
+        muteButton.addEventListener("click", function() {
+            audio.muted = !audio.muted; // Alterna el estado de mute
+            muteButton.textContent = audio.muted ? "Unmute" : "Mute"; // Cambia el texto del botón
+        });
+    });
+</script>

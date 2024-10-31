@@ -77,7 +77,7 @@ class Configuration
 
     }
 
-    private function getUserModel()
+    public function getUserModel()
     {
         return new UserModel($this->getDatabase());
     }
