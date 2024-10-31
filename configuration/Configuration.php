@@ -99,7 +99,7 @@ class Configuration
 
     public function getEditorController()
     {
-        return new EditorController($this->getEditorModel(),$this->getUserModel(),$this->getPresenter());
+        return new EditorController($this->getEditorModel(),$this->getPreguntaModel(),$this->getUserModel(),$this->getPresenter());
     }
 
     public function getRegisterController()
