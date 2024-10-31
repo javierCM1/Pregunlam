@@ -23,7 +23,11 @@ class ModificarPerfilController
         }
 
         $data['usuario'] = $this->model->getUserByUsernameOrEmail($_SESSION['user'],'a');
-        $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+        $id = isset($_GET['id']) ? (int)$_GET['id'] : $data['usuario']['id_usuario'];
+        $coordenada = $data['usuario']['pais_usuario'];
+        $coordenada = explode(",", $coordenada);
+        $data['lat'] = floatval($coordenada[0]);
+        $data['lng'] = floatval($coordenada[1]);
 
         if($data['usuario']['id_usuario'] === $id) {
 
@@ -56,10 +60,9 @@ class ModificarPerfilController
 
                 $fullname = $_POST['fullname'] ?? '';
                 $gender = $_POST['gender'] ?? '';
-                $country = $_POST['country'] ?? '';
+                $country = $_POST['coordenadas'] ?? '';
 
                 $this->inputFormatValidator->validateNames($fullname);
-                $this->inputFormatValidator->validateNames($country);
                 $this->model->validateGender($gender);
 
                 $profilePic = $this->profilePicHandler->handleProfilePic();

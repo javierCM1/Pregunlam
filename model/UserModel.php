@@ -72,7 +72,7 @@ class UserModel
         return !empty($this->getIdSexo($gender)) ?? throw new InvalidGenderException();
     }
 
-    public function register($fullname, $username, $email, $password, $birthday, $gender, $country, $city, $profilePic, $token)
+    public function register($fullname, $username, $email, $password, $birthday, $gender, $country, $profilePic, $token)
     {
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
         $defaultUserType = 3;

@@ -7,22 +7,6 @@
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="/public/lobby.css">
-
-
-
-     <script>
-
-          function DisableBackButton() {
-          window.history.forward()
-          }
-          DisableBackButton();
-          window.onload = DisableBackButton;
-          window.onpageshow = function(evt) { if (evt.persisted) DisableBackButton() }
-          window.onunload = function() { void (0) }
-
-
-        </script>
-
 </head>
 <body>
 
@@ -45,6 +29,12 @@
     </header>
 
     <main>
+
+        <audio id="backgroundMusic" loop autoplay>
+            <source src="/public/music/WhatsApp Audio 2024-10-28 at 23.22.09.mpeg" type="audio/mpeg">
+            Tu navegador no soporta la reproducción de audio.
+        </audio>
+
         <section class="user-info">
             <div class="avatar">
                 <a href="/perfil?id={{id_usuario}}"> <img src="{{img_usuario}}" alt="Avatar"> </a>
@@ -116,4 +106,17 @@
     </footer>
 </div>
 </body>
+
+<script >
+    function DisableBackButton() {
+        window.history.forward()
+    }
+    DisableBackButton();
+    window.onload = DisableBackButton;
+    window.onpageshow = function(evt) { if (evt.persisted) DisableBackButton() }
+    window.onunload = function() { void (0) }
+
+
+</script>
+
 </html>

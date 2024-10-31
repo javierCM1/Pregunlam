@@ -24,23 +24,30 @@ class PerfilController
             exit();
         }
 
-        $data['usuario'] = $this->userModel->getUserByUsernameOrEmail($_SESSION['user'], 'a');
-        $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
-        $data['perfil'] = $this->userModel->getUserProfileById($id);
-        $data['partidas'] = $this->partidaModel->getPartidasByUserId($data['perfil']['id_usuario']);
+        $usuario = $this->userModel->getUserByUsernameOrEmail($_SESSION['user'], 'a');
+        $id = isset($_GET['id']) ? (int)$_GET['id'] : $usuario['id_usuario'];
+        $perfil = $this->userModel->getUserProfileById($id);
+        $partidas = $this->partidaModel->getPartidasByUserId($perfil['id_usuario']);
 
-        if ($data['perfil'] == null) {
-            header("Location: /perfil?id=" . $data['usuario']['id_usuario']);
+        if ($perfil == null) {
+            header("Location: /perfil?id=" . $usuario['id_usuario']);
             exit();
         }
 
-        $data['qrUsuario'] = $this->qrHandler->generateQRCode($data['perfil']['id_usuario']);
-        $data['message'] = $_SESSION['errorActualizacion'] ?? '';
-
-        if ($data['usuario']['id_usuario'] === $data['perfil']['id_usuario']) {
+        if ($usuario['id_usuario'] === $perfil['id_usuario']) {
             $data['perfilUsuario'] = true;
         }
 
+        $coordenada = $perfil['pais_usuario'];
+        $coordenada = explode(",", $coordenada);
+        $data['lat'] = floatval($coordenada[0]);
+        $data['lng'] = floatval($coordenada[1]);
+
+        $data['qrUsuario'] = $this->qrHandler->generateQRCode($perfil['id_usuario']);
+        $data['message'] = $_SESSION['errorActualizacion'] ?? '';
+        $data['usuario'] = $usuario;
+        $data['perfil'] = $perfil;
+        $data['partidas'] = $partidas;
         $this->presenter->show('perfil', $data);
         unset($_SESSION['errorActualizacion']);
     }

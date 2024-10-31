@@ -3,36 +3,38 @@
     margin: 0;
     padding: 0;
 }
+
 body {
     font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
+    background: url('/public/images/img-categoria/PORTADA.jpg') no-repeat center center fixed;
+    background-size: cover;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
 }
+
 .login-container {
-    background-color: white;
+    background-color: rgba(255, 255, 255, 0.7);
     border-radius: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     padding: 40px;
     width: 400px;
     text-align: center;
 }
+
 .login-container svg {
     width: 80px;
     height: 80px;
     margin-bottom: 20px;
 }
+
 h1 {
     font-size: 24px;
     color: #333;
     margin-bottom: 20px;
 }
 
-input[type="checkbox"] {
-    margin-right: 10px;
-}
 input[type="text"],
 input[type="password"] {
     width: 100%;
@@ -41,6 +43,7 @@ input[type="password"] {
     border: 1px solid #ccc;
     border-radius: 4px;
 }
+
 .login-btn {
     width: 100%;
     background-color: #e74c3c;
@@ -51,9 +54,11 @@ input[type="password"] {
     cursor: pointer;
     font-size: 16px;
 }
+
 .login-btn:hover {
     background-color: #c0392b;
 }
+
 .link {
     display: block;
     margin-top: 20px;
