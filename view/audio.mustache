@@ -3,10 +3,7 @@
     Tu navegador no soporta el elemento de audio.
 </audio>
 
-<button id="mute-button" class="w3-round-xxlarge" style="height: 3em;
-                                                        width: 3em;
-                                                        background-color: rgba(241, 196, 15, 0.68);
-                                                        margin-left: 1em;">
+<button id="mute-button" class="w3-round-xxlarge" style="height: 3em; width: 3em; background-color: rgba(241, 196, 15, 0.68); margin-left: 1em;">
     <i class="fas fa-volume-up"></i>
 </button>
 
@@ -30,6 +27,7 @@
             audio.currentTime = parseFloat(savedTime);
         }
 
+        // Verificar y restaurar el estado de muteo
         if (localStorage.getItem("audioMuted") === "true") {
             audio.muted = true;
             muteButton.innerHTML = '<i class="fas fa-volume-mute"></i>'; // Ícono de mudo
@@ -47,7 +45,7 @@
             localStorage.setItem("audioPlaying", "false");
         });
 
-        // Guardar la posición actual del audio en localStorage cuando se pausa o se detiene
+        // Guardar la posición actual del audio en localStorage
         audio.addEventListener("timeupdate", function() {
             localStorage.setItem("audioTime", audio.currentTime);
         });
@@ -58,5 +56,17 @@
             localStorage.setItem("audioMuted", audio.muted);
             muteButton.innerHTML = audio.muted ? '<i class="fas fa-volume-mute"></i>' : '<i class="fas fa-volume-up"></i>';
         });
+
+        // Función para cerrar sesión
+        function logout() {
+            // Limpiar localStorage relacionado con el audio si lo deseas
+            localStorage.removeItem("audioPlaying");
+            localStorage.removeItem("audioTime");
+            // Aquí podrías agregar el código para cerrar sesión en tu sistema
+            console.log("Usuario ha cerrado sesión.");
+        }
+
+        // Llama a logout() cuando el usuario cierra sesión si lo necesitas
+        // logout(); // Descomentar para simular el cierre de sesión
     });
 </script>
