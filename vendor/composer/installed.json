@@ -2338,7 +2338,6 @@
         "phpdocumentor/reflection-common",
         "phpdocumentor/reflection-docblock",
         "phpdocumentor/type-resolver",
-        "phpmailer/phpmailer",
         "phpspec/prophecy",
         "phpstan/phpdoc-parser",
         "phpunit/php-code-coverage",
