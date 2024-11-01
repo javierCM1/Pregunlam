@@ -22,7 +22,7 @@ class LobbyController
         
         $data['usuario'] = $this->userModel->getUserByUsernameOrEmail($_SESSION['user'],'a');
         $data['partidas'] = $this->partidaModel->getPartidasByUserId($data['usuario']['id_usuario']);
-        $data['audio_src'] = '/public/music/WhatsApp Audio 2024-10-28 at 23.22.09.mpeg';
+        $data['audio_src'] = '/public/music/kevin.mp3';
 
         // Renderizar la vista 'lobby' con los datos
         $this->presenter->show('lobby', $data);

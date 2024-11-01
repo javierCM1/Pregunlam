@@ -33,4 +33,13 @@
 </div>
 
 </body>
+<script>
+    // Limpia el localStorage al cargar la página de login
+    window.addEventListener("load", function() {
+        localStorage.removeItem("audioPlaying");
+        localStorage.removeItem("audioTime");
+        localStorage.removeItem("audioMuted");
+    });
+</script>
+
 </html>

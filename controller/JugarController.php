@@ -56,6 +56,7 @@ class JugarController
         catch (PreguntaExpiradaException $e) {
             $this->partidaModel->terminarPartida($partida['id_partida'], $usuario['id_usuario']);
             $data['message'] = $e->getMessage();
+
             $this->presenter->show('resultadoPregunta', $data);
         }
         catch (PartidaActivaNoExisteException $e) {
