@@ -48,7 +48,7 @@ class PerfilController
         $data['usuario'] = $usuario;
         $data['perfil'] = $perfil;
         $data['partidas'] = $partidas;
-        $data['audio_src'] = '/public/music/WhatsApp Audio 2024-10-28 at 23.22.09.mpeg';
+        $data['audio_src'] = '/public/music/kevin.mp3';
 
         $this->presenter->show('perfil', $data);
         unset($_SESSION['errorActualizacion']);

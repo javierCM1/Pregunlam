@@ -3,7 +3,7 @@
         'name' => 'hp/pregunlam',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => '43e8e38813e2297ef7ccd94510e63daba15d1d41',
+        'reference' => 'c784b5c497e7e17884a31deffdb64746614e62e7',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -31,7 +31,7 @@
         'hp/pregunlam' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => '43e8e38813e2297ef7ccd94510e63daba15d1d41',
+            'reference' => 'c784b5c497e7e17884a31deffdb64746614e62e7',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
