@@ -17,9 +17,6 @@
 
         audio.volume = 0.25;
 
-        // Reiniciar la música al cargar la página
-        audio.currentTime = 0;
-
         // Comprobar si el audio debe reproducirse
         if (localStorage.getItem("audioPlaying") === "true") {
             audio.play().catch(function(error) {
@@ -61,18 +58,5 @@
             localStorage.setItem("audioMuted", audio.muted);
             muteButton.innerHTML = audio.muted ? '<i class="fas fa-volume-mute"></i>' : '<i class="fas fa-volume-up"></i>';
         });
-
-        // Función para cerrar sesión
-        function logout() {
-            // Limpiar localStorage relacionado con el audio
-            localStorage.removeItem("audioPlaying");
-            localStorage.removeItem("audioTime");
-            localStorage.removeItem("audioMuted");
-            // Aquí podrías agregar el código para cerrar sesión en tu sistema
-            console.log("Usuario ha cerrado sesión.");
-        }
-
-        // Supongamos que llamas a logout() cuando el usuario cierra sesión
-        // logout(); // Descomentar para simular el cierre de sesión
     });
 </script>
