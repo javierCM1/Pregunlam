@@ -1,14 +1,30 @@
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        #mute-button {
+            height: 3em;
+            width: 3em;
+            background-color: rgba(241, 196, 15, 0.68);
+            margin-left: 1em;
+        }
+    </style>
+</head>
+
 <audio id="background-audio" loop>
     <source src="{{audio_src}}" type="audio/mpeg">
     Tu navegador no soporta el elemento de audio.
 </audio>
 
-<button id="mute-button">Mute</button>
+<button id="mute-button" class="w3-round-xxlarge">
+    <i class="fas fa-volume-up"></i>
+</button>
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         var audio = document.getElementById("background-audio");
         var muteButton = document.getElementById("mute-button");
+
+        audio.volume = 0.4;
 
         // Comprobar si el audio debe reproducirse
         if (localStorage.getItem("audioPlaying") === "true") {
@@ -21,6 +37,14 @@
         var savedTime = localStorage.getItem("audioTime");
         if (savedTime) {
             audio.currentTime = parseFloat(savedTime);
+        }
+
+        if (localStorage.getItem("audioMuted") === "true") {
+            audio.muted = true;
+            muteButton.innerHTML = '<i class="fas fa-volume-mute"></i>'; // Ícono de mudo
+        } else {
+            audio.muted = false;
+            muteButton.innerHTML = '<i class="fas fa-volume-up"></i>'; // Ícono de volumen
         }
 
         // Manejar la reproducción del audio
@@ -40,7 +64,8 @@
         // Manejar el evento de clic en el botón de muteo
         muteButton.addEventListener("click", function() {
             audio.muted = !audio.muted; // Alterna el estado de mute
-            muteButton.textContent = audio.muted ? "Unmute" : "Mute"; // Cambia el texto del botón
+            localStorage.setItem("audioMuted", audio.muted);
+            muteButton.innerHTML = audio.muted ? '<i class="fas fa-volume-mute"></i>' : '<i class="fas fa-volume-up"></i>';
         });
     });
 </script>
