@@ -1,21 +1,12 @@
-<head>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        #mute-button {
-            height: 3em;
-            width: 3em;
-            background-color: rgba(241, 196, 15, 0.68);
-            margin-left: 1em;
-        }
-    </style>
-</head>
-
 <audio id="background-audio" loop>
     <source src="{{audio_src}}" type="audio/mpeg">
     Tu navegador no soporta el elemento de audio.
 </audio>
 
-<button id="mute-button" class="w3-round-xxlarge">
+<button id="mute-button" class="w3-round-xxlarge" style="height: 3em;
+                                                        width: 3em;
+                                                        background-color: rgba(241, 196, 15, 0.68);
+                                                        margin-left: 1em;">
     <i class="fas fa-volume-up"></i>
 </button>
 
@@ -24,7 +15,7 @@
         var audio = document.getElementById("background-audio");
         var muteButton = document.getElementById("mute-button");
 
-        audio.volume = 0.4;
+        audio.volume = 0.25;
 
         // Comprobar si el audio debe reproducirse
         if (localStorage.getItem("audioPlaying") === "true") {

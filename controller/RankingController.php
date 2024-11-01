@@ -25,7 +25,7 @@ class RankingController
         $ranking = $this->userModel->getRankingPositions($ranking);
 
         foreach ($ranking as $usuario) {
-            $data['qr'] = $this->qrHandler->generateQRCode($usuario['id_usuario']);
+            $data['qr'] = $this->qrHandler->generateQRCode($usuario['id_usuario']);//mustra el último qr generado para todos los del ranking
         }
 
         $data['usuario'] = $this->userModel->getUserByUsernameOrEmail($_SESSION['user'],'a');
