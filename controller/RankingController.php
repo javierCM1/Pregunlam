@@ -32,7 +32,7 @@ class RankingController
         $data['rankingUsuarios'] = $ranking;
         $data['audio_src'] = 'public/music/kevin.mp3';
 
-        // Renderizar la vista 'lobby' con los datos
+        // Renderizar la vista ranking con los datos
         $this->presenter->show('ranking', $data);
     }
 

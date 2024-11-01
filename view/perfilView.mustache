@@ -19,7 +19,7 @@
 
 </head>
 <body>
-{{> audio.mustache}}
+
 <div class="container">
     {{#usuario}}
         <header class="header">
@@ -70,7 +70,7 @@
             </section>
 
             {{#perfilUsuario}}
-                <div class="botonM">
+                <div class="botonM w3-margin">
                     <a href="/modificarPerfil?id={{id_usuario}}">
                     <input id="botonModificar" type="button" value="Modificar perfil" class="w3-btn w3-yellow">
                     </a>
@@ -98,8 +98,8 @@
                     </table>
                     <button class="see-more">Ver más</button>
                 </section>
-
             </article>
+            {{> audio.mustache}}
         </main>
 
     <footer class="w3-center">
