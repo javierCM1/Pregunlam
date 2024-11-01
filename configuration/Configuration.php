@@ -30,6 +30,7 @@ include_once("controller/JugarController.php");
 include_once("controller/RespuestaController.php");
 include_once("controller/EditorController.php");
 include_once("controller/RankingController.php");
+include_once("controller/CrearPreguntaController.php");
 
 //excepciones
 include_once("model/exeption/InvalidNameException.php");
@@ -94,6 +95,10 @@ class Configuration
 
     private function getEditorModel(){
         return new EditorModel($this->getDatabase());
+    }
+
+    public function getCrearPreguntaController(){
+        return new CrearPreguntaController($this->getPreguntaModel(), $this->getUserModel(), $this->getPresenter());
     }
 
 
