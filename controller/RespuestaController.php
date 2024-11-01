@@ -53,7 +53,6 @@ class RespuestaController
             $data['pregunta'] = $pregunta;
             $data['id_usuario'] = $usuario['id_usuario'];
             $data['id_pregunta'] = $pregunta['id_pregunta'];
-            
             $data['audio_src'] = 'public/music/WhatsApp Audio 2024-10-28 at 23.22.09.mpeg';
             
             
@@ -87,14 +86,15 @@ class RespuestaController
             $data['id_usuario'] = $usuario['id_usuario'];
             $data['id_pregunta'] = $pregunta['id_pregunta'];
             
+            
             if ($_SESSION['message'] == 'Respuesta Incorrecta' && isset($_POST['continuar'])) {
                 $this->partidaModel->terminarPartida($partida['id_partida'], $usuario['id_usuario']);
                 $this->usuarioModel->determinarPuntajeMaximo($usuario, $partida);
                 header("Location: /lobby");
                 exit();
             }
-            
             $this->presenter->show("resultadoPregunta", $data);
+            
             
         } catch (PartidaActivaNoExisteException $e) {
             $_SESSION['message'] = $e->getMessage();

@@ -34,7 +34,7 @@
 
         <section class="user-info">
             <div class="avatar">
-                <a href="/perfil?id={{id_usuario}}"> <img src="{{img_usuario}}" alt="Avatar"> </a>
+                <a href="/perfil?id={{id_usuario}}" onclick="setPageState('perfil')"> <img src="{{img_usuario}}" alt="Avatar"> </a>
             </div>
             <div class="user-data w3-margin">
                 <h2 id="datosUsuario">
@@ -55,10 +55,10 @@
 
         <section class="actions">
             <a href="/jugar">
-                <button class="play-button">¡JUGAR!</button>
+                <button class="play-button" onclick="setPageState('jugar')">¡JUGAR!</button>
             </a>
             <a href="/ranking">
-                <button class="ranking-button">Ranking</button>
+                <button class="ranking-button" onclick="setPageState('ranking')" >Ranking</button>
             </a>
             <button class="create-button">¡Crea!</button>
         </section>
@@ -115,13 +115,25 @@
             console.error("No se pudo reproducir el audio: ", error);
         });
     });
-    function DisableBackButton() {
-        window.history.forward()
+
+
+
+    function setPageState(page) {
+        sessionStorage.setItem('currentPage', page);
     }
-    DisableBackButton();
-    window.onload = DisableBackButton;
-    window.onpageshow = function(evt) { if (evt.persisted) DisableBackButton() }
-    window.onunload = function() { void (0) }
+
+    // Llamar a DisableBackButton al cargar la página
+    window.onload = function() {
+        // Verificar el estado de la página actual
+        if (sessionStorage.getItem('currentPage') === 'jugar') {
+            window.history.forward();
+        }
+
+    };
+
+
+
+
 
     document.addEventListener("DOMContentLoaded", function() {
         let partidas = document.querySelectorAll(".partida-row");
