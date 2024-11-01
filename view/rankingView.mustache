@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Pregunlam</title>
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
         <link rel="stylesheet" href="/public/lobby.css">
         <link rel="stylesheet" href="/public/ranking.css">
     </head>
@@ -47,7 +47,7 @@
                     </thead>
                     <tbody>
                     {{#rankingUsuarios}}
-                        <tr>
+                        <tr class="rankingUsers" style="display: none;">
                             <td >{{posicion}}</td>
                             <td>
                                 <a href="/perfil?id={{id_usuario}}">
@@ -61,7 +61,7 @@
                     {{/rankingUsuarios}}
                     </tbody>
                 </table>
-                <button class="see-more">Ver más</button>
+                <button class="see-more" id="verMas" onclick="toggleMostrar()">Ver más</button>
             </section>
         {{> audio.mustache}}
         </main>
@@ -71,9 +71,9 @@
                 <h4 class="w3-text-white"><b>Seguinos</b></h4>
                 <div class="footer-icons">
                     <ul>
-                        <li><a href="#" target="_blank"><i class="fa fa-linkedin fa-2x"></i></a></li>
-                        <li><a href="#" target="_blank"><i class="fa fa-instagram fa-2x"></i></a></li>
-                        <li><a href="#" target="_blank"><i class="fa fa-twitter fa-2x"></i></a></li>
+                        <li><a href="#" target="_blank"><i class="fa-brands fa-linkedin-in"></i></a></li>
+                        <li><a href="#" target="_blank"><i class="fa-brands fa-instagram"></i></a></li>
+                        <li><a href="#" target="_blank"><i class="fa-brands fa-twitter"></i></a></li>
                     </ul>
                 </div>
             </div>
@@ -84,4 +84,43 @@
         </footer>
     </div>
     </body>
+
+    <script>
+
+
+        document.addEventListener("DOMContentLoaded", function() {
+            let rankings = document.querySelectorAll(".rankingUsers");
+            let mostrarInicial = 3; // Cantidad de partidas a mostrar inicialmente
+            let mostrandoMas = false; // Estado para saber si estamos mostrando más o menos
+
+            // Función para mostrar solo las primeras 3 partidas al cargar la página
+            function mostrarIniciales() {
+                rankings.forEach((partida, index) => {
+                    partida.style.display = index < mostrarInicial ? "table-row" : "none";
+                });
+                document.getElementById("verMas").textContent = "Ver más";
+                mostrandoMas = false;
+            }
+
+            // Llama a la función al cargar
+            mostrarIniciales();
+
+            // Función para alternar entre "Ver más" y "Ver menos"
+            window.toggleMostrar = function() {
+                if (mostrandoMas) {
+                    // Si se está mostrando más, volvemos a mostrar solo los iniciales
+                    mostrarIniciales();
+                } else {
+                    // Mostrar todas las partidas
+                    rankings.forEach(partida => partida.style.display = "table-row");
+                    document.getElementById("verMas").textContent = "Ver menos";
+                    mostrandoMas = true;
+                }
+            };
+        });
+
+
+
+
+    </script>
     </html>
