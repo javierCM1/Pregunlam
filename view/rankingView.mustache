@@ -47,7 +47,7 @@
                     </thead>
                     <tbody>
                     {{#rankingUsuarios}}
-                        <tr>
+                        <tr class="rankingUsers" style="display: none;">
                             <td >{{posicion}}</td>
                             <td>
                                 <a href="/perfil?id={{id_usuario}}">
@@ -61,7 +61,7 @@
                     {{/rankingUsuarios}}
                     </tbody>
                 </table>
-                <button class="see-more">Ver más</button>
+                <button class="see-more" id="verMas" onclick="toggleMostrar()">Ver más</button>
             </section>
         {{> audio.mustache}}
         </main>
@@ -84,4 +84,43 @@
         </footer>
     </div>
     </body>
+
+    <script>
+
+
+        document.addEventListener("DOMContentLoaded", function() {
+            let rankings = document.querySelectorAll(".rankingUsers");
+            let mostrarInicial = 3; // Cantidad de partidas a mostrar inicialmente
+            let mostrandoMas = false; // Estado para saber si estamos mostrando más o menos
+
+            // Función para mostrar solo las primeras 3 partidas al cargar la página
+            function mostrarIniciales() {
+                rankings.forEach((partida, index) => {
+                    partida.style.display = index < mostrarInicial ? "table-row" : "none";
+                });
+                document.getElementById("verMas").textContent = "Ver más";
+                mostrandoMas = false;
+            }
+
+            // Llama a la función al cargar
+            mostrarIniciales();
+
+            // Función para alternar entre "Ver más" y "Ver menos"
+            window.toggleMostrar = function() {
+                if (mostrandoMas) {
+                    // Si se está mostrando más, volvemos a mostrar solo los iniciales
+                    mostrarIniciales();
+                } else {
+                    // Mostrar todas las partidas
+                    rankings.forEach(partida => partida.style.display = "table-row");
+                    document.getElementById("verMas").textContent = "Ver menos";
+                    mostrandoMas = true;
+                }
+            };
+        });
+
+
+
+
+    </script>
     </html>
