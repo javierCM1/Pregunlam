@@ -12,19 +12,20 @@
 <body>
 
 <div class="container">
+{{#usuario}}
     <header class="header">
         <div class="logo">
             <img src="/public/images/logo.png" alt="logo.png">
             <a href="/editor"><h3>Pregunlam</h3></a>
         </div>
         <div class="welcome">
-            <span>Bienvenido, {{username}}</span>
+            <span>Bienvenido, {{nombreCompleto_usuario}}</span>
             <form action="/editor/logout" method="post">
                 <button type="submit" class="logout">Cerrar Sesión</button>
             </form>
         </div>
     </header>
-
+{{/usuario}}
     <main>
         <h2>Agregar Nueva Pregunta</h2>
         <form id="formPregunta" action="/crearPregunta/guardarPreguntaCreada" method="post">

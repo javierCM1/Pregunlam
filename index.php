@@ -17,7 +17,7 @@ function validarAccesoUsuario($configuration,$page)
 
         $whiteListAdmin = ['admin'];
         $whiteListEditor = ['editor','crearPregunta','modificarPregunta'];
-        $whiteListJugador = ['activar','jugar','lobby','modificarPerfil','ranking','respuesta','perfil'];
+        $whiteListJugador = ['activar','jugar','lobby','modificarPerfil','ranking','respuesta','perfil','crearPregunta'];
 
         switch ($tipoUsuario)
         {

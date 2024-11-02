@@ -19,7 +19,13 @@ class CrearPreguntaController
 
     public function index()
     {
-        $this->presenter->show('crearPregunta', []);
+        if (!isset($_SESSION['user'])) {
+            header("Location: /login");
+            exit();
+        }
+
+        $data['usuario'] = $this->userModel->getUserByUsernameOrEmail($_SESSION['user'],'a');
+        $this->presenter->show('crearPregunta', $data);
     }
 
     public function guardarPreguntaCreada()
@@ -48,10 +54,11 @@ class CrearPreguntaController
         $respuestaIncorrecta3 = $_POST['respuestaincorrecta3'];
         $categoria = $_POST['id_categoria'];
 
-        $usuarioCreador = $this->userModel->getUserByUsernameOrEmail($_SESSION['user'], 'a')['id_usuario'];
+        $usuarioCreador = $this->userModel->getUserByUsernameOrEmail($_SESSION['user'], 'a');
+        $estadoPregunta = $usuarioCreador['id_tipo_usuario'] != 2 ? 1 : 2;
 
         $this->preguntaModel->guardarPregunta($pregunta, $respuestaCorrecta, $respuestaIncorrecta1, $respuestaIncorrecta2,
-            $respuestaIncorrecta3, $categoria, $usuarioCreador, 2);
+            $respuestaIncorrecta3, $categoria, $usuarioCreador['id_usuario'], $estadoPregunta);
 
         header("Location: /editor");
         exit();
