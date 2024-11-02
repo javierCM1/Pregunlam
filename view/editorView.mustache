@@ -32,7 +32,23 @@
     </div>
 
     <main class="w3-margin">
-        <h2>Reportes de Preguntas</h2>
+        <div>
+            <form action="#" method="post">
+                <div class="input-group w3-margin">
+                    <h2>Lista de preguntas</h2>
+                    <select name="estado" class="w3-input" style="width: 50%; display: inline-block" required>
+                        <option value="2" selected>Activas</option>
+                        <option value="4">Rechazadas</option>
+                        <option value="5">Inactivas</option>
+                    </select>
+                    <input type="submit" value="Buscar" class="w3-btn w3-light-green">
+                </div>
+            </form>
+            <a href="/crearPregunta">
+                <button class="w3-btn w3-green w3-right w3-margin">Agregar pregunta</button>
+            </a>
+
+        </div>
         <table>
             <thead>
             <tr>
@@ -55,6 +71,11 @@
                     <td>{{descripcion_categoria}}</td>
                     <td>{{userName_usuario}}</td>
                     <td>
+                        {{#activar}}
+                            <a href="/editor/activar?id={{id_pregunta}}">
+                                <button class="w3-btn w3-green" style="width: 100%; margin-bottom: 0.5em">Activar</button>
+                            </a>
+                        {{/activar}}
                         <a href="/modificarPregunta?id={{id_pregunta}}">
                         <button class="w3-btn w3-yellow" style="width: 100%; margin-bottom: 0.5em">Modificar</button>
                         </a>

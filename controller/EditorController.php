@@ -19,9 +19,26 @@ class EditorController
         }
 
         $username = $_SESSION['user'];
-        $preguntas = $this->model->obtenerPreguntasPorEstado(2);
+        $estado = $_POST['estado'] ?? 2;
 
-        $this->presenter->show('editor', ['username' => $username, 'preguntas' => $preguntas]);
+        $activar = null;
+        if($estado != 2) {
+            $activar = true;
+        }
+
+        $preguntas = $this->model->obtenerPreguntasPorEstado($estado);
+
+        $this->presenter->show('editor', ['username' => $username, 'preguntas' => $preguntas, 'activar' => $activar]);
+    }
+
+    public function activar()
+    {
+        $idPregunta = $_GET['id'];
+
+        $this->model->cambiarEstadoPregunta($idPregunta,2);
+
+        header('Location: /editor');
+        exit();
     }
 
     public function desactivar()
