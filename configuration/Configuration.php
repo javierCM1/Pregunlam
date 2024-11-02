@@ -31,6 +31,7 @@ include_once("controller/RespuestaController.php");
 include_once("controller/EditorController.php");
 include_once("controller/RankingController.php");
 include_once("controller/CrearPreguntaController.php");
+include_once("controller/ModificarPreguntaController.php");
 
 //excepciones
 include_once("model/exeption/InvalidNameException.php");
@@ -99,6 +100,11 @@ class Configuration
 
     public function getCrearPreguntaController(){
         return new CrearPreguntaController($this->getPreguntaModel(), $this->getUserModel(), $this->getPresenter());
+    }
+
+    public function getModificarPreguntaController()
+    {
+        return new ModificarPreguntaController($this->getPreguntaModel(), $this->getUserModel(), $this->getPresenter());
     }
 
 

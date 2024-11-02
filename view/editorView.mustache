@@ -28,7 +28,7 @@
     <main>
         <div class="button-container">
             <button class="action-btn reports" onclick="mostrarModal()">Reportes</button>
-            <button class="action-btn edit" >Modificar Pregunta</button>
+            <a class="action-btn edit" href="/modificarPregunta">Modificar Pregunta</a>
             <a class="action-btn create" href="/crearPregunta">Crear Nueva Pregunta</a>
 
         </div>
@@ -91,12 +91,6 @@
     function cerrarModal() {
         document.getElementById('modalReportes').style.display = 'none';
     }
-
-    document.getElementById('formPregunta').addEventListener('submit', function (e) {
-        e.preventDefault();
-        alert('Pregunta creada correctamente');
-        cerrarModalPregunta();
-    });
 
 </script>
 

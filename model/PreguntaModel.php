@@ -82,6 +82,7 @@ class PreguntaModel
 
         return $resultado;
     }
+
     public function obtenerPreguntaAleatoria($idUsuario, $nivel)
     {
         do {
@@ -148,19 +149,21 @@ class PreguntaModel
     public function obtenerPreguntaPorId($id, $estado)
     {
         $query = $this->db->prepare("SELECT P.id_pregunta,
-                                            P.interrogante_pregunta,
-                                            P.fechaCreacion_pregunta,
-                                            P.cantVistas_pregunta,
-                                            P.cantCorrectas_pregunta,
-                                            C.descripcion_categoria,
-                                            C.img_categoria,
-                                            C.color_categoria,
-                                            E.descripcion_estado,
-                                            U.userName_usuario FROM Pregunta P
-                                                                   JOIN Categoria C ON P.id_categoria=C.id_categoria
-                                                                   JOIN Estado E ON P.id_estado=E.id_estado
-                                                                   LEFT JOIN Usuario U ON P.id_usuarioCreador=U.id_usuario
-                                                                   WHERE P.id_pregunta = ? AND P.id_estado = ?");
+                                        P.interrogante_pregunta,
+                                        P.fechaCreacion_pregunta,
+                                        P.cantVistas_pregunta,
+                                        P.cantCorrectas_pregunta,
+                                        P.id_categoria, 
+                                        C.descripcion_categoria,
+                                        C.img_categoria,
+                                        C.color_categoria,
+                                        E.descripcion_estado,
+                                        U.userName_usuario 
+                                 FROM Pregunta P
+                                 JOIN Categoria C ON P.id_categoria=C.id_categoria
+                                 JOIN Estado E ON P.id_estado=E.id_estado
+                                 LEFT JOIN Usuario U ON P.id_usuarioCreador=U.id_usuario
+                                 WHERE P.id_pregunta = ? AND P.id_estado = ?");
 
         $query->bind_param('ii', $id, $estado);
         $query->execute();
@@ -320,5 +323,35 @@ class PreguntaModel
         $query->bind_param("sii", $respuesta, $esCorrecta, $idPregunta);
         $query->execute();
     }
+
+    public function modificarPregunta($idPregunta, $pregunta, $idCategoria)
+    {
+
+        $queryPregunta = $this->db->prepare("UPDATE pregunta 
+                                         SET interrogante_pregunta = ?, 
+                                             id_categoria = ?
+                                         WHERE id_pregunta = ?");
+
+        $queryPregunta->bind_param("sii", $pregunta, $idCategoria, $idPregunta);
+
+        $queryPregunta->execute();
+
+
+    }
+
+    public function modificarRespuesta($idRespuesta, $respuesta)
+    {
+
+        $queryPregunta = $this->db->prepare("UPDATE respuesta 
+                                         SET descripcion_respuesta = ?
+                                         WHERE id_respuesta = ?");
+
+        $queryPregunta->bind_param("si", $respuesta,$idRespuesta);
+
+        $queryPregunta->execute();
+
+
+    }
+
 
 }

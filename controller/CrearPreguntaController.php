@@ -9,7 +9,7 @@ class CrearPreguntaController
     private $presenter;
 
 
-    public function __construct($preguntaModel,$userModel, $presenter)
+    public function __construct($preguntaModel, $userModel, $presenter)
     {
         $this->preguntaModel = $preguntaModel;
         $this->userModel = $userModel;
@@ -56,6 +56,7 @@ class CrearPreguntaController
         header("Location: /editor");
         exit();
     }
+
 
 
 }
