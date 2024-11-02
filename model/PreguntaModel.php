@@ -62,7 +62,34 @@ class PreguntaModel
         return $query->get_result()->fetch_array(MYSQLI_ASSOC)['COUNT(id_pregunta)'];
     }
 
-    //corregir, trae preguntas vistas
+    public function obtenerPreguntasPorEstado($estado)
+    {
+        $query = $this->db->prepare("SELECT P.id_pregunta,
+                                        P.interrogante_pregunta,
+                                        P.fechaCreacion_pregunta,
+                                        C.descripcion_categoria,
+                                        U.userName_usuario,
+                                        R.descripcion_respuesta
+                                 FROM Pregunta P
+                                 JOIN Categoria C ON P.id_categoria=C.id_categoria
+                                 LEFT JOIN Usuario U ON P.id_usuarioCreador=U.id_usuario
+                                 JOIN respuesta R ON P.id_pregunta=R.id_pregunta 
+                                                            AND R.esCorrecta_respuesta=1
+                                 WHERE P.id_estado = ?");
+        $query->bind_Param('i', $estado);
+        $query->execute();
+        return $query->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function cambiarEstadoPregunta($idPregunta,$estado)
+    {
+        $queryPregunta = $this->db->prepare("UPDATE pregunta 
+                                         SET id_estado = ?
+                                         WHERE id_pregunta = ?");
+
+        $queryPregunta->bind_param("ii", $estado,$idPregunta);
+        $queryPregunta->execute();
+    }
 
     public function obtenerPreguntasActivasNoVistasPorIdUsuario($idUsuario)
     {
@@ -326,32 +353,23 @@ class PreguntaModel
 
     public function modificarPregunta($idPregunta, $pregunta, $idCategoria)
     {
-
         $queryPregunta = $this->db->prepare("UPDATE pregunta 
                                          SET interrogante_pregunta = ?, 
                                              id_categoria = ?
                                          WHERE id_pregunta = ?");
 
         $queryPregunta->bind_param("sii", $pregunta, $idCategoria, $idPregunta);
-
         $queryPregunta->execute();
-
-
     }
 
     public function modificarRespuesta($idRespuesta, $respuesta)
     {
-
         $queryPregunta = $this->db->prepare("UPDATE respuesta 
                                          SET descripcion_respuesta = ?
                                          WHERE id_respuesta = ?");
 
         $queryPregunta->bind_param("si", $respuesta,$idRespuesta);
-
         $queryPregunta->execute();
-
-
     }
-
 
 }

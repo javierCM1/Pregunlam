@@ -5,13 +5,15 @@ class RespuestaController{
     private $partidaModel;
     private $usuarioModel;
     private $preguntaModel;
+    private $reporteModel;
 
-    public function __construct($partidaModel, $usuarioModel, $preguntaModel, $presenter)
+    public function __construct($partidaModel, $usuarioModel, $preguntaModel, $reporteModel, $presenter)
     {
         $this->presenter = $presenter;
         $this->partidaModel = $partidaModel;
         $this->usuarioModel = $usuarioModel;
         $this->preguntaModel = $preguntaModel;
+        $this->reporteModel = $reporteModel;
     }
 
     public function index()
@@ -80,6 +82,7 @@ class RespuestaController{
             $data['pregunta'] = $pregunta;
             $data['id_usuario'] = $usuario['id_usuario'];
             $data['id_pregunta'] = $pregunta['id_pregunta'];
+            $data['partida'] = $partida;
 
             if ($_SESSION['message'] == 'Respuesta Incorrecta' && isset($_POST['continuar']))  {
                 $this->partidaModel->terminarPartida($partida['id_partida'], $usuario['id_usuario']);
@@ -109,7 +112,8 @@ class RespuestaController{
             return;
         }
 
-        $this->usuarioModel->guardarReporte($motivo_reporte, $fecha_reporte, $id_usuario, $id_pregunta);
+        $this->reporteModel->guardarReporte($motivo_reporte, $fecha_reporte, $id_usuario, $id_pregunta);
+        $this->reporteModel->establecerPreguntaReportada($id_pregunta);
         header("Location: /lobby");
     }
 }

@@ -17,7 +17,7 @@ include_once("vendor/phpqrcode/qrlib.php");
 include_once("model/UserModel.php");
 include_once("model/PreguntaModel.php");
 include_once("model/PartidaModel.php");
-include_once("model/EditorModel.php");
+include_once("model/ReporteModel.php");
 
 //controller
 include_once("controller/RegisterController.php");
@@ -32,6 +32,8 @@ include_once("controller/EditorController.php");
 include_once("controller/RankingController.php");
 include_once("controller/CrearPreguntaController.php");
 include_once("controller/ModificarPreguntaController.php");
+include_once("controller/ReportesController.php");
+include_once("controller/SugerenciasController.php");
 
 //excepciones
 include_once("model/exeption/InvalidNameException.php");
@@ -58,8 +60,6 @@ class Configuration
         return new MustachePresenter("./view");
     }
 
-
-
     public function getRouter()
     {
         return new Router($this, 'getLoginController', 'index');
@@ -67,7 +67,6 @@ class Configuration
 
     private function getDatabase()
     {
-
         $config = parse_ini_file('configuration/config.ini');
         return new MysqlObjectDatabase(
             $config['host'],
@@ -76,7 +75,6 @@ class Configuration
             $config['password'],
             $config["database"]
         );
-
     }
 
     public function getUserModel()
@@ -94,11 +92,13 @@ class Configuration
         return new PreguntaModel($this->getDatabase());
     }
 
-    private function getEditorModel(){
-        return new EditorModel($this->getDatabase());
+    private function getReporteModel()
+    {
+        return new ReporteModel($this->getDatabase());
     }
 
-    public function getCrearPreguntaController(){
+    public function getCrearPreguntaController()
+    {
         return new CrearPreguntaController($this->getPreguntaModel(), $this->getUserModel(), $this->getPresenter());
     }
 
@@ -107,10 +107,19 @@ class Configuration
         return new ModificarPreguntaController($this->getPreguntaModel(), $this->getUserModel(), $this->getPresenter());
     }
 
-
     public function getEditorController()
     {
-        return new EditorController($this->getEditorModel(),$this->getPreguntaModel(),$this->getUserModel(),$this->getPresenter());
+        return new EditorController($this->getPreguntaModel(),$this->getPresenter());
+    }
+
+    public function getReportesController()
+    {
+        return new ReportesController($this->getReporteModel(),$this->getPresenter());
+    }
+
+    public function getSugerenciasController()
+    {
+        return new SugerenciasController($this->getPreguntaModel(),$this->getPresenter());
     }
 
     public function getRegisterController()
@@ -132,22 +141,27 @@ class Configuration
     {
         return new ActivarController($this->getUserModel(), $this->getPresenter());
     }
+
     public function getPerfilController()
     {
         return new PerfilController($this->getUserModel(), $this->getPartidaModel(), $this->getPresenter(), $this->getQRCodeGenerator());
     }
+
     public function getModificarPerfilController()
     {
         return new ModificarPerfilController($this->getUserModel(), $this->getPresenter(), $this->getProfilePicHandler(), $this->getInputFormatValidator());
     }
+
     public function getJugarController()
     {
         return new JugarController($this->getPartidaModel(),$this->getUserModel(),$this->getPreguntaModel(),$this->getPresenter());
     }
+
     public function getRespuestaController()
     {
-        return new RespuestaController($this->getPartidaModel(),$this->getUserModel(),$this->getPreguntaModel(),$this->getPresenter());
+        return new RespuestaController($this->getPartidaModel(),$this->getUserModel(),$this->getPreguntaModel(),$this->getReporteModel(),$this->getPresenter());
     }
+
     public function getRankingController()
     {
         return new RankingController($this->getUserModel(),$this->getPresenter(), $this->getQRCodeGenerator());
@@ -157,14 +171,17 @@ class Configuration
     {
         return new FileEmailSender();
     }
+
     private function getProfilePicHandler()
     {
         return new ProfilePicHandler();
     }
+
     private function getInputFormatValidator()
     {
         return new InputFormatValidator();
     }
+
     private function getQRCodeGenerator()
     {
         return new QRCodeGenerator();

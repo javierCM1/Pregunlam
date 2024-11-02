@@ -2,18 +2,13 @@
 
 class EditorController
 {
-
     private $model;
-    private $preguntaModel;
-    private $userModel;
     private $presenter;
 
-    public function __construct($model, $preguntaModel, $userModel, $presenter)
+    public function __construct($model, $presenter)
     {
         $this->model = $model;
-        $this->preguntaModel = $preguntaModel;
         $this->presenter = $presenter;
-        $this->userModel = $userModel;
     }
 
     public function index()
@@ -23,13 +18,21 @@ class EditorController
             exit();
         }
 
-        $reportes = $this->model->obtenerReportes();
         $username = $_SESSION['user'];
+        $preguntas = $this->model->obtenerPreguntasPorEstado(2);
 
-        $this->presenter->show('editor', ['reportes' => $reportes, 'username' => $username]);
+        $this->presenter->show('editor', ['username' => $username, 'preguntas' => $preguntas]);
     }
 
+    public function desactivar()
+    {
+        $idPregunta = $_GET['id'];
 
+        $this->model->cambiarEstadoPregunta($idPregunta,5);
+
+        header('Location: /editor');
+        exit();
+    }
 
     public function logout()
     {

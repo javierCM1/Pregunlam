@@ -36,34 +36,41 @@
         <table>
             <thead>
             <tr>
+                <th>ID Reporte</th>
+                <th>Motivo</th>
+                <th>Fecha</th>
+                <th>Usuario</th>
                 <th>ID Pregunta</th>
                 <th>Pregunta</th>
                 <th>Respuesta</th>
-                <th>Fecha</th>
                 <th>Categoría</th>
-                <th>Usuario</th>
                 <th>Acción</th>
             </tr>
             </thead>
             <tbody id="tablaReportes">
-            {{#preguntas}}
+            {{#reportes}}
                 <tr>
+                    <td>{{id_reporte}}</td>
+                    <td>{{motivo_reporte}}</td>
+                    <td>{{fecha_reporte}}</td>
+                    <td>{{userName_usuario}}</td>
                     <td>{{id_pregunta}}</td>
                     <td>{{interrogante_pregunta}}</td>
                     <td>{{descripcion_respuesta}}</td>
-                    <td>{{fechaCreacion_pregunta}}</td>
                     <td>{{descripcion_categoria}}</td>
-                    <td>{{userName_usuario}}</td>
                     <td>
-                        <a href="/modificarPregunta?id={{id_pregunta}}">
-                        <button class="w3-btn w3-yellow" style="width: 100%; margin-bottom: 0.5em">Modificar</button>
+                        <a href="/reportes/activar?id={{id_pregunta}}&reporte={{id_reporte}}">
+                            <button class="w3-btn w3-green" style="width: 100%; margin-bottom: 0.5em">Activar</button>
                         </a>
-                        <a href="/editor/desactivar?id={{id_pregunta}}">
-                        <button class="w3-btn w3-red" style="width: 100%; margin-bottom: 0.5em">Desactivar</button>
+                        <a href="/modificarPregunta?id={{id_pregunta}}">
+                            <button class="w3-btn w3-yellow" style="width: 100%; margin-bottom: 0.5em">Modificar</button>
+                        </a>
+                        <a href="/reportes/desactivar?id={{id_pregunta}}&reporte={{id_reporte}}">
+                            <button class="w3-btn w3-red" style="width: 100%; margin-bottom: 0.5em">Desactivar</button>
                         </a>
                     </td>
                 </tr>
-            {{/preguntas}}
+            {{/reportes}}
             </tbody>
         </table>
     </main>
