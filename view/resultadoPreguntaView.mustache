@@ -33,13 +33,11 @@
             color: white;
         }
     </style>
-
 </head>
 <body>
 
 <div class="container">
     {{#usuario}}
-
         <header class="header">
             <div class="logo">
                 <img src="/public/images/logo.png" alt="logo.png">
@@ -73,15 +71,13 @@
                     {{/respuesta}}
                 </div>
                 <form method="POST" action="#" class="w3-center" style="display: flex; flex-direction: column;">
-                    <button  value='{{message}}' name="continuar" class="respuesta-btn w3-margin">Continuar</button>
-                    <!-- <a href="#">reportar</a> -->
+                    <button type="submit" value='{{message}}' name="continuar" class="respuesta-btn w3-margin" id="btnContinuar">Continuar</button>
                     <button type="button" value='reportar' class="respuesta-btn w3-margin" onclick="abrirModal()">Reportar</button>
                 </form>
             </div>
         {{/message}}
-
     {{/usuario}}
-    {{> audio.mustache}}
+    {{> audio.mustache }}
     <footer class="w3-center">
         <div class="footer-container w3-gray">
             <h4 class="w3-text-white"><b>Seguinos</b></h4>
@@ -93,12 +89,12 @@
                 </ul>
             </div>
         </div>
-
         <div class="copyright w3-dark-gray w3-text-white">
             <p>2024 - Grupo 3</p>
         </div>
     </footer>
 </div>
+
 <!-- Modal para reporte -->
 <div id="modalReporte" class="w3-modal" style="display:none;">
     <div class="w3-modal-content w3-animate-top w3-card-4">
@@ -119,8 +115,21 @@
     </div>
 </div>
 
-</body>
 <script>
+    let canLeavePage = false; // Variable para controlar si se puede salir de la página
+
+    // Agregar una entrada al historial al cargar la página
+    history.pushState(null, document.title, location.href);
+
+    // Manejar el evento popstate para controlar el retroceso
+    window.addEventListener('popstate', function(event) {
+        if (!canLeavePage) {
+            // Si no se puede salir, se vuelve a agregar la entrada al historial
+            history.pushState(null, document.title, location.href);
+            alert("Por favor, haga clic en 'Continuar' antes de retroceder.");
+        }
+    });
+
     function abrirModal() {
         const modal = document.getElementById('modalReporte');
         const fechaActual = new Date().toISOString().slice(0, 19).replace('T', ' ');
@@ -131,6 +140,38 @@
     function cerrarModal() {
         document.getElementById('modalReporte').style.display = 'none';
     }
-</script>
 
+    // Event listener para manejar el evento antes de salir de la página
+    window.addEventListener('beforeunload', function (e) {
+        if (!canLeavePage) {
+            // Mostrar el mensaje de advertencia
+            e.preventDefault();
+            e.returnValue = ''; // Para la mayoría de navegadores
+        }
+    });
+
+    // Manejar el clic en el botón "Continuar"
+    document.getElementById('btnContinuar').addEventListener('click', function() {
+        canLeavePage = true; // Permitir salir de la página
+        history.pushState(null, document.title, location.href); // Agregar una nueva entrada para permitir el retroceso después de continuar
+    });
+
+    // Manejar el clic en el botón "Reportar"
+    document.querySelector('button[value="reportar"]').addEventListener('click', function() {
+        canLeavePage = true; // Permitir salir de la página
+        abrirModal(); // Abrir el modal de reporte
+    });
+
+    // Evitar que se recargue la página al presionar F5 o Ctrl+R
+    window.addEventListener('keydown', function(e) {
+        if (e.key === 'F5' || (e.ctrlKey && e.key === 'r')) {
+            e.preventDefault(); // Evitar recarga
+            if (!canLeavePage) {
+                alert("Por favor, haga clic en 'Continuar' antes de recargar la página.");
+            }
+        }
+    });
+</script>
+</body>
 </html>
+ 

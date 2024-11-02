@@ -48,7 +48,7 @@ class RespuestaController{
             $data['id_pregunta'] = $pregunta['id_pregunta'];
 
             $data['audio_src'] = 'public/music/WhatsApp Audio 2024-10-28 at 23.22.09.mpeg';
-
+            $data['respuestaEsCorrecta'] = true; // Establecer según la lógica
             $this->presenter->show('resultadoPregunta', $data);
         }
         catch (PreguntaExpiradaException|RespuestaIncorrectaException $e) {
