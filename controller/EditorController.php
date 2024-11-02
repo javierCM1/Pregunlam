@@ -21,14 +21,31 @@ class EditorController
         $username = $_SESSION['user'];
         $estado = $_POST['estado'] ?? 2;
 
+        $estadoMensaje = 'activas';
         $activar = null;
-        if($estado != 2) {
-            $activar = true;
+        $desactivar = true;
+
+        switch ($estado)
+        {
+            case 4:
+                $estadoMensaje = 'rechazadas';
+                $activar = true;
+                $desactivar = null;
+                break;
+            case 5:
+                $estadoMensaje = 'inactivas';
+                $activar = true;
+                $desactivar = null;
+                break;
         }
 
         $preguntas = $this->model->obtenerPreguntasPorEstado($estado);
 
-        $this->presenter->show('editor', ['username' => $username, 'preguntas' => $preguntas, 'activar' => $activar]);
+        $this->presenter->show('editor', ['username' => $username,
+                                        'preguntas' => $preguntas,
+                                        'activar' => $activar,
+                                        'estadoMensaje' => $estadoMensaje,
+                                        'desactivar' => $desactivar]);
     }
 
     public function activar()
