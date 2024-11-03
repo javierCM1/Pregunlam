@@ -11,23 +11,18 @@
 </head>
 <body>
 
-<div class="container">
-{{#usuario}}
-    <header class="header">
-        <div class="logo">
-            <img src="/public/images/logo.png" alt="logo.png">
-            <a href="/editor"><h3>Pregunlam</h3></a>
-        </div>
-        <div class="welcome">
-            <span>Bienvenido, {{nombreCompleto_usuario}}</span>
-            <form action="/editor/logout" method="post">
-                <button type="submit" class="logout">Cerrar Sesión</button>
-            </form>
-        </div>
-    </header>
-{{/usuario}}
-    <main>
-        <h2>Agregar Nueva Pregunta</h2>
+<div>
+{{#header}}
+    {{#jugador}}
+        {{>headerJugador.mustache}}
+    {{/jugador}}
+
+    {{#editor}}
+        {{>headerEditor.mustache}}
+    {{/editor}}
+{{/header}}
+    <main class="container w3-padding" style="margin-top: 1em; margin-bottom: 1em">
+        <h2>{{estadoPregunta}}nueva pregunta</h2>
         <form id="formPregunta" action="/crearPregunta/guardarPreguntaCreada" method="post">
             <div class="form-group">
                 <label for="pregunta">Pregunta</label>
@@ -62,10 +57,10 @@
                     <option value="7">Ciencia</option>
                 </select>
             </div>
+            <a href="/editor" style="text-decoration: none">Cancelar</a>
             <button type="submit" class="submit-btn">Agregar Pregunta</button>
         </form>
     </main>
-
 
     <footer class="w3-center">
         <div class="footer-container w3-gray">

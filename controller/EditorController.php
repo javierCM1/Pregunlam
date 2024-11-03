@@ -40,13 +40,16 @@ class EditorController
         }
 
         $preguntas = $this->model->obtenerPreguntasPorEstado($estado);
+        $message = $_SESSION['message'] ?? '';
 
         $this->presenter->show('editor', ['username' => $username,
                                         'preguntas' => $preguntas,
                                         'activar' => $activar,
                                         'estadoMensaje' => $estadoMensaje,
                                         'desactivar' => $desactivar,
-                                        'estadoPreg' => $estado]);
+                                        'estadoPreg' => $estado,
+                                        'message' => $message]);
+        unset($_SESSION['message']);
     }
 
     public function activar()

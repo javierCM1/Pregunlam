@@ -12,24 +12,20 @@
 <body>
 
 <div class="">
-    <header class="header">
-        <div class="logo">
-            <img src="/public/images/logo.png" alt="logo.png">
-            <a href="/editor"><h3>Pregunlam - Editor</h3></a>
-        </div>
-        <div class="welcome">
-            <span>Bienvenido, {{username}}</span>
-            <form action="/editor/logout" method="post">
-                <button type="submit" class="logout">Cerrar Sesión</button>
-            </form>
-        </div>
-    </header>
+    {{>headerEditor.mustache}}
 
     <div class="button-container">
         <a class="action-btn edit" href="/editor">Lista de preguntas</a>
         <a class="action-btn reports" href="/reportes">Reportes</a>
         <a class="action-btn create" href="/sugerencias">Preguntas sugeridas</a>
     </div>
+
+    {{#message}}
+        <div class="w3-panel w3-green w3-display-container">
+            <span onclick="this.parentElement.style.display='none'" class="w3-button w3-large w3-display-topright">&times;</span>
+            <h4>{{message}}</h4>
+        </div>
+    {{/message}}
 
     <main class="w3-margin">
         <div>
@@ -47,8 +43,8 @@
             <a href="/crearPregunta">
                 <button class="w3-btn w3-green w3-right w3-margin">Agregar pregunta</button>
             </a>
-
         </div>
+
         <table>
             <thead>
             <tr>

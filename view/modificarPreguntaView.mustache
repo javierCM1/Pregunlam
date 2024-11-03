@@ -11,41 +11,32 @@
 </head>
 <body>
 
-<div class="container">
-    <header class="header">
-        <div class="logo">
-            <img src="/public/images/logo.png" alt="logo.png">
-            <a href="/editor"><h3>Pregunlam</h3></a>
-        </div>
-        <div class="welcome">
-            <span>Bienvenido, {{username}}</span>
-            <form action="/editor/logout" method="post">
-                <button type="submit" class="logout">Cerrar Sesión</button>
-            </form>
-        </div>
-    </header>
+<div class="">
+    {{>headerEditor.mustache}}
 
-    <main>
+    <main class="container w3-padding" style="margin-top: 1em; margin-bottom: 1em">
         <h2>Modificar Pregunta</h2>
 
         <form id="formPregunta" action="/modificarPregunta/guardarPreguntamodificada" method="post">
 
-            {{#mensaje}}
-                <div class="alert">
-                    {{mensaje}}
+            {{#message}}
+                <div class="w3-panel w3-red w3-display-container">
+                    <span onclick="this.parentElement.style.display='none'" class="w3-button w3-large w3-display-topright">&times;</span>
+                    <h4>{{message}}</h4>
                 </div>
-            {{/mensaje}}
+            {{/message}}
 
             {{#pregunta}}
             <div class="form-group">
                 <label for="pregunta">Pregunta</label>
                 <input type="text" id="pregunta" name="pregunta" value="{{interrogante_pregunta}}" required>
-                <input type="hidden" value="{{id_pregunta}}" name="id_preguntaMandado">
+                <input type="hidden" value="{{id_pregunta}}" name="id_pregunta">
             </div>
             <div class="form-group">
                 {{#correcta}}
                 <label for="respuestaCorrecta">Respuesta Correcta</label>
                 <input type="text" id="respuestaCorrecta" name="respuestaCorrecta" value="{{descripcion_respuesta}}" required>
+                <input type="hidden" value="{{id_respuesta}}" name="id_respuestaCorrecta">
                 {{/correcta}}
             </div>
             <div class="form-group">
@@ -72,7 +63,7 @@
             <div class="form-group">
                 <label for="id_categoria">Categoría</label>
                 <input type="hidden" id="id_categoriaObtenido" name="id_categoria" value="{{id_categoria}}">
-                <select id="categoria" name="id_categoriaMandado" required class="w3-input">
+                <select id="categoria" name="id_categoria" required class="w3-input">
                     <option value="">Selecciona una categoría</option>
                     <option value="1">Historia</option>
                     <option value="2">Deporte</option>
@@ -84,6 +75,7 @@
                 </select>
             </div>
             {{/pregunta}}
+            <a href="/editor" style="text-decoration: none">Cancelar</a>
             <button type="submit" class="submit-btn">Guardar Cambios</button>
         </form>
     </main>

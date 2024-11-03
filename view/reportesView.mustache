@@ -12,18 +12,7 @@
 <body>
 
 <div class="">
-    <header class="header">
-        <div class="logo">
-            <img src="/public/images/logo.png" alt="logo.png">
-            <a href="/editor"><h3>Pregunlam - Editor</h3></a>
-        </div>
-        <div class="welcome">
-            <span>Bienvenido, {{username}}</span>
-            <form action="/editor/logout" method="post">
-                <button type="submit" class="logout">Cerrar Sesión</button>
-            </form>
-        </div>
-    </header>
+    {{>headerEditor.mustache}}
 
     <div class="button-container">
         <a class="action-btn edit" href="/editor">Lista de preguntas</a>

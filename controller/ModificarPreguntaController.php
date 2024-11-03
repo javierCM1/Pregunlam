@@ -19,6 +19,7 @@ class ModificarPreguntaController
             exit();
         }
 
+        $username = $_SESSION['user'];
         $pregunta = $this->preguntaModel->obtenerPreguntaPorId($_GET['id'],$_GET['estado']);
         $respuestaCorrecta = $this->preguntaModel->getRespuestaCorrectaDePregunta($pregunta['id_pregunta']);
 
@@ -32,7 +33,8 @@ class ModificarPreguntaController
         $incorrecta2 = $respuestasIncorrectas[1];
         $incorrecta3 = $respuestasIncorrectas[2];
 
-        $this->presenter->show("modificarPregunta", ['pregunta' => $pregunta,
+        $this->presenter->show("modificarPregunta", ['username' => $username,
+                                                    'pregunta' => $pregunta,
                                                     'correcta' => $respuestaCorrecta,
                                                     'incorrecta1' => $incorrecta1,
                                                     'incorrecta2' => $incorrecta2,
@@ -41,10 +43,16 @@ class ModificarPreguntaController
 
     public function guardarPreguntamodificada() {
 
-        if (isset($_POST['id_preguntaMandado'], $_POST['pregunta'], $_POST['respuestaCorrecta'], $_POST['id_respuestaIncorrecta1'], $_POST['respuestaincorrecta1'], $_POST['id_respuestaIncorrecta2'], $_POST['respuestaincorrecta2'], $_POST['id_respuestaIncorrecta3'], $_POST['respuestaincorrecta3'], $_POST['id_categoriaMandado'])) {
+        if (isset($_POST['id_pregunta'], $_POST['pregunta'],
+                $_POST['id_respuestaCorrecta'], $_POST['respuestaCorrecta'],
+                $_POST['id_respuestaIncorrecta1'], $_POST['respuestaincorrecta1'],
+                $_POST['id_respuestaIncorrecta2'], $_POST['respuestaincorrecta2'],
+                $_POST['id_respuestaIncorrecta3'], $_POST['respuestaincorrecta3'],
+                $_POST['id_categoria'])) {
 
-            $idPregunta = $_POST['id_preguntaMandado'];
+            $idPregunta = $_POST['id_pregunta'];
             $pregunta = $_POST['pregunta'];
+            $idRespuestaCorrecta = $_POST['id_respuestaCorrecta'];
             $respuestaCorrecta = $_POST['respuestaCorrecta'];
             $idRespuestaIncorrecta1 = $_POST['id_respuestaIncorrecta1'];
             $respuestaIncorrecta1 = $_POST['respuestaincorrecta1'];
@@ -52,18 +60,21 @@ class ModificarPreguntaController
             $respuestaIncorrecta2 = $_POST['respuestaincorrecta2'];
             $idRespuestaIncorrecta3 = $_POST['id_respuestaIncorrecta3'];
             $respuestaIncorrecta3 = $_POST['respuestaincorrecta3'];
-            $idCategoria = $_POST['id_categoriaMandado'];
+            $idCategoria = $_POST['id_categoria'];
 
             $this->preguntaModel->modificarPregunta($idPregunta, $pregunta, $idCategoria);
-
             $this->preguntaModel->modificarRespuesta($idRespuestaIncorrecta1, $respuestaIncorrecta1);
             $this->preguntaModel->modificarRespuesta($idRespuestaIncorrecta2, $respuestaIncorrecta2);
             $this->preguntaModel->modificarRespuesta($idRespuestaIncorrecta3, $respuestaIncorrecta3);
-            $this->preguntaModel->modificarRespuesta($idPregunta,$respuestaCorrecta);
+            $this->preguntaModel->modificarRespuesta($idRespuestaCorrecta, $respuestaCorrecta);
 
-            $this->presenter->show('/modificarPregunta', ['mensaje' => 'Pregunta modificada correctamente.']);
+            $_SESSION['message'] = 'Pregunta modificada correctamente';
+            header('Location: /editor');
+            exit();
         } else {
-            $this->presenter->show('modificarPregunta', ['mensaje' => 'Faltan datos en el formulario.']);
+            $_SESSION['message'] = 'Faltan datos en el formulario';
+            header('Location: /modificarPregunta');
+            exit();
         }
     }
 }

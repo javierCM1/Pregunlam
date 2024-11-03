@@ -21,21 +21,27 @@
         <div class="input-group">
             <input type="text" name="fullname" placeholder="Nombre completo" required>
         </div>
+
         <div class="input-group">
             <input type="text" name="username" placeholder="Nombre de usuario" required>
         </div>
+
         <div class="input-group">
             <input type="email" name="email" placeholder="Correo electrónico" required>
         </div>
+
         <div class="input-group">
             <input type="password" name="password" placeholder="Contraseña" required>
         </div>
+
         <div class="input-group">
             <input type="password" name="repeat_pass" placeholder="Repetir contraseña" required>
         </div>
+
         <div class="input-group">
             <input type="date" name="birth_year" placeholder="Año de nacimiento" required>
         </div>
+
         <div class="input-group">
             <select name="gender" required>
                 <option value="" disabled selected>Sexo</option>
@@ -45,13 +51,6 @@
             </select>
         </div>
 
-        <!-- <div class="input-group">
-            <input type="text" name="country" placeholder="País" required>
-        </div>
-        <div class="input-group">
-            <input type="text" name="city" placeholder="Ciudad" required>
-        </div> -->
-
         <div id="map"></div>
         <input type="hidden" id="coordenadas" name="coordenadas">
 
@@ -59,6 +58,7 @@
             <label for="profile-pic">Foto de perfil</label>
             <input type="file" id="profile-pic" name="profile_pic" accept="image/png, image/jpeg" required>
         </div>
+        
         {{#message}}
             <div id="message" style="color: red; margin-bottom: 10px;">
                 {{message}}

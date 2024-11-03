@@ -21,24 +21,8 @@
 <body>
 
 <div class="container">
-    {{#usuario}}
-        <header class="header">
-            <div class="logo">
-                <img src="/public/images/logo.png" alt="logo.png">
-                <a href="/lobby">
-                    <h3>Pregunlam</h3>
-                </a>
-            </div>
-            <div class="welcome">
-                <span>Bienvenido, {{nombreCompleto_usuario}}</span>
-                <form action="/lobby/logout" method="post">
-                    <button type="submit" class="logout" id="btnCerrarSesion">Cerrar Sesión</button>
-                </form>
-            </div>
-        </header>
-    {{/usuario}}
-
-    {{#perfil}}
+{{>headerJugador.mustache}}
+{{#perfil}}
         <main>
 
             <article id="informacionDeUsuario">
@@ -163,10 +147,6 @@
             }
         };
     });
-
-
-
-
 </script>
 {{/perfil}}
 </html>

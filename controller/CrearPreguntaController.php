@@ -2,12 +2,9 @@
 
 class CrearPreguntaController
 {
-
     private $preguntaModel;
-
     private $userModel;
     private $presenter;
-
 
     public function __construct($preguntaModel, $userModel, $presenter)
     {
@@ -15,7 +12,6 @@ class CrearPreguntaController
         $this->userModel = $userModel;
         $this->presenter = $presenter;
     }
-
 
     public function index()
     {
@@ -25,12 +21,19 @@ class CrearPreguntaController
         }
 
         $data['usuario'] = $this->userModel->getUserByUsernameOrEmail($_SESSION['user'],'a');
+        $data['username'] = $_SESSION['user'];
+
+        $usuarioEsJugador = $data['usuario']['id_tipo_usuario'] === 3;
+        $headerJugador = $usuarioEsJugador;
+        $headerEditor = !$headerJugador;
+        $data['header'] = ['jugador' => $headerJugador, 'editor' => $headerEditor];
+        $data['estadoPregunta'] = $usuarioEsJugador ? 'Sugerir ' : 'Crear ';
+
         $this->presenter->show('crearPregunta', $data);
     }
 
     public function guardarPreguntaCreada()
     {
-
         if (!isset($_SESSION['user'])) {
             header("Location: /login");
             exit();
@@ -63,7 +66,4 @@ class CrearPreguntaController
         header("Location: /editor");
         exit();
     }
-
-
-
 }
