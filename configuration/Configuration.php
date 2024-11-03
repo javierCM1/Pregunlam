@@ -104,7 +104,7 @@ class Configuration
 
     public function getModificarPreguntaController()
     {
-        return new ModificarPreguntaController($this->getPreguntaModel(), $this->getUserModel(), $this->getPresenter());
+        return new ModificarPreguntaController($this->getPreguntaModel(), $this->getPresenter());
     }
 
     public function getEditorController()

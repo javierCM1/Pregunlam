@@ -4,74 +4,40 @@ class ModificarPreguntaController
 {
 
     private $preguntaModel;
-    private $userModel;
     private $presenter;
 
-    public function __construct($preguntaModel, $userModel, $presenter)
+    public function __construct($preguntaModel, $presenter)
     {
         $this->preguntaModel = $preguntaModel;
-        $this->userModel = $userModel;
         $this->presenter = $presenter;
     }
 
     public function index()
     {
-        $this->presenter->show("modificarPregunta" , []);
-    }
-
-    public function buscarPreguntasporId()
-    {
-        if (isset($_POST['buscarPreguntaId'])) {
-            $preguntaId = filter_var($_POST['buscarPreguntaId']);
-
-            $pregunta = $this->preguntaModel->obtenerPreguntaPorId($preguntaId, 2);
-            $respuestas = $this->preguntaModel->getRespuestasPorIdPregunta($preguntaId);
-
-            $respuestaCorrecta = null;
-            $respuestasIncorrectas = [];
-            $idsRespuestasIncorrectas = [];
-
-            foreach ($respuestas as $respuesta) {
-                if ($respuesta['esCorrecta_respuesta'] == 1) {
-                    $respuestaCorrecta = $respuesta['descripcion_respuesta'];
-                } else {
-                    $respuestasIncorrectas[] = $respuesta['descripcion_respuesta'];
-                    $idsRespuestasIncorrectas[] = $respuesta['id_respuesta'];
-                }
-            }
-
-            if ($pregunta) {
-                $preguntaText = $pregunta['interrogante_pregunta'];
-                $categoria = $pregunta['id_categoria'];
-
-                $respuestaIncorrecta1 = $respuestasIncorrectas[0] ?? null;
-                $respuestaIncorrecta2 = $respuestasIncorrectas[1] ?? null;
-                $respuestaIncorrecta3 = $respuestasIncorrectas[2] ?? null;
-
-                $idrespuestaIncorrecta1 = $idsRespuestasIncorrectas[0] ?? null;
-                $idrespuestaIncorrecta2 = $idsRespuestasIncorrectas[1] ?? null;
-                $idrespuestaIncorrecta3 = $idsRespuestasIncorrectas[2] ?? null;
-
-                $this->presenter->show('modificarPregunta', [
-                    'preguntaId' => $pregunta['id_pregunta'],
-                    'preguntaText' => $preguntaText,
-                    'id_categoria' => $categoria,
-                    'respuestaCorrecta' => $respuestaCorrecta,
-                    'respuestaIncorrecta1' => $respuestaIncorrecta1,
-                    'respuestaIncorrecta2' => $respuestaIncorrecta2,
-                    'respuestaIncorrecta3' => $respuestaIncorrecta3,
-                    'idrespuestaIncorrecta1' => $idrespuestaIncorrecta1,
-                    'idrespuestaIncorrecta2' => $idrespuestaIncorrecta2,
-                    'idrespuestaIncorrecta3' => $idrespuestaIncorrecta3
-                ]);
-            } else {
-                return $this->presenter->show('modificarPregunta', ['mensaje' => 'Pregunta no encontrada.']);
-            }
-        } else {
-            return $this->presenter->show('modificarPregunta', ['mensaje' => 'ID de pregunta no proporcionado.']);
+        if (!isset($_SESSION['user'])) {
+            header("Location: /login");
+            exit();
         }
-    }
 
+        $pregunta = $this->preguntaModel->obtenerPreguntaPorId($_GET['id'],$_GET['estado']);
+        $respuestaCorrecta = $this->preguntaModel->getRespuestaCorrectaDePregunta($pregunta['id_pregunta']);
+
+        $respuestasIncorrectas = array_filter($this->preguntaModel->getRespuestasPorIdPregunta($pregunta['id_pregunta']),
+            function($value) use ($respuestaCorrecta) {
+            return $value !== $respuestaCorrecta;
+        });
+        $respuestasIncorrectas = array_values($respuestasIncorrectas);
+
+        $incorrecta1 = $respuestasIncorrectas[0];
+        $incorrecta2 = $respuestasIncorrectas[1];
+        $incorrecta3 = $respuestasIncorrectas[2];
+
+        $this->presenter->show("modificarPregunta", ['pregunta' => $pregunta,
+                                                    'correcta' => $respuestaCorrecta,
+                                                    'incorrecta1' => $incorrecta1,
+                                                    'incorrecta2' => $incorrecta2,
+                                                    'incorrecta3' => $incorrecta3]);
+    }
 
     public function guardarPreguntamodificada() {
 
@@ -99,13 +65,5 @@ class ModificarPreguntaController
         } else {
             $this->presenter->show('modificarPregunta', ['mensaje' => 'Faltan datos en el formulario.']);
         }
-
-
     }
-
-
-
-
-
-
 }

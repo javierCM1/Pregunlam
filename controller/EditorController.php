@@ -45,7 +45,8 @@ class EditorController
                                         'preguntas' => $preguntas,
                                         'activar' => $activar,
                                         'estadoMensaje' => $estadoMensaje,
-                                        'desactivar' => $desactivar]);
+                                        'desactivar' => $desactivar,
+                                        'estadoPreg' => $estado]);
     }
 
     public function activar()

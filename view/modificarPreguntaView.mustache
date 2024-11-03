@@ -28,14 +28,6 @@
     <main>
         <h2>Modificar Pregunta</h2>
 
-        <form id="formBuscar" action="/modificarPregunta/buscarPreguntasporId" method="POST">
-            <div class="search-container">
-                <label for="buscarPreguntaId">Buscar Pregunta por ID</label>
-                <input type="text" id="buscarPreguntaId" name="buscarPreguntaId"  value="{{preguntaId}}" placeholder="ID de la pregunta" required>
-                <button type="submit" class="search-btn">Buscar</button>
-            </div>
-        </form>
-
         <form id="formPregunta" action="/modificarPregunta/guardarPreguntamodificada" method="post">
 
             {{#mensaje}}
@@ -44,30 +36,38 @@
                 </div>
             {{/mensaje}}
 
+            {{#pregunta}}
             <div class="form-group">
                 <label for="pregunta">Pregunta</label>
-                <input type="text" id="pregunta" name="pregunta" value="{{preguntaText}}" required>
-                <input type="hidden" value="{{preguntaId}}" name="id_preguntaMandado">
+                <input type="text" id="pregunta" name="pregunta" value="{{interrogante_pregunta}}" required>
+                <input type="hidden" value="{{id_pregunta}}" name="id_preguntaMandado">
             </div>
             <div class="form-group">
+                {{#correcta}}
                 <label for="respuestaCorrecta">Respuesta Correcta</label>
-                <input type="text" id="respuestaCorrecta" name="respuestaCorrecta" value="{{respuestaCorrecta}}" required>
-
+                <input type="text" id="respuestaCorrecta" name="respuestaCorrecta" value="{{descripcion_respuesta}}" required>
+                {{/correcta}}
             </div>
             <div class="form-group">
+                {{#incorrecta1}}
                 <label for="respuestaincorrecta1">Opción Incorrecta 1</label>
-                <input type="text" id="respuestaincorrecta1" name="respuestaincorrecta1" value="{{respuestaIncorrecta1}}" required>
-                <input type="hidden" value="{{idrespuestaIncorrecta1}}" name="id_respuestaIncorrecta1">
+                <input type="text" id="respuestaincorrecta1" name="respuestaincorrecta1" value="{{descripcion_respuesta}}" required>
+                <input type="hidden" value="{{id_respuesta}}" name="id_respuestaIncorrecta1">
+                {{/incorrecta1}}
             </div>
             <div class="form-group">
+                {{#incorrecta2}}
                 <label for="respuestaincorrecta2">Opción Incorrecta 2</label>
-                <input type="text" id="respuestaincorrecta2" name="respuestaincorrecta2" value="{{respuestaIncorrecta2}}" required>
-                <input type="hidden" value="{{idrespuestaIncorrecta2}}" name="id_respuestaIncorrecta2">
+                <input type="text" id="respuestaincorrecta2" name="respuestaincorrecta2" value="{{descripcion_respuesta}}" required>
+                <input type="hidden" value="{{id_respuesta}}" name="id_respuestaIncorrecta2">
+                {{/incorrecta2}}
             </div>
             <div class="form-group">
+                {{#incorrecta3}}
                 <label for="respuestaincorrecta3">Opción Incorrecta 3</label>
-                <input type="text" id="respuestaincorrecta3" name="respuestaincorrecta3" value="{{respuestaIncorrecta3}}" required>
-                <input type="hidden" value="{{idrespuestaIncorrecta3}}" name="id_respuestaIncorrecta3">
+                <input type="text" id="respuestaincorrecta3" name="respuestaincorrecta3" value="{{descripcion_respuesta}}" required>
+                <input type="hidden" value="{{id_respuesta}}" name="id_respuestaIncorrecta3">
+                {{/incorrecta3}}
             </div>
             <div class="form-group">
                 <label for="id_categoria">Categoría</label>
@@ -83,6 +83,7 @@
                     <option value="7">Ciencia</option>
                 </select>
             </div>
+            {{/pregunta}}
             <button type="submit" class="submit-btn">Guardar Cambios</button>
         </form>
     </main>

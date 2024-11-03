@@ -192,7 +192,7 @@ class PreguntaModel
                                  LEFT JOIN Usuario U ON P.id_usuarioCreador=U.id_usuario
                                  WHERE P.id_pregunta = ? AND P.id_estado = ?");
 
-        $query->bind_param('ii', $id, $estado);
+        $query->bind_param('is', $id, $estado);
         $query->execute();
         return $query->get_result()->fetch_array(MYSQLI_ASSOC);
     }
