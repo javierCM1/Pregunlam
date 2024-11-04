@@ -45,21 +45,22 @@
             </div>
         {{/pregunta}}
 
-        {{#message}}
             <div style="margin-left: 31%">
                 <div class="w3-container">
+                {{#message}}
                     <h2>{{message}}</h2>
                     {{#respuesta}}
                         <h3>Respuesta correcta: {{respuesta}}</h3>
                         <h3>Puntaje final: {{puntaje_final}}</h3>
                     {{/respuesta}}
+                {{/message}}
                 </div>
-                <form method="POST" action="#" class="w3-center" style="display: flex; flex-direction: column;">
-                    <button type="submit" value='{{message}}' name="continuar" class="respuesta-btn w3-margin" id="btnContinuar">Continuar</button>
+                <form method="POST" action="/respuesta" class="w3-center" style="display: flex; flex-direction: column;">
+                    <button type="submit" value='{{respuestaEsCorrecta}}' name="continuar" class="respuesta-btn w3-margin" id="btnContinuar">Continuar</button>
                     <button type="button" value='reportar' class="respuesta-btn w3-margin" onclick="abrirModal()">Reportar</button>
                 </form>
             </div>
-        {{/message}}
+
         {{> audio.mustache }}
     </main>
     {{>footer.mustache}}
