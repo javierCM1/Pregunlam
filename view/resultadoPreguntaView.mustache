@@ -35,16 +35,15 @@
     </style>
 </head>
 <body>
-
-<div class="container">
     {{>headerJugador.mustache}}
-    {{#pregunta}}
-        <div style="background-color: {{color_categoria}}; color: white; max-width: 100%; max-height: 70%"
-             class="w3-center w3-margin container">
-            <img src="../{{img_categoria}}" alt="{{img_categoria}}" class="img-categoria w3-margin">
-            <h2>{{interrogante_pregunta}}</h2>
-        </div>
-    {{/pregunta}}
+    <main class="container">
+        {{#pregunta}}
+            <div style="background-color: {{color_categoria}}; color: white; max-width: 100%; max-height: 70%"
+                 class="w3-center w3-margin container">
+                <img src="../{{img_categoria}}" alt="{{img_categoria}}" class="img-categoria w3-margin">
+                <h2>{{interrogante_pregunta}}</h2>
+            </div>
+        {{/pregunta}}
 
         {{#message}}
             <div style="margin-left: 31%">
@@ -61,44 +60,30 @@
                 </form>
             </div>
         {{/message}}
-    {{> audio.mustache }}
-    <footer class="w3-center">
-        <div class="footer-container w3-gray">
-            <h4 class="w3-text-white"><b>Seguinos</b></h4>
-            <div class="footer-icons">
-                <ul>
-                    <li><a href="#" target="_blank"><i class="fa-brands fa-linkedin-in"></i></a></li>
-                    <li><a href="#" target="_blank"><i class="fa-brands fa-instagram"></i></a></li>
-                    <li><a href="#" target="_blank"><i class="fa-brands fa-twitter"></i></a></li>
-                </ul>
+        {{> audio.mustache }}
+    </main>
+    {{>footer.mustache}}
+
+    <!-- Modal para reporte -->
+    <div id="modalReporte" class="w3-modal" style="display:none;">
+        <div class="w3-modal-content w3-animate-top w3-card-4">
+            <header class="w3-container color">
+                <span onclick="cerrarModal()" class="w3-button w3-display-topright">&times;</span>
+                <h2>Reportar Pregunta</h2>
+            </header>
+            <div class="w3-container">
+                <form id="formReporte" method="POST" action="/respuesta/reportar">
+                    <label for="motivoReporte">Motivo del Reporte:</label>
+                    <input type="text" id="motivoReporte" name="motivo_reporte" required class="w3-input">
+                    <input type="hidden" id="fechaReporte" name="fecha_reporte">
+                    <input type="hidden" id="idUsuario" name="id_usuarioMandado" value="{{id_usuario}}">
+                    <input type="hidden" id="idPregunta" name="id_pregunta" value="{{pregunta.id_pregunta}}">
+                    <input type="hidden" id="idPartida" name="id_partida" value="{{partida.id_partida}}">
+                    <button type="submit" class="w3-button color w3-margin-top">Enviar Reporte</button>
+                </form>
             </div>
         </div>
-        <div class="copyright w3-dark-gray w3-text-white">
-            <p>2024 - Grupo 3</p>
-        </div>
-    </footer>
-</div>
-
-<!-- Modal para reporte -->
-<div id="modalReporte" class="w3-modal" style="display:none;">
-    <div class="w3-modal-content w3-animate-top w3-card-4">
-        <header class="w3-container color">
-            <span onclick="cerrarModal()" class="w3-button w3-display-topright">&times;</span>
-            <h2>Reportar Pregunta</h2>
-        </header>
-        <div class="w3-container">
-            <form id="formReporte" method="POST" action="/respuesta/reportar">
-                <label for="motivoReporte">Motivo del Reporte:</label>
-                <input type="text" id="motivoReporte" name="motivo_reporte" required class="w3-input">
-                <input type="hidden" id="fechaReporte" name="fecha_reporte">
-                <input type="hidden" id="idUsuario" name="id_usuarioMandado" value="{{id_usuario}}">
-                <input type="hidden" id="idPregunta" name="id_pregunta" value="{{pregunta.id_pregunta}}">
-                <input type="hidden" id="idPartida" name="id_partida" value="{{partida.id_partida}}">
-                <button type="submit" class="w3-button color w3-margin-top">Enviar Reporte</button>
-            </form>
-        </div>
     </div>
-</div>
 
 <script>
     let canLeavePage = false; // Variable para controlar si se puede salir de la página

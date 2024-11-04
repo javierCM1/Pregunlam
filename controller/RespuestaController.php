@@ -84,7 +84,8 @@ class RespuestaController{
             $data['id_pregunta'] = $pregunta['id_pregunta'];
             $data['partida'] = $partida;
 
-            if ($_SESSION['message'] == 'Respuesta Incorrecta' && isset($_POST['continuar']))  {
+            if (($_SESSION['message'] == 'Respuesta Incorrecta' || $_SESSION['message'] == 'Se terminó el tiempo')
+                && isset($_POST['continuar']))  {
                 $this->partidaModel->terminarPartida($partida['id_partida'], $usuario['id_usuario']);
                 $this->usuarioModel->determinarPuntajeMaximo($usuario, $partida);
                 header("Location: /lobby");

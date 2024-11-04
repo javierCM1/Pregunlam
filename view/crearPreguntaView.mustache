@@ -10,17 +10,15 @@
     <link rel="stylesheet" href="../public/editor.css">
 </head>
 <body>
+    {{#header}}
+        {{#jugador}}
+            {{>headerJugador.mustache}}
+        {{/jugador}}
 
-<div>
-{{#header}}
-    {{#jugador}}
-        {{>headerJugador.mustache}}
-    {{/jugador}}
-
-    {{#editor}}
-        {{>headerEditor.mustache}}
-    {{/editor}}
-{{/header}}
+        {{#editor}}
+            {{>headerEditor.mustache}}
+        {{/editor}}
+    {{/header}}
     <main class="container w3-padding" style="margin-top: 1em; margin-bottom: 1em">
         <h2>{{estadoPregunta}}nueva pregunta</h2>
         <form id="formPregunta" action="/crearPregunta/guardarPreguntaCreada" method="post">
@@ -61,23 +59,6 @@
             <button type="submit" class="submit-btn">Agregar Pregunta</button>
         </form>
     </main>
-
-    <footer class="w3-center">
-        <div class="footer-container w3-gray">
-            <h4 class="w3-text-white"><b>Seguinos</b></h4>
-            <div class="footer-icons">
-                <ul>
-                    <li><a href="#" target="_blank"><i class="fa-brands fa-linkedin-in"></i></a></li>
-                    <li><a href="#" target="_blank"><i class="fa-brands fa-instagram"></i></a></li>
-                    <li><a href="#" target="_blank"><i class="fa-brands fa-twitter"></i></a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="copyright w3-dark-gray w3-text-white">
-            <p>2024 - Grupo 3</p>
-        </div>
-    </footer>
-</div>
-
+    {{>footer.mustache}}
 </body>
 </html>

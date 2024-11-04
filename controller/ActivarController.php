@@ -15,22 +15,23 @@ class ActivarController
             exit();
         }
 
-        $this->presenter->show('activar', []);
+        $data['usuario'] = $_GET['username'] ?? $this->model->getUserByUsernameOrEmail($_SESSION['pendiente'], 'p');
+        $this->presenter->show('activar', $data);
     }
 
     public function auth()
     {
-        $usuario = $_GET['username'] ?? $this->model->getUserByUsernameOrEmail($_SESSION['pendiente'], 'p')['userName_usuario'];
+        $data['usuario'] = $_GET['username'] ?? $this->model->getUserByUsernameOrEmail($_SESSION['pendiente'], 'p');
         $token = isset($_GET['token']) && is_numeric($_GET['token']) ? $_GET['token'] : '';
         
-        if ($this->model->validateActivation($usuario, $token)) {
-            $_SESSION['user'] = $usuario;
+        if ($this->model->validateActivation($data['usuario']['userName_usuario'], $token)) {
+            $_SESSION['user'] = $data['usuario']['userName_usuario'];
             unset($_SESSION['pendiente']);
-            $this->presenter->show('codigoActivado', ['usuario' => $usuario]);
+            $this->presenter->show('codigoActivado', $data);
             
         } else {
             $message = 'Código de verificación incorrecto';
-            $this->presenter->show('activar', ['message' => $message, 'username' => $usuario]);
+            $this->presenter->show('activar', ['message' => $message, 'username' => $data['usuario']['userName_usuario']]);
         }
     }
     

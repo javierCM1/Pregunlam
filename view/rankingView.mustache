@@ -1,110 +1,85 @@
-    <!DOCTYPE html>
-    <html lang="es">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Pregunlam</title>
-        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-        <link rel="stylesheet" href="/public/lobby.css">
-        <link rel="stylesheet" href="/public/ranking.css">
-    </head>
-    <body>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pregunlam</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="/public/lobby.css">
+    <link rel="stylesheet" href="/public/ranking.css">
+</head>
+<body>
+    {{>headerJugador.mustache}}
+    <main class="container">
+        {{#message}}
+            <p style="color: #42a501;">{{message}}</p>
+        {{/message}}
 
-    <div class="container">
-        {{>headerJugador.mustache}}
-        <main>
-            {{#message}}
-                <p style="color: #42a501;">{{message}}</p>
-            {{/message}}
-
-            <section class="game-history w3-margin" style="margin-left: 5em; margin-right: 5em;">
-                <table class="w3-center w3-text-white">
-                    <thead>
-                    <tr>
-                        <th>Posicion</th>
-                        <th>Usuario</th>
-                        <th>QR</th>
-                        <th>Partida</th>
-                        <th>Puntos</th>
+        <section class="game-history w3-margin" style="margin-left: 5em; margin-right: 5em;">
+            <table class="w3-center w3-text-white">
+                <thead>
+                <tr>
+                    <th>Posicion</th>
+                    <th>Usuario</th>
+                    <th>QR</th>
+                    <th>Partida</th>
+                    <th>Puntos</th>
+                </tr>
+                </thead>
+                <tbody>
+                {{#rankingUsuarios}}
+                    <tr class="rankingUsers" style="display: none;">
+                        <td >{{posicion}}</td>
+                        <td>
+                            <a href="/perfil?id={{id_usuario}}">
+                                {{userName_usuario}}
+                            </a>
+                        </td>
+                        <td><img src="{{qr}}" id="qr_code" alt="{{qr}}" style="width: 4em; height: 4em"></td>
+                        <td>{{fechaHora_partida}}</td>
+                        <td>{{puntaje_partida}}</td>
                     </tr>
-                    </thead>
-                    <tbody>
-                    {{#rankingUsuarios}}
-                        <tr class="rankingUsers" style="display: none;">
-                            <td >{{posicion}}</td>
-                            <td>
-                                <a href="/perfil?id={{id_usuario}}">
-                                    {{userName_usuario}}
-                                </a>
-                            </td>
-                            <td><img src="{{qr}}" id="qr_code" alt="{{qr}}" style="width: 4em; height: 4em"></td>
-                            <td>{{fechaHora_partida}}</td>
-                            <td>{{puntaje_partida}}</td>
-                        </tr>
-                    {{/rankingUsuarios}}
-                    </tbody>
-                </table>
-                <button class="see-more" id="verMas" onclick="toggleMostrar()">Ver más</button>
-            </section>
-        {{> audio.mustache}}
-        </main>
+                {{/rankingUsuarios}}
+                </tbody>
+            </table>
+            <button class="see-more" id="verMas" onclick="toggleMostrar()">Ver más</button>
+        </section>
+    {{> audio.mustache}}
+    </main>
+    {{>footer.mustache}}
+</body>
 
-        <footer class="w3-center">
-            <div class="footer-container w3-gray">
-                <h4 class="w3-text-white"><b>Seguinos</b></h4>
-                <div class="footer-icons">
-                    <ul>
-                        <li><a href="#" target="_blank"><i class="fa-brands fa-linkedin-in"></i></a></li>
-                        <li><a href="#" target="_blank"><i class="fa-brands fa-instagram"></i></a></li>
-                        <li><a href="#" target="_blank"><i class="fa-brands fa-twitter"></i></a></li>
-                    </ul>
-                </div>
-            </div>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        let rankings = document.querySelectorAll(".rankingUsers");
+        let mostrarInicial = 3; // Cantidad de partidas a mostrar inicialmente
+        let mostrandoMas = false; // Estado para saber si estamos mostrando más o menos
 
-            <div class="copyright w3-dark-gray w3-text-white">
-                <p>2024 - Grupo 3</p>
-            </div>
-        </footer>
-    </div>
-    </body>
+        // Función para mostrar solo las primeras 3 partidas al cargar la página
+        function mostrarIniciales() {
+            rankings.forEach((partida, index) => {
+                partida.style.display = index < mostrarInicial ? "table-row" : "none";
+            });
+            document.getElementById("verMas").textContent = "Ver más";
+            mostrandoMas = false;
+        }
 
-    <script>
+        // Llama a la función al cargar
+        mostrarIniciales();
 
-
-        document.addEventListener("DOMContentLoaded", function() {
-            let rankings = document.querySelectorAll(".rankingUsers");
-            let mostrarInicial = 3; // Cantidad de partidas a mostrar inicialmente
-            let mostrandoMas = false; // Estado para saber si estamos mostrando más o menos
-
-            // Función para mostrar solo las primeras 3 partidas al cargar la página
-            function mostrarIniciales() {
-                rankings.forEach((partida, index) => {
-                    partida.style.display = index < mostrarInicial ? "table-row" : "none";
-                });
-                document.getElementById("verMas").textContent = "Ver más";
-                mostrandoMas = false;
+        // Función para alternar entre "Ver más" y "Ver menos"
+        window.toggleMostrar = function() {
+            if (mostrandoMas) {
+                // Si se está mostrando más, volvemos a mostrar solo los iniciales
+                mostrarIniciales();
+            } else {
+                // Mostrar todas las partidas
+                rankings.forEach(partida => partida.style.display = "table-row");
+                document.getElementById("verMas").textContent = "Ver menos";
+                mostrandoMas = true;
             }
-
-            // Llama a la función al cargar
-            mostrarIniciales();
-
-            // Función para alternar entre "Ver más" y "Ver menos"
-            window.toggleMostrar = function() {
-                if (mostrandoMas) {
-                    // Si se está mostrando más, volvemos a mostrar solo los iniciales
-                    mostrarIniciales();
-                } else {
-                    // Mostrar todas las partidas
-                    rankings.forEach(partida => partida.style.display = "table-row");
-                    document.getElementById("verMas").textContent = "Ver menos";
-                    mostrandoMas = true;
-                }
-            };
-        });
-
-
-
-
-    </script>
-    </html>
+        };
+    });
+</script>
+</html>

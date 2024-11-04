@@ -12,66 +12,48 @@
     <link rel="stylesheet" href="/public/lobby.css">
 </head>
 <body>
-<div class="container">
-{{>headerJugador.mustache}}
-{{#usuario}}
-        <main>
-            <section class="" style="width: 80%; margin-left: 10%">
-                <form class="form-box w3-container w3-center" action="/modificarPerfil/update" method="POST" enctype="multipart/form-data">
-                    <h2>Actualizar datos de usuario</h2>
+    {{>headerJugador.mustache}}
+    {{#usuario}}
+    <main class="container">
+        <section class="" style="width: 80%; margin-left: 10%">
+            <form class="form-box w3-container w3-center" action="/modificarPerfil/update" method="POST" enctype="multipart/form-data">
+                <h2>Actualizar datos de usuario</h2>
 
-                    <div class="input-group w3-margin">
-                        <input type="text" name="fullname" value="{{nombreCompleto_usuario}}" class="w3-input" required>
-                    </div>
+                <div class="input-group w3-margin">
+                    <input type="text" name="fullname" value="{{nombreCompleto_usuario}}" class="w3-input" required>
+                </div>
 
-                    <div class="input-group w3-margin">
-                        <select name="gender" class="w3-input" required>
-                            <option value="masculino" {{selectedM}}>Masculino</option>
-                            <option value="femenino" {{selectedF}}>Femenino</option>
-                            <option value="x" {{selectedX}}>Prefiero no cargarlo</option>
-                        </select>
-                    </div>
+                <div class="input-group w3-margin">
+                    <select name="gender" class="w3-input" required>
+                        <option value="masculino" {{selectedM}}>Masculino</option>
+                        <option value="femenino" {{selectedF}}>Femenino</option>
+                        <option value="x" {{selectedX}}>Prefiero no cargarlo</option>
+                    </select>
+                </div>
 
-                    <div id="map" style="margin-left: 7em;
-                                        height: 20em;
-                                        width: 40em;"></div>
-                    <input type="hidden" id="coordenadas" name="coordenadas">
+                <div id="map" style="margin-left: 7em;
+                                    height: 20em;
+                                    width: 40em;"></div>
+                <input type="hidden" id="coordenadas" name="coordenadas">
 
-                    <div class="avatar">
-                        <label>Foto de perfil actual</label>
-                        <img src="{{img_usuario}}" alt="{{img_usuario}}" class="img-thumbnail">
-                    </div>
+                <div class="avatar">
+                    <label>Foto de perfil actual</label>
+                    <img src="{{img_usuario}}" alt="{{img_usuario}}" class="img-thumbnail">
+                </div>
 
-                    <div class="input-group w3-margin">
-                        <label for="profile-pic">Foto de perfil</label>
-                        <input type="file" id="profile-pic" name="profile_pic" accept="image/png, image/jpeg" class="w3-input">
-                    </div>
+                <div class="input-group w3-margin">
+                    <label for="profile-pic">Foto de perfil</label>
+                    <input type="file" id="profile-pic" name="profile_pic" accept="image/png, image/jpeg" class="w3-input">
+                </div>
 
-                    <div class="w3-margin">
-                        <a href="/perfil" style="text-decoration: none">Cancelar</a>
-                        <button type="submit" class="w3-btn w3-green">Actualizar</button>
-                    </div>
-                </form>
-            </section>
-        </main>
-
-    <footer class="w3-center">
-        <div class="footer-container w3-gray">
-            <h4 class="w3-text-white"><b>Seguinos</b></h4>
-            <div class="footer-icons">
-                <ul>
-                    <li><a href="#" target="_blank"><i class="fa-brands fa-linkedin-in"></i></a></li>
-                    <li><a href="#" target="_blank"><i class="fa-brands fa-instagram"></i></a></li>
-                    <li><a href="#" target="_blank"><i class="fa-brands fa-twitter"></i></a></li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="copyright w3-dark-gray w3-text-white">
-            <p>2024 - Grupo 3</p>
-        </div>
-    </footer>
-</div>
+                <div class="w3-margin">
+                    <a href="/perfil" style="text-decoration: none">Cancelar</a>
+                    <button type="submit" class="w3-btn w3-green">Actualizar</button>
+                </div>
+            </form>
+        </section>
+    </main>
+    {{>footer.mustache}}
 </body>
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 <script>

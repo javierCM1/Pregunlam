@@ -35,46 +35,30 @@
         window.history.forward();
     </script>
 </head>
-
 <body>
 
-<div class="container" id="contenido">
     {{>headerJugador.mustache}}
-    {{#pregunta}}
-    <div style="background-color: {{color_categoria}}; color: white; max-width: 100%;" class="w3-center w3-margin container">
-        <img src="{{img_categoria}}" alt="{{img_categoria}}" class="img-categoria w3-margin">
-        <h2>{{interrogante_pregunta}}</h2>
-    </div>
-    <div style="margin-left: 31%">
-        <form method="POST" action="/respuesta" class="w3-center" style="display: flex; flex-direction: column;">
-            <!-- Campo oculto para el id de la pregunta -->
-            <input type="hidden" name="id_pregunta" value="{{id_pregunta}}">
-
-            {{#respuesta}}
-                <!-- Botón para enviar el formulario con la respuesta seleccionada -->
-                <button type="submit" name="id_respuesta" value="{{id_respuesta}}" class="respuesta-btn w3-margin">{{descripcion_respuesta}}</button>
-            {{/respuesta}}
-        </form>
-    </div>
-    {{/pregunta}}
-    {{> audio.mustache}}
-    <footer class="w3-center">
-        <div class="footer-container w3-gray">
-            <h4 class="w3-text-white"><b>Seguinos</b></h4>
-            <div class="footer-icons">
-                <ul>
-                    <li><a href="#" target="_blank"><i class="fa-brands fa-linkedin-in"></i></a></li>
-                    <li><a href="#" target="_blank"><i class="fa-brands fa-instagram"></i></a></li>
-                    <li><a href="#" target="_blank"><i class="fa-brands fa-twitter"></i></a></li>
-                </ul>
+    <main class="container">
+        {{#pregunta}}
+            <div style="background-color: {{color_categoria}}; color: white; max-width: 100%;" class="w3-center w3-margin container">
+                <img src="{{img_categoria}}" alt="{{img_categoria}}" class="img-categoria w3-margin">
+                <h2>{{interrogante_pregunta}}</h2>
             </div>
-        </div>
+            <div style="margin-left: 31%">
+                <form method="POST" action="/respuesta" class="w3-center" style="display: flex; flex-direction: column;">
+                    <!-- Campo oculto para el id de la pregunta -->
+                    <input type="hidden" name="id_pregunta" value="{{id_pregunta}}">
 
-        <div class="copyright w3-dark-gray w3-text-white">
-            <p>2024 - Grupo 3</p>
-        </div>
-    </footer>
-</div>
+                    {{#respuesta}}
+                        <!-- Botón para enviar el formulario con la respuesta seleccionada -->
+                        <button type="submit" name="id_respuesta" value="{{id_respuesta}}" class="respuesta-btn w3-margin">{{descripcion_respuesta}}</button>
+                    {{/respuesta}}
+                </form>
+            </div>
+        {{/pregunta}}
+        {{> audio.mustache}}
+    </main>
+    {{>footer.mustache}}
 </body>
 <script>
     // Reproduce el audio al cargar la página

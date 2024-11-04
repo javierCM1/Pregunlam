@@ -9,8 +9,6 @@
     <link rel="stylesheet" href="/public/lobby.css">
 </head>
 <body>
-
-<div class="">
     {{>headerJugador.mustache}}
     {{#usuario}}
     <main class="container">
@@ -70,23 +68,7 @@
     {{/usuario}}
     {{> audio.mustache}}
     </main>
-    <footer class="w3-center">
-        <div class="footer-container w3-gray">
-            <h4 class="w3-text-white"><b>Seguinos</b></h4>
-            <div class="footer-icons">
-                <ul>
-                    <li><a href="#" target="_blank"><i class="fa-brands fa-linkedin-in"></i></a></li>
-                    <li><a href="#" target="_blank"><i class="fa-brands fa-instagram"></i></a></li>
-                    <li><a href="#" target="_blank"><i class="fa-brands fa-twitter"></i></a></li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="copyright w3-dark-gray w3-text-white">
-            <p>2024 - Grupo 3</p>
-        </div>
-    </footer>
-</div>
+    {{>footer.mustache}}
 </body>
 
 <script >
