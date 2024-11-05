@@ -15,11 +15,6 @@ class CrearPreguntaController
 
     public function index()
     {
-        if (!isset($_SESSION['user'])) {
-            header("Location: /login");
-            exit();
-        }
-
         $data['usuario'] = $this->userModel->getUserByUsernameOrEmail($_SESSION['user'],'a');
         $data['username'] = $_SESSION['user'];
 

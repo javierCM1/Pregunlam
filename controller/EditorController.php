@@ -13,11 +13,6 @@ class EditorController
 
     public function index()
     {
-        if (!isset($_SESSION['user'])) {
-            header("Location: /login");
-            exit();
-        }
-
         $username = $_SESSION['user'];
         $estado = $_POST['estado'] ?? 2;
 

@@ -18,10 +18,6 @@ class JugarController
     public function index()
     {
         try {
-            if (!isset($_SESSION['user'])) {
-                header("Location: /login");
-                exit();
-            }
             if (isset($_SESSION['terminoPartida']) && $_SESSION['terminoPartida'] === true) {
                 header("Location: /jugar");//inicia otra partida. no redirigir al lobby porque se rompe el botón jugar
                 unset($_SESSION['terminoPartida']);

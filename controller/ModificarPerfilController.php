@@ -17,11 +17,6 @@ class ModificarPerfilController
 
     public function index()
     {
-        if (!isset($_SESSION['user'])) {
-            header("Location: /login");
-            exit();
-        }
-
         $data['usuario'] = $this->model->getUserByUsernameOrEmail($_SESSION['user'],'a');
         $id = isset($_GET['id']) ? (int)$_GET['id'] : $data['usuario']['id_usuario'];
         $coordenada = $data['usuario']['pais_usuario'];

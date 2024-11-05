@@ -21,10 +21,6 @@ class RespuestaController
     public function index()
     {
         try {
-            if (!isset($_SESSION['user'])) {
-                header("Location: /login");
-                exit();
-            }
             if (isset($_POST['continuar']) && $_POST['continuar'] && !$_SESSION['terminoPartida']) {
 
                 $this->sumarPuntaje($_SESSION['user']);
@@ -74,10 +70,6 @@ class RespuestaController
             $usuario = $_SESSION['usuario'];
             $partida = $_SESSION['partida'];
             $pregunta = $_SESSION['pregunta'];
-            
-
-            
-            
 
             $data['usuario'] = $usuario;
             $data['pregunta'] = $pregunta;
@@ -86,14 +78,11 @@ class RespuestaController
             $data['id_pregunta'] = $pregunta['id_pregunta'];
             $data['audio_src'] = 'public/music/WhatsApp Audio 2024-10-28 at 23.22.09.mpeg';
             $data['respuestaEsCorrecta'] = true;
-            
+            $data['message'] = '¡Respuesta correcta!';
+
             $this->preguntaModel->respondeCorrecto($partida['id_partida'], $pregunta['id_pregunta']);
-            
-            
             $this->preguntaModel->incrementarCantCorrectas($data['id_pregunta']);
-            
-           
-            
+
             $this->presenter->show('resultadoPregunta', $data);
 
         } catch (PartidaActivaNoExisteException $e) {

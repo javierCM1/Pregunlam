@@ -15,16 +15,10 @@ class LobbyController
 
     public function index()
     {
-        if (!isset($_SESSION['user'])) {
-            header("Location: /login");
-            exit();
-        }
-        
         $data['usuario'] = $this->userModel->getUserByUsernameOrEmail($_SESSION['user'],'a');
         $data['partidas'] = $this->partidaModel->getPartidasByUserId($data['usuario']['id_usuario']);
         $data['audio_src'] = '/public/music/kevin.mp3';
 
-        // Renderizar la vista 'lobby' con los datos
         $this->presenter->show('lobby', $data);
     }
     public function logout()

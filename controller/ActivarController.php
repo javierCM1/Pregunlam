@@ -10,11 +10,6 @@ class ActivarController
 
     public function index()
     {
-        if (!isset($_SESSION['pendiente'])) {
-            header("Location: /login");
-            exit();
-        }
-
         $data['usuario'] = $_GET['username'] ?? $this->model->getUserByUsernameOrEmail($_SESSION['pendiente'], 'p');
         $this->presenter->show('activar', $data);
     }

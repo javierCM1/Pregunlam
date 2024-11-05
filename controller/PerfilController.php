@@ -19,11 +19,6 @@ class PerfilController
 
     public function index()
     {
-        if (!isset($_SESSION['user'])) {
-            header("Location: /login");
-            exit();
-        }
-
         $usuario = $this->userModel->getUserByUsernameOrEmail($_SESSION['user'], 'a');
         $id = isset($_GET['id']) ? (int)$_GET['id'] : $usuario['id_usuario'];
         $perfil = $this->userModel->getUserProfileById($id);

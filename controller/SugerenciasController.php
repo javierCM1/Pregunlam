@@ -14,11 +14,6 @@ class SugerenciasController
 
     public function index()
     {
-        if (!isset($_SESSION['user'])) {
-            header("Location: /login");
-            exit();
-        }
-
         $username = $_SESSION['user'];
         $preguntas = $this->model->obtenerPreguntasPorEstado(1);
 

@@ -13,11 +13,6 @@ class ReportesController
 
     public function index()
     {
-        if (!isset($_SESSION['user'])) {
-            header("Location: /login");
-            exit();
-        }
-
         $username = $_SESSION['user'];
         $reportes = $this->model->obtenerReportes();
 

@@ -14,11 +14,6 @@ class ModificarPreguntaController
 
     public function index()
     {
-        if (!isset($_SESSION['user'])) {
-            header("Location: /login");
-            exit();
-        }
-
         $username = $_SESSION['user'];
         $estado = $_GET['estado'];
         $pregunta = $this->preguntaModel->obtenerPreguntaPorId($_GET['id'],$estado);

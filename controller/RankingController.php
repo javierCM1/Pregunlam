@@ -16,11 +16,6 @@ class RankingController
 
     public function index()
     {
-        if (!isset($_SESSION['user'])) {
-            header("Location: /login");
-            exit();
-        }
-
         $ranking = $this->userModel->getRankingUsuarios();
         $ranking = $this->userModel->getRankingPositions($ranking);
 
