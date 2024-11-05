@@ -152,7 +152,7 @@ class UserModel
     {
         $estado = 'a';
         $incrementoPreguntasJugadas = 1;
-        $query = $this->db->prepare("UPDATE `usuario` SET `cantPreguntasJugadas_usuario`= `cantPreguntasJugadas_usuario` + ? 
+        $query = $this->db->prepare("UPDATE `usuario` SET `cantPreguntasJugadas_usuario`= `cantPreguntasJugadas_usuario` + ?
                                     WHERE id_usuario = ? AND estado_usuario = ?");
         $query->bind_param('iis', $incrementoPreguntasJugadas, $idUsuario, $estado);
         return $query->execute();
@@ -162,9 +162,10 @@ class UserModel
     {
         $estado = 'a';
         $incrementoPreguntasCorrectas = 1;
-        $query = $this->db->prepare("UPDATE `usuario` SET `cantPreguntasCorrectas_usuario`= `cantPreguntasCorrectas_usuario` + ? 
+        $query = $this->db->prepare("UPDATE `usuario` SET `cantPreguntasCorrectas_usuario`= `cantPreguntasCorrectas_usuario` + ?
                                     WHERE id_usuario = ? AND estado_usuario = ?");
         $query->bind_param('iis', $incrementoPreguntasCorrectas, $idUsuario, $estado);
+        
         return $query->execute();
     }
 
@@ -172,7 +173,7 @@ class UserModel
     {
         if ($usuario['maxPuntaje_usuario'] < $partida['puntaje_partida']) {
             $estado = 'a';
-            $query = $this->db->prepare("UPDATE `usuario` SET `maxPuntaje_usuario` = ? 
+            $query = $this->db->prepare("UPDATE `usuario` SET `maxPuntaje_usuario` = ?
                                         WHERE id_usuario = ? AND estado_usuario = ?");
             $query->bind_param('iis', $partida['puntaje_partida'], $usuario['id_usuario'], $estado);
             return $query->execute();
@@ -206,10 +207,10 @@ class UserModel
 
     public function getRankingUsuarios()
     {
-        $query = $this->db->prepare("SELECT 
-                                            u.id_usuario, 
-                                            u.userName_usuario, 
-                                            p.fechaHora_partida, 
+        $query = $this->db->prepare("SELECT
+                                            u.id_usuario,
+                                            u.userName_usuario,
+                                            p.fechaHora_partida,
                                             p.puntaje_partida
                                     FROM usuario u
                                     JOIN partida p ON u.id_usuario = p.id_usuario

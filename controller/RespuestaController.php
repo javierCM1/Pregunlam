@@ -26,7 +26,9 @@ class RespuestaController
                 exit();
             }
             if (isset($_POST['continuar']) && $_POST['continuar'] && !$_SESSION['terminoPartida']) {
-                $this->sumarPuntaje($_SESSION['user'], 'a');
+
+                $this->sumarPuntaje($_SESSION['user']);
+                
                 header("Location: /jugar");
                 exit();
             }
@@ -45,6 +47,7 @@ class RespuestaController
                 $this->preguntaModel->respondePregunta($partida['id_partida'], $pregunta['id_pregunta']);
             
             $this->preguntaModel->respuestaEsCorrecta($respuestaSeleccionada); //tira exception
+            $this->usuarioModel->incrementarPreguntasCorrectasUsuario($usuario['id_usuario']);
 
             $_SESSION['usuario'] = $usuario;
             $_SESSION['pregunta'] = $pregunta;
@@ -71,11 +74,10 @@ class RespuestaController
             $usuario = $_SESSION['usuario'];
             $partida = $_SESSION['partida'];
             $pregunta = $_SESSION['pregunta'];
+            
 
-            $this->partidaModel->incrementarPuntajePartida($partida['id_partida'], 'a');
-            $this->preguntaModel->respondeCorrecto($partida['id_partida'], $pregunta['id_pregunta']);
-            $this->usuarioModel->incrementarPreguntasCorrectasUsuario($usuario['id_usuario']);
-            $this->preguntaModel->incrementarCantCorrectas($pregunta['id_pregunta']);
+            
+            
 
             $data['usuario'] = $usuario;
             $data['pregunta'] = $pregunta;
@@ -84,6 +86,14 @@ class RespuestaController
             $data['id_pregunta'] = $pregunta['id_pregunta'];
             $data['audio_src'] = 'public/music/WhatsApp Audio 2024-10-28 at 23.22.09.mpeg';
             $data['respuestaEsCorrecta'] = true;
+            
+            $this->preguntaModel->respondeCorrecto($partida['id_partida'], $pregunta['id_pregunta']);
+            
+            
+            $this->preguntaModel->incrementarCantCorrectas($data['id_pregunta']);
+            
+           
+            
             $this->presenter->show('resultadoPregunta', $data);
 
         } catch (PartidaActivaNoExisteException $e) {
@@ -146,14 +156,19 @@ class RespuestaController
         exit();
     }
     
-    private function sumarPuntaje($user, string $estado)
+    private function sumarPuntaje($user)
     {
-        $usuario = $this->usuarioModel->getUserByUsernameOrEmail($user, $estado);
-        
+        $usuario = $this->usuarioModel->getUserByUsernameOrEmail($user, 'a');
         $partida = $this->partidaModel->getPartidaActivaByUserId($usuario['id_usuario']);
-        
         $this->partidaModel->incrementarPuntajePartida($partida['id_partida'], 'a');
         
         
     }
+    
+    /**
+     * @param $id_pregunta
+     * @param $id_usuario
+     * @return void
+     */
+  
 }
