@@ -16,8 +16,8 @@ function validarAccesoUsuario($configuration,$page)
         $tipoUsuario = $configuration->getUserModel()->getTipoUsuario($_SESSION['user']);
 
         $whiteListAdmin = ['admin'];
-        $whiteListEditor = ['editor'];
-        $whiteListJugador = ['activar','jugar','lobby','modificarPerfil','ranking','respuesta','perfil'];
+        $whiteListEditor = ['editor','crearPregunta','modificarPregunta','sugerencias','reportes'];
+        $whiteListJugador = ['activar','jugar','lobby','modificarPerfil','ranking','respuesta','perfil','crearPregunta'];
 
         switch ($tipoUsuario)
         {

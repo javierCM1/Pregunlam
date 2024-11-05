@@ -180,13 +180,6 @@ class UserModel
         return false;
     }
 
-    public function guardarReporte($motivo_reporte, $fecha_reporte, $id_usuario, $id_pregunta)
-    {
-        $query = $this->db->prepare("INSERT INTO reporte_pregunta (motivo_reporte, fecha_reporte, id_usuario, id_pregunta) VALUES (?, ?, ?, ?)");
-        $query->bind_param("ssii", $motivo_reporte, $fecha_reporte, $id_usuario, $id_pregunta);
-        $query->execute();
-    }
-
     public function getTipoUsuario($username)
     {
         $query = $this->db->prepare("SELECT id_tipo_usuario FROM usuario WHERE username_usuario = ?");

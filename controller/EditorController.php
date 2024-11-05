@@ -2,18 +2,13 @@
 
 class EditorController
 {
-
     private $model;
-    private $preguntaModel;
-    private $userModel;
     private $presenter;
 
-    public function __construct($model, $preguntaModel, $userModel, $presenter)
+    public function __construct($model, $presenter)
     {
         $this->model = $model;
-        $this->preguntaModel = $preguntaModel;
         $this->presenter = $presenter;
-        $this->userModel = $userModel;
     }
 
     public function index()
@@ -23,44 +18,57 @@ class EditorController
             exit();
         }
 
-        $reportes = $this->model->obtenerReportes();
         $username = $_SESSION['user'];
+        $estado = $_POST['estado'] ?? 2;
 
-        $this->presenter->show('editor', ['reportes' => $reportes, 'username' => $username]);
+        $estadoMensaje = 'activas';
+        $activar = null;
+        $desactivar = true;
+
+        switch ($estado)
+        {
+            case 4:
+                $estadoMensaje = 'rechazadas';
+                $activar = true;
+                $desactivar = null;
+                break;
+            case 5:
+                $estadoMensaje = 'inactivas';
+                $activar = true;
+                $desactivar = null;
+                break;
+        }
+
+        $preguntas = $this->model->obtenerPreguntasPorEstado($estado);
+        $message = $_SESSION['message'] ?? '';
+
+        $this->presenter->show('editor', ['username' => $username,
+                                        'preguntas' => $preguntas,
+                                        'activar' => $activar,
+                                        'estadoMensaje' => $estadoMensaje,
+                                        'desactivar' => $desactivar,
+                                        'estadoPreg' => $estado,
+                                        'message' => $message]);
+        unset($_SESSION['message']);
     }
 
-    public function guardarPreguntaCreada()
+    public function activar()
     {
+        $idPregunta = $_GET['id'];
 
-        if (!isset($_SESSION['user'])) {
-            header("Location: /login");
-            exit();
-        }
+        $this->model->cambiarEstadoPregunta($idPregunta,2);
 
-        if (!isset(
-            $_POST['respuestaCorrecta'],
-            $_POST['respuestaincorrecta1'],
-            $_POST['respuestaincorrecta2'],
-            $_POST['respuestaincorrecta3'],
-            $_POST['pregunta'],
-            $_POST['id_categoria']
-        )) {
-            throw new Exception('Faltan campos obligatorios');
-        }
+        header('Location: /editor');
+        exit();
+    }
 
-        $pregunta = $_POST['pregunta'];
-        $respuestaCorrecta = $_POST['respuestaCorrecta'];
-        $respuestaIncorrecta1 = $_POST['respuestaincorrecta1'];
-        $respuestaIncorrecta2 = $_POST['respuestaincorrecta2'];
-        $respuestaIncorrecta3 = $_POST['respuestaincorrecta3'];
-        $categoria = $_POST['id_categoria'];
+    public function desactivar()
+    {
+        $idPregunta = $_GET['id'];
 
-        $usuarioCreador = $this->userModel->getUserByUsernameOrEmail($_SESSION['user'], 'a')['id_usuario'];
+        $this->model->cambiarEstadoPregunta($idPregunta,5);
 
-        $this->preguntaModel->guardarPregunta($pregunta, $respuestaCorrecta, $respuestaIncorrecta1, $respuestaIncorrecta2,
-            $respuestaIncorrecta3, $categoria, $usuarioCreador, 2);
-
-        header("Location: /editor");
+        header('Location: /editor');
         exit();
     }
 

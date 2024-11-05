@@ -9,29 +9,9 @@
     <link rel="stylesheet" href="/public/lobby.css">
 </head>
 <body>
-
-<div class="container">
+    {{>headerJugador.mustache}}
     {{#usuario}}
-
-    <header class="header">
-        <div class="logo">
-            <img src="/public/images/logo.png" alt="logo.png">
-            <a href="/lobby">
-                <h3>Pregunlam</h3>
-            </a>
-        </div>
-        <div class="welcome">
-            <span>Bienvenido, {{nombreCompleto_usuario}}</span>
-            <form action="/lobby/logout" method="post">
-                <button type="submit" class="logout" id="btnCerrarSesion">Cerrar Sesión</button>
-            </form>
-        </div>
-    </header>
-
-    <main>
-
-
-
+    <main class="container">
         <section class="user-info">
             <div class="avatar">
                 <a href="/perfil?id={{id_usuario}}" onclick="setPageState('perfil')"> <img src="{{img_usuario}}" alt="Avatar"> </a>
@@ -60,7 +40,9 @@
             <a href="/ranking">
                 <button class="ranking-button" onclick="setPageState('ranking')" >Ranking</button>
             </a>
-            <button class="create-button">¡Crea!</button>
+            <a href="/crearPregunta">
+                <button class="create-button">¡Crea!</button>
+            </a>
         </section>
 
         <section class="game-history" id="registroPartidas" style="margin-left: 5em; margin-right: 5em;">
@@ -83,27 +65,10 @@
             <button id="verMas"  class="see-more" onclick="toggleMostrar()">Ver más</button>
 
         </section>
-    </main>
-
     {{/usuario}}
     {{> audio.mustache}}
-    <footer class="w3-center">
-        <div class="footer-container w3-gray">
-            <h4 class="w3-text-white"><b>Seguinos</b></h4>
-            <div class="footer-icons">
-                <ul>
-                    <li><a href="#" target="_blank"><i class="fa-brands fa-linkedin-in"></i></a></li>
-                    <li><a href="#" target="_blank"><i class="fa-brands fa-instagram"></i></a></li>
-                    <li><a href="#" target="_blank"><i class="fa-brands fa-twitter"></i></a></li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="copyright w3-dark-gray w3-text-white">
-            <p>2024 - Grupo 3</p>
-        </div>
-    </footer>
-</div>
+    </main>
+    {{>footer.mustache}}
 </body>
 
 <script >

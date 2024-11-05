@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modificar Pregunta - Pregunlam</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../public/lobby.css">
+    <link rel="stylesheet" href="../public/editor.css">
+</head>
+<body>
+
+<div class="">
+    {{>headerEditor.mustache}}
+    <main class="container w3-padding" style="margin-top: 1em; margin-bottom: 1em">
+        <h2>Modificar Pregunta</h2>
+
+        <form id="formPregunta" action="/modificarPregunta/guardarPreguntamodificada" method="post">
+
+            {{#message}}
+                <div class="w3-panel w3-red w3-display-container">
+                    <span onclick="this.parentElement.style.display='none'" class="w3-button w3-large w3-display-topright">&times;</span>
+                    <h4>{{message}}</h4>
+                </div>
+            {{/message}}
+
+            {{#pregunta}}
+            <div class="form-group">
+                <label for="pregunta">Pregunta</label>
+                <input type="text" id="pregunta" name="pregunta" value="{{interrogante_pregunta}}" required>
+                <input type="hidden" value="{{id_pregunta}}" name="id_pregunta">
+                <input type="hidden" value="{{estado}}" name="id_estado">
+            </div>
+            <div class="form-group">
+                {{#correcta}}
+                <label for="respuestaCorrecta">Respuesta Correcta</label>
+                <input type="text" id="respuestaCorrecta" name="respuestaCorrecta" value="{{descripcion_respuesta}}" required>
+                <input type="hidden" value="{{id_respuesta}}" name="id_respuestaCorrecta">
+                {{/correcta}}
+            </div>
+            <div class="form-group">
+                {{#incorrecta1}}
+                <label for="respuestaincorrecta1">Opción Incorrecta 1</label>
+                <input type="text" id="respuestaincorrecta1" name="respuestaincorrecta1" value="{{descripcion_respuesta}}" required>
+                <input type="hidden" value="{{id_respuesta}}" name="id_respuestaIncorrecta1">
+                {{/incorrecta1}}
+            </div>
+            <div class="form-group">
+                {{#incorrecta2}}
+                <label for="respuestaincorrecta2">Opción Incorrecta 2</label>
+                <input type="text" id="respuestaincorrecta2" name="respuestaincorrecta2" value="{{descripcion_respuesta}}" required>
+                <input type="hidden" value="{{id_respuesta}}" name="id_respuestaIncorrecta2">
+                {{/incorrecta2}}
+            </div>
+            <div class="form-group">
+                {{#incorrecta3}}
+                <label for="respuestaincorrecta3">Opción Incorrecta 3</label>
+                <input type="text" id="respuestaincorrecta3" name="respuestaincorrecta3" value="{{descripcion_respuesta}}" required>
+                <input type="hidden" value="{{id_respuesta}}" name="id_respuestaIncorrecta3">
+                {{/incorrecta3}}
+            </div>
+            <div class="form-group">
+                <label for="id_categoria">Categoría</label>
+                <input type="hidden" id="id_categoriaObtenido" name="id_categoria" value="{{id_categoria}}">
+                <select id="categoria" name="id_categoria" required class="w3-input">
+                    <option value="">Selecciona una categoría</option>
+                    <option value="1">Historia</option>
+                    <option value="2">Deporte</option>
+                    <option value="3">Entretenimiento</option>
+                    <option value="4">Arte</option>
+                    <option value="5">Tecnología</option>
+                    <option value="6">Geografía</option>
+                    <option value="7">Ciencia</option>
+                </select>
+            </div>
+            {{/pregunta}}
+            <a href="/editor" style="text-decoration: none">Cancelar</a>
+            <button type="submit" class="submit-btn">Guardar Cambios</button>
+        </form>
+    </main>
+    {{>footer.mustache}}
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        let idCategoriaObtenido = document.getElementById('id_categoriaObtenido').value;
+        let selectCategoria = document.getElementById('categoria');
+
+        selectCategoria.value = idCategoriaObtenido;
+    });
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editor - Pregunlam</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../public/lobby.css">
+    <link rel="stylesheet" href="../public/editor.css">
+</head>
+<body>
+
+<div class="">
+    {{>headerEditor.mustache}}
+
+    <div class="button-container">
+        <a class="action-btn edit" href="/editor">Lista de preguntas</a>
+        <a class="action-btn reports" href="/reportes">Reportes</a>
+        <a class="action-btn create" href="/sugerencias">Preguntas sugeridas</a>
+    </div>
+
+    <main class="w3-margin">
+        <h2>Reportes de Preguntas</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>ID Reporte</th>
+                <th>Motivo</th>
+                <th>Fecha</th>
+                <th>Usuario</th>
+                <th>ID Pregunta</th>
+                <th>Pregunta</th>
+                <th>Respuesta</th>
+                <th>Categoría</th>
+                <th>Acción</th>
+            </tr>
+            </thead>
+            <tbody id="tablaReportes">
+            {{#reportes}}
+                <tr>
+                    <td>{{id_reporte}}</td>
+                    <td>{{motivo_reporte}}</td>
+                    <td>{{fecha_reporte}}</td>
+                    <td>{{userName_usuario}}</td>
+                    <td>{{id_pregunta}}</td>
+                    <td>{{interrogante_pregunta}}</td>
+                    <td>{{descripcion_respuesta}}</td>
+                    <td>{{descripcion_categoria}}</td>
+                    <td>
+                        <a href="/reportes/activar?id={{id_pregunta}}&reporte={{id_reporte}}">
+                            <button class="w3-btn w3-green" style="width: 100%; margin-bottom: 0.5em">Activar</button>
+                        </a>
+                        <a href="/modificarPregunta?id={{id_pregunta}}&estado=3">
+                            <button class="w3-btn w3-yellow" style="width: 100%; margin-bottom: 0.5em">Modificar</button>
+                        </a>
+                        <a href="/reportes/desactivar?id={{id_pregunta}}&reporte={{id_reporte}}">
+                            <button class="w3-btn w3-red" style="width: 100%; margin-bottom: 0.5em">Desactivar</button>
+                        </a>
+                    </td>
+                </tr>
+            {{/reportes}}
+            </tbody>
+        </table>
+    </main>
+    {{>footer.mustache}}
+</div>
+
+<script>
+    function mostrarModal() {
+        document.getElementById('modalReportes').style.display = 'block';
+        cargarReportes();
+    }
+
+    function cerrarModal() {
+        document.getElementById('modalReportes').style.display = 'none';
+    }
+
+</script>
+
+</body>
+</html>

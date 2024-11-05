@@ -7,13 +7,15 @@ class RespuestaController
     private $partidaModel;
     private $usuarioModel;
     private $preguntaModel;
-    
-    public function __construct($partidaModel, $usuarioModel, $preguntaModel, $presenter)
+    private $reporteModel;
+
+    public function __construct($partidaModel, $usuarioModel, $preguntaModel, $reporteModel, $presenter)
     {
         $this->presenter = $presenter;
         $this->partidaModel = $partidaModel;
         $this->usuarioModel = $usuarioModel;
         $this->preguntaModel = $preguntaModel;
+        $this->reporteModel = $reporteModel;
     }
     
     public function index()
@@ -23,13 +25,16 @@ class RespuestaController
                 header("Location: /login");
                 exit();
             }
-            if (isset($_POST['continuar']) && $_POST['continuar'] === 'Respuesta Correcta') {
-                
+            if (isset($_POST['continuar']) && $_POST['continuar'] && !$_SESSION['terminoPartida']) {
                 $this->sumarPuntaje($_SESSION['user'], 'a');
                 header("Location: /jugar");
                 exit();
             }
-            
+            if (isset($_POST['continuar']) && $_POST['continuar'] === false) {
+                header("Location: /lobby");
+                exit();
+            }
+
             $usuario = $this->usuarioModel->getUserByUsernameOrEmail($_SESSION['user'], 'a');
             $partida = $this->partidaModel->getPartidaActivaByUserId($usuario['id_usuario']);
             $pregunta = $this->preguntaModel->getUltimaPreguntaEntregadaDePartida($partida['id_partida']);
@@ -40,27 +45,18 @@ class RespuestaController
                 $this->preguntaModel->respondePregunta($partida['id_partida'], $pregunta['id_pregunta']);
             
             $this->preguntaModel->respuestaEsCorrecta($respuestaSeleccionada); //tira exception
-            $this->preguntaModel->respondeCorrecto($partida['id_partida'], $pregunta['id_pregunta']);
-            $this->usuarioModel->incrementarPreguntasCorrectasUsuario($usuario['id_usuario']);
-            $this->preguntaModel->incrementarCantCorrectas($pregunta['id_pregunta']);
-            
-            
-        
-            
-            $data['message'] = 'Respuesta Correcta';
-            $data['usuario'] = $usuario;
-            $data['partida'] = $partida;
-            $data['pregunta'] = $pregunta;
-            $data['id_usuario'] = $usuario['id_usuario'];
-            $data['id_pregunta'] = $pregunta['id_pregunta'];
-            $data['audio_src'] = 'public/music/WhatsApp Audio 2024-10-28 at 23.22.09.mpeg';
-            
-            
-            $this->presenter->show('resultadoPregunta', $data);
-        } catch (PreguntaExpiradaException|RespuestaIncorrectaException $e) {
+
+            $_SESSION['usuario'] = $usuario;
+            $_SESSION['pregunta'] = $pregunta;
+            $_SESSION['partida'] = $partida;
+
+            header('Location: /respuesta/correcta');
+            exit();
+        }
+        catch (PreguntaExpiradaException|RespuestaIncorrectaException $e) {
             $_SESSION['id_pregunta'] = $_POST['id_pregunta'];
             $_SESSION['message'] = $e->getMessage();
-            header('Location: /respuesta/respondeIncorrecto');
+            header('Location: /respuesta/incorrecta');
             exit();
         } catch (PartidaActivaNoExisteException $e) {
             $_SESSION['message'] = $e->getMessage();
@@ -68,8 +64,36 @@ class RespuestaController
             exit();
         }
     }
-    
-    public function respondeIncorrecto()
+
+    public function correcta()
+    {
+        try {
+            $usuario = $_SESSION['usuario'];
+            $partida = $_SESSION['partida'];
+            $pregunta = $_SESSION['pregunta'];
+
+            $this->partidaModel->incrementarPuntajePartida($partida['id_partida'], 'a');
+            $this->preguntaModel->respondeCorrecto($partida['id_partida'], $pregunta['id_pregunta']);
+            $this->usuarioModel->incrementarPreguntasCorrectasUsuario($usuario['id_usuario']);
+            $this->preguntaModel->incrementarCantCorrectas($pregunta['id_pregunta']);
+
+            $data['usuario'] = $usuario;
+            $data['pregunta'] = $pregunta;
+            $data['partida'] = $partida;
+            $data['id_usuario'] = $usuario['id_usuario'];
+            $data['id_pregunta'] = $pregunta['id_pregunta'];
+            $data['audio_src'] = 'public/music/WhatsApp Audio 2024-10-28 at 23.22.09.mpeg';
+            $data['respuestaEsCorrecta'] = true;
+            $this->presenter->show('resultadoPregunta', $data);
+
+        } catch (PartidaActivaNoExisteException $e) {
+            $_SESSION['message'] = $e->getMessage();
+            header('Location: /lobby');
+            exit();
+        }
+    }
+
+    public function incorrecta()
     {
         try {
             $usuario = $this->usuarioModel->getUserByUsernameOrEmail($_SESSION['user'], 'a');
@@ -77,7 +101,7 @@ class RespuestaController
             $pregunta = $this->preguntaModel->obtenerPreguntaPorId($_SESSION['id_pregunta'], 2);
             $respuestaCorrecta = $this->preguntaModel->getRespuestaCorrectaDePregunta($pregunta['id_pregunta']);
             $_SESSION['terminoPartida'] = true;
-            
+
             $data['puntaje_final'] = $partida['puntaje_partida'];
             $data['message'] = $_SESSION['message'];
             $data['usuario'] = $usuario;
@@ -85,17 +109,14 @@ class RespuestaController
             $data['pregunta'] = $pregunta;
             $data['id_usuario'] = $usuario['id_usuario'];
             $data['id_pregunta'] = $pregunta['id_pregunta'];
-            
-            
-            if ($_SESSION['message'] == 'Respuesta Incorrecta' && isset($_POST['continuar'])) {
-                $this->partidaModel->terminarPartida($partida['id_partida'], $usuario['id_usuario']);
-                $this->usuarioModel->determinarPuntajeMaximo($usuario, $partida);
-                header("Location: /lobby");
-                exit();
-            }
+            $data['partida'] = $partida;
+            $data['respuestaEsCorrecta'] = false;
+
+            $this->partidaModel->terminarPartida($partida['id_partida'], $usuario['id_usuario']);
+            $this->usuarioModel->determinarPuntajeMaximo($usuario, $partida);
+
             $this->presenter->show("resultadoPregunta", $data);
-            
-            
+
         } catch (PartidaActivaNoExisteException $e) {
             $_SESSION['message'] = $e->getMessage();
             header('Location: /lobby');
@@ -114,9 +135,15 @@ class RespuestaController
             echo "Error: Todos los campos son obligatorios.";
             return;
         }
-        
-        $this->usuarioModel->guardarReporte($motivo_reporte, $fecha_reporte, $id_usuario, $id_pregunta);
-        header("Location: /lobby");
+
+        $this->reporteModel->guardarReporte($motivo_reporte, $fecha_reporte, $id_usuario, $id_pregunta);
+        $this->reporteModel->establecerPreguntaReportada($id_pregunta);
+        if($_POST['continuar']){
+            header('Location: /respuesta');
+            exit();
+        }
+        header('Location: /lobby');
+        exit();
     }
     
     private function sumarPuntaje($user, string $estado)
