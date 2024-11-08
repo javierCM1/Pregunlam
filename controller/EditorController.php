@@ -43,7 +43,8 @@ class EditorController
                                         'estadoMensaje' => $estadoMensaje,
                                         'desactivar' => $desactivar,
                                         'estadoPreg' => $estado,
-                                        'message' => $message]);
+                                        'message' => $message,
+                                        'tipoUsuario' => 'editor',]);
         unset($_SESSION['message']);
     }
 
