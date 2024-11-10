@@ -17,7 +17,7 @@ function validarAccesoUsuario($configuration,$page)
     if(isset($_SESSION['user'])) {
         $tipoUsuario = $configuration->getUserModel()->getTipoUsuario($_SESSION['user']);
 
-        $whiteListAdmin = ['admin'];
+        $whiteListAdmin = ['administrador'];
         $whiteListEditor = ['editor','crearPregunta','modificarPregunta','sugerencias','reportes'];
         $whiteListJugador = ['activar','jugar','lobby','modificarPerfil','ranking','respuesta','perfil','crearPregunta'];
 
@@ -25,7 +25,7 @@ function validarAccesoUsuario($configuration,$page)
         {
             case 1:
                 if(!in_array($page,$whiteListAdmin)) {
-                    header('Location: /admin');
+                    header('Location: /administrador');
                     exit();
                 }
                 break;

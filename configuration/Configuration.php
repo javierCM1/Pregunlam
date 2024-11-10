@@ -8,6 +8,7 @@ include_once("helper/FileEmailSender.php");
 include_once("helper/ProfilePicHandler.php");
 include_once("helper/InputFormatValidator.php");
 include_once("helper/QRCodeGenerator.php");
+include_once ("helper/BarChartGenerator.php");
 
 //vendor
 include_once('vendor/mustache/src/Mustache/Autoloader.php');
@@ -34,6 +35,7 @@ include_once("controller/CrearPreguntaController.php");
 include_once("controller/ModificarPreguntaController.php");
 include_once("controller/ReportesController.php");
 include_once("controller/SugerenciasController.php");
+include_once("controller/AdministradorController.php");
 
 //excepciones
 include_once("model/exeption/InvalidNameException.php");
@@ -112,6 +114,11 @@ class Configuration
         return new EditorController($this->getPreguntaModel(),$this->getPresenter());
     }
 
+    public function getAdministradorController()
+    {
+        return new AdministradorController($this->getPreguntaModel(),$this->getPresenter(),$this->getBarChartGenerator());
+    }
+
     public function getReportesController()
     {
         return new ReportesController($this->getReporteModel(),$this->getPresenter());
@@ -185,6 +192,11 @@ class Configuration
     private function getQRCodeGenerator()
     {
         return new QRCodeGenerator();
+    }
+
+    private function getBarChartGenerator()
+    {
+        return new BarChartGenerator();
     }
 
 }
