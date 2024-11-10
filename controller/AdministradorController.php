@@ -30,7 +30,6 @@ class AdministradorController
 
         $chartFilePath = 'public/images/graficos/grafico-Preguntas-por-Categoría.png';
 
-
         if (!file_exists($chartFilePath)) {
             $title = "Número de Preguntas por Categoría";
             $width = 600;
