@@ -18,6 +18,15 @@ body {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     padding-bottom: 1em;
 }
+.container-ranking{
+    max-width: 60%;
+    margin: 0 auto;
+    background-color: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
 
 .header {
     background-color: #4c3d99;
@@ -244,6 +253,7 @@ table th {
 
 /* Media Query para Tablets */
 @media (max-width: 768px) {
+
     .avatar {
         margin-left: 4em;
     }
@@ -274,9 +284,11 @@ table th {
 
 /* Media Query para Dispositivos Móviles */
 @media (max-width: 480px) {
+    .container-ranking{
+        max-width: 100%;
+    }
     .container{
         max-width: 100%;
-
     }
     .user-info {
         display: flex;
@@ -314,4 +326,5 @@ table th {
         display: flex;
         flex-direction: column;
     }
+
 }
