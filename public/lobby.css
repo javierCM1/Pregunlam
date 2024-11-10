@@ -1,3 +1,4 @@
+/* Estilos generales */
 * {
     margin: 0;
     padding: 0;
@@ -17,6 +18,23 @@ body {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     padding-bottom: 1em;
 }
+.container-ranking{
+    max-width: 60%;
+    margin: 0 auto;
+    background-color: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+.container-perfil{
+    max-width: 70%;
+    margin: 0 auto;
+    background-color: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
 
 .header {
     background-color: #4c3d99;
@@ -25,6 +43,7 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 10px;
+    flex-wrap: wrap; /* Permite que los elementos se ajusten a la siguiente fila si es necesario */
 }
 
 .logo {
@@ -32,7 +51,7 @@ body {
     align-items: center;
 }
 
-.logo a{
+.logo a {
     text-decoration: none;
     color: #ffffff;
 }
@@ -45,6 +64,10 @@ body {
 
 .welcome {
     font-size: 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Añade espacio entre el texto de bienvenida y el formulario */
+    text-align: right; /* Alinea el texto a la derecha */
 }
 
 .logout {
@@ -57,12 +80,11 @@ body {
     font-size: 14px;
 }
 
-#informacionDeUsuario{
+#informacionDeUsuario {
     margin: 2em;
     background-color: #D8D3E9;
     border-radius: 3em;
 }
-
 
 .user-info {
     display: flex;
@@ -74,28 +96,14 @@ body {
     justify-content: center;
 }
 
-#qr_code{
+#qr_code {
     width: 10em;
     height: 10em;
 }
-.avatar{
+
+.avatar {
     margin: 2em;
 }
-
-
-.botonM{
-    text-align: center;
-
-}
-
-
-#botonModificar{
-    border-radius: 50px;
-
-}
-
-
-
 
 .avatar img {
     width: 10em;
@@ -105,18 +113,25 @@ body {
     margin-right: 20px;
 }
 
-.user-data{
+.botonM {
+    text-align: center;
+}
+
+#botonModificar {
+    border-radius: 50px;
+}
+
+.user-data {
     display: flex;
     flex-wrap: wrap; /* Permite que los elementos se ajusten a la siguiente fila si es necesario */
     gap: 10px; /* Espacio entre las filas */
 }
 
-
-.qr_class{
+.qr_class {
     margin: 2em;
 }
 
-#datosUsuario{
+#datosUsuario {
     flex: 1 1 100%; /* Cada fila ocupará el 100% del ancho, forzando a crear una nueva fila */
     padding: 20px;
     text-align: center;
@@ -167,8 +182,17 @@ body {
     padding: 20px;
     background-color: #725FEC;
     border-radius: 4em;
-    margin-left: 5em;
-    margin-right: 5em;
+    margin: 2em;
+}
+
+#registroPartidas {
+    background-color: #725FEC;
+    border-radius: 4em;
+    padding: 20px;
+    margin: 2em auto; /* Centrando el elemento horizontalmente */
+    width: calc(100% - 4em); /* Ajusta el ancho para que ocupe todo el contenedor con márgenes */
+    max-width: 600px; /* Opcional: define un ancho máximo */
+    box-sizing: border-box; /* Incluye padding y borde en el ancho total */
 }
 
 table {
@@ -178,11 +202,10 @@ table {
     border-collapse: collapse!important;
 }
 
-table th{
+table th {
     padding: 10px;
     text-align: center;
 }
-
 
 table th {
     background-color: #725FEC;
@@ -216,7 +239,6 @@ table th {
     border-radius: 50%;
 }
 
-/* Add a hover effect if you want */
 .fa-brands:hover {
     opacity: 0.7;
 }
@@ -237,3 +259,83 @@ table th {
     display: inline-block;
 }
 
+/* Media Query para Tablets */
+@media (max-width: 768px) {
+    .container-perfil{
+        max-width: 100%;
+
+    }
+    .avatar {
+        margin-left: 4em;
+    }
+    .user-data h2 {
+        font-size: 3vh;
+    }
+
+    .user-data .points {
+        font-size: 2vh;
+    }
+
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .welcome {
+        font-size: 16px;
+        align-items: flex-start;
+        width: 100%; /* Asegura que ocupe todo el ancho disponible */
+        text-align: left; /* Alinea el texto a la izquierda */
+    }
+
+    .logout {
+        margin-top: -5px; /* Añade espacio superior entre el botón y el texto de bienvenida */
+    }
+}
+
+/* Media Query para Dispositivos Móviles */
+@media (max-width: 480px) {
+    .container-ranking{
+        max-width: 100%;
+    }
+    .container{
+        max-width: 100%;
+    }
+    .user-info {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .header {
+        padding: 10px;
+        align-items: center;
+    }
+
+    .logo img {
+        width: 30px;
+        height: 30px;
+    }
+
+    .logo h3 {
+        font-size: 20px;
+    }
+
+    .welcome {
+        font-size: 14px;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 5px;
+    }
+
+    .logout {
+        font-size: 12px;
+        padding: 6px 10px;
+    }
+    .container {
+        display: flex;
+        flex-direction: column;
+    }
+
+}

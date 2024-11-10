@@ -15,7 +15,6 @@ class AdministradorController
 
     public function index()
     {
-
         $username = $_SESSION['user'];
         $estado = 2;
 
@@ -29,22 +28,20 @@ class AdministradorController
             $data[] = $categoria['numero_preguntas'];
         }
 
-        $uploadDirectory = 'public/images/admin/';
-        if (!file_exists($uploadDirectory)) {
-            mkdir($uploadDirectory, 0777, true);
+        $chartFilePath = 'public/images/graficos/grafico-Preguntas-por-Categoría.png';
+
+
+        if (!file_exists($chartFilePath)) {
+            $title = "Número de Preguntas por Categoría";
+            $width = 600;
+            $height = 400;
+
+            $this->barChartGenerator->generateChart($data, $labels, $title, $width, $height, $chartFilePath);
         }
-
-        $chartFilePath = $uploadDirectory . 'grafico-Preguntas-por-Categoría.png';
-
-        $this->barChartGenerator->generateChart($data,
-                                                $labels,
-                                                "Número de Preguntas por Categoría",
-                                                600,//width
-                                                400,//height
-                                                $chartFilePath);
 
         $this->presenter->show('administrador', [
             'chartFilePath' => $chartFilePath,
+            'usuario' => $username,
             'username' => $username,
             'tipoUsuario' => 'administrador'
         ]);
