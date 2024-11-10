@@ -29,13 +29,19 @@ class AdministradorController
             $data[] = $categoria['numero_preguntas'];
         }
 
-        $chartFilePath = 'public/images/fotoDePerfil/grafico-Preguntas-por-Categoría.png';
+        $uploadDirectory = 'public/images/admin/';
+        if (!file_exists($uploadDirectory)) {
+            mkdir($uploadDirectory, 0777, true);
+        }
 
-        $title = "Número de Preguntas por Categoría";
-        $width = 600;
-        $height = 400;
+        $chartFilePath = $uploadDirectory . 'grafico-Preguntas-por-Categoría.png';
 
-        $this->barChartGenerator->generateChart($data, $labels, $title, $width, $height, $chartFilePath);
+        $this->barChartGenerator->generateChart($data,
+                                                $labels,
+                                                "Número de Preguntas por Categoría",
+                                                600,//width
+                                                400,//height
+                                                $chartFilePath);
 
         $this->presenter->show('administrador', [
             'chartFilePath' => $chartFilePath,

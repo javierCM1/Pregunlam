@@ -14,10 +14,12 @@
 <div class="">
     {{>headerEditor.mustache}}
 
-    <div class="button-container">
-        <a class="action-btn edit" href="/administrador">Ver estadísticas </a>
-        <a class="action-btn reports" href="/reportes">Reportes</a>
-        <a class="action-btn create" href="/sugerencias">Preguntas sugeridas</a>
+    <div class="w3-center">
+        <h2>Estadísticas</h2>
+    </div>
+
+    <div class="button-container w3-margin">
+        <a class="action-btn w3-green" href="/administrador">Generar PDF</a>
     </div>
 
     {{#message}}
