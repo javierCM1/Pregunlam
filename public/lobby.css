@@ -26,6 +26,14 @@ body {
     overflow: hidden;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
+.container-perfil{
+    max-width: 60%;
+    margin: 0 auto;
+    background-color: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
 
 
 .header {
@@ -253,7 +261,10 @@ table th {
 
 /* Media Query para Tablets */
 @media (max-width: 768px) {
+    .container-perfil{
+        max-width: 100%;
 
+    }
     .avatar {
         margin-left: 4em;
     }
