@@ -33,13 +33,4 @@ class BarChartGenerator
 
 
 
-
-
-    
-
-
-
-
-
-
 }

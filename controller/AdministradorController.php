@@ -40,6 +40,7 @@ class AdministradorController
 
         $this->barChartGenerator->generateChart($data, $labels, $title, $width, $height, $chartFilePath);
 
+
         $this->presenter->show('administrador', [
             'chartFilePath' => $chartFilePath,
             'usuario' => $username,
