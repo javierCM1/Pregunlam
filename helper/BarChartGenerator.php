@@ -1,7 +1,8 @@
 <?php
 
-require_once('C:/xampp/htdocs/Pregunlam/jpgraph-4.4.2/src/jpgraph.php');
-require_once('C:/xampp/htdocs/Pregunlam/jpgraph-4.4.2/src/jpgraph_bar.php');
+require_once('C:/xampp/htdocs/Pregunlam/vendor/jpgraph-4.4.2/src/jpgraph.php');
+require_once('C:/xampp/htdocs/Pregunlam/vendor/jpgraph-4.4.2/src/jpgraph_bar.php');
+
 
 class BarChartGenerator
 {
@@ -29,4 +30,16 @@ class BarChartGenerator
             $graph->Stroke();
         }
     }
+
+
+
+
+
+    
+
+
+
+
+
+
 }
