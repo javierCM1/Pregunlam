@@ -41,6 +41,7 @@ class AdministradorController
 
         $this->presenter->show('administrador', [
             'chartFilePath' => $chartFilePath,
+            'usuario' => $username,
             'username' => $username,
             'tipoUsuario' => 'administrador'
         ]);
