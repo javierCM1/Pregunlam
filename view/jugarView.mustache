@@ -43,6 +43,8 @@
             <div style="background-color: {{color_categoria}}; color: white; max-width: 100%;" class="w3-center w3-margin container">
                 <img src="{{img_categoria}}" alt="{{img_categoria}}" class="img-categoria w3-margin">
                 <h2>{{interrogante_pregunta}}</h2>
+                <div id="timer">Tiempo restante: <span id="countdown"></span> segundos</div>
+
             </div>
             <div style="margin-left: 31%">
                 <form method="POST" action="/respuesta" class="w3-center" style="display: flex; flex-direction: column;">
@@ -61,13 +63,31 @@
     {{>footer.mustache}}
 </body>
 <script>
-    // Reproduce el audio al cargar la página
     document.addEventListener("DOMContentLoaded", function() {
-        var audio = document.getElementById("background-audio");
-        audio.play().catch(function(error) {
-            // Manejo de errores si el audio no se reproduce automáticamente
-            console.error("No se pudo reproducir el audio: ", error);
-        });
+        var audio = new Audio('/public/sonido/timer.mp3'); // Cargar el audio
+        var tiempoRestante = {{tiempoRestante}}; // Tiempo restante en segundos desde el controlador
+        const countdownElement = document.getElementById("countdown");
+
+        function actualizarCuentaRegresiva() {
+            if (tiempoRestante > 0) {
+                countdownElement.textContent = tiempoRestante;
+
+                // Reproducir el audio cuando queden 7 segundos
+                if (tiempoRestante === 7) {
+                    audio.play().catch(function(error) {
+                        console.error("No se pudo reproducir el audio: ", error);
+                    });
+                }
+
+                tiempoRestante--;
+            } else {
+                countdownElement.textContent = "Tiempo agotado";
+                // Opcional: redirigir al usuario cuando el tiempo se agote
+            }
+        }
+
+        setInterval(actualizarCuentaRegresiva, 1000);
     });
 </script>
+
 </html>

@@ -73,7 +73,7 @@ class PreguntaModel
                                  FROM Pregunta P
                                  JOIN Categoria C ON P.id_categoria=C.id_categoria
                                  LEFT JOIN Usuario U ON P.id_usuarioCreador=U.id_usuario
-                                 JOIN respuesta R ON P.id_pregunta=R.id_pregunta 
+                                 JOIN respuesta R ON P.id_pregunta=R.id_pregunta
                                                             AND R.esCorrecta_respuesta=1
                                  WHERE P.id_estado = ?");
         $query->bind_Param('i', $estado);
@@ -83,7 +83,7 @@ class PreguntaModel
 
     public function cambiarEstadoPregunta($idPregunta,$estado)
     {
-        $queryPregunta = $this->db->prepare("UPDATE pregunta 
+        $queryPregunta = $this->db->prepare("UPDATE pregunta
                                          SET id_estado = ?
                                          WHERE id_pregunta = ?");
 
@@ -165,6 +165,7 @@ class PreguntaModel
         $result = $query->get_result()->fetch_array(MYSQLI_ASSOC);
 
         if ($result != null) {
+            
             if (time() - strtotime($result['fechaHoraEntrega_pregunta_partida']) > 30) {
                 throw new PreguntaExpiradaException();
             }
@@ -172,6 +173,38 @@ class PreguntaModel
         }
         return null;
     }
+    
+    
+    
+    public function getTiempoRestanteDeUltimaPregunta($idPartida)
+    {
+        $estado = 'a';
+        $respondio = 0;
+        $respondeCorrecto = 0;
+        $query = $this->db->prepare("SELECT PP.fechaHoraEntrega_pregunta_partida FROM pregunta_partida PP
+                                 JOIN partida PA ON PA.id_partida=PP.id_partida
+                                 WHERE PA.estado_partida = ?
+                                 AND PP.id_partida = ?
+                                 AND PP.respondio_pregunta_partida = ?
+                                 AND PP.respondeCorrecto_pregunta_partida = ?");
+        $query->bind_param('siii', $estado, $idPartida, $respondio, $respondeCorrecto);
+        $query->execute();
+        $result = $query->get_result()->fetch_array(MYSQLI_ASSOC);
+        
+        if ($result != null) {
+            $tiempoRestante = 30 - (time() - strtotime($result['fechaHoraEntrega_pregunta_partida']));
+            
+            // Si el tiempo ya pasó (por ejemplo, más de 30 segundos)
+            if ($tiempoRestante <= 0) {
+                return 0; // El tiempo ha expirado
+            }
+            
+            return $tiempoRestante; // Devuelve el tiempo restante
+        }
+        
+        return null; // Si no hay pregunta activa, retorna null
+    }
+    
 
     public function obtenerPreguntaPorId($id, $estado)
     {
@@ -180,12 +213,12 @@ class PreguntaModel
                                         P.fechaCreacion_pregunta,
                                         P.cantVistas_pregunta,
                                         P.cantCorrectas_pregunta,
-                                        P.id_categoria, 
+                                        P.id_categoria,
                                         C.descripcion_categoria,
                                         C.img_categoria,
                                         C.color_categoria,
                                         E.descripcion_estado,
-                                        U.userName_usuario 
+                                        U.userName_usuario
                                  FROM Pregunta P
                                  JOIN Categoria C ON P.id_categoria=C.id_categoria
                                  JOIN Estado E ON P.id_estado=E.id_estado
@@ -321,11 +354,11 @@ class PreguntaModel
     public function guardarPregunta($pregunta, $respuestaCorrecta, $respuestaIncorrecta1, $respuestaIncorrecta2, $respuestaIncorrecta3, $idCategoria, $usuarioCreador, $idEstado)
     {
         $queryPregunta = $this->db->prepare("INSERT INTO pregunta (
-                                                interrogante_pregunta, 
-                                                fechaCreacion_pregunta, 
-                                                id_usuarioCreador, 
-                                                id_categoria, 
-                                                id_estado) 
+                                                interrogante_pregunta,
+                                                fechaCreacion_pregunta,
+                                                id_usuarioCreador,
+                                                id_categoria,
+                                                id_estado)
                                             VALUES (?, NOW(), ?, ?, ?)");
 
         $queryPregunta->bind_param("siii", $pregunta, $usuarioCreador, $idCategoria, $idEstado);
@@ -342,9 +375,9 @@ class PreguntaModel
     private function insertarRespuesta($respuesta, $esCorrecta, $idPregunta)
     {
         $query = $this->db->prepare("INSERT INTO respuesta (
-                                        descripcion_respuesta, 
-                                        esCorrecta_respuesta, 
-                                        id_pregunta) 
+                                        descripcion_respuesta,
+                                        esCorrecta_respuesta,
+                                        id_pregunta)
                                     VALUES (?, ?, ?)");
 
         $query->bind_param("sii", $respuesta, $esCorrecta, $idPregunta);
@@ -353,8 +386,8 @@ class PreguntaModel
 
     public function modificarPregunta($idPregunta, $pregunta, $idCategoria)
     {
-        $queryPregunta = $this->db->prepare("UPDATE pregunta 
-                                         SET interrogante_pregunta = ?, 
+        $queryPregunta = $this->db->prepare("UPDATE pregunta
+                                         SET interrogante_pregunta = ?,
                                              id_categoria = ?
                                          WHERE id_pregunta = ?");
 
@@ -364,7 +397,7 @@ class PreguntaModel
 
     public function modificarRespuesta($idRespuesta, $respuesta)
     {
-        $queryPregunta = $this->db->prepare("UPDATE respuesta 
+        $queryPregunta = $this->db->prepare("UPDATE respuesta
                                          SET descripcion_respuesta = ?
                                          WHERE id_respuesta = ?");
 
