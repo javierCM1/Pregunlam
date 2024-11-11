@@ -37,15 +37,11 @@ class JugarController
                 $this->preguntaModel->incrementarCantVistas($pregunta['id_pregunta']);
                 $this->usuarioModel->incrementarCantPreguntasJugadas($usuario['id_usuario']);
             }
-            
+
+            $_SESSION['id_pregunta'] = $pregunta['id_pregunta'];
             // Llamar a la función getTiempoRestanteDeUltimaPregunta para obtener el tiempo restante
             $tiempoRestante = $this->preguntaModel->getTiempoRestanteDeUltimaPregunta($partida['id_partida']);
-            
-            if ($tiempoRestante === 0) {
-                // Si el tiempo se agotó, manejar la expiración de la pregunta
-                throw new PreguntaExpiradaException("El tiempo de la pregunta ha expirado.");
-            }
-            
+
             $respuestas = $this->preguntaModel->getRespuestasPorIdPregunta($pregunta['id_pregunta']);
             shuffle($respuestas);
             
@@ -61,10 +57,9 @@ class JugarController
             $this->presenter->show('jugar', $data);
         }
         catch (PreguntaExpiradaException $e) {
-            $this->partidaModel->terminarPartida($partida['id_partida'], $usuario['id_usuario']);
-            $data['message'] = $e->getMessage();
-            
-            $this->presenter->show('resultadoPregunta', $data);
+            $_SESSION['message'] = $e->getMessage();
+            header('Location: /respuesta/incorrecta');
+            exit();
         }
         catch (PartidaActivaNoExisteException $e) {
             $this->partidaModel->savePartida(date('Y-m-d H:i:s'), 0, 'a', $usuario['id_usuario']);
