@@ -243,4 +243,16 @@ class UserModel
         return $ranking;
     }
 
+    public function obtenerNumeroDeUsuariosPorSexo()
+    {
+        $query = $this->db->prepare("
+        SELECT S.descripcion_sexo, COUNT(U.id_usuario) AS numero_usuario
+        FROM usuario U
+        JOIN sexo S ON U.id_sexo = S.id_sexo
+        GROUP BY S.descripcion_sexo
+    ");
+        $query->execute();
+        return $query->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
+
 }

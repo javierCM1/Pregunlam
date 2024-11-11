@@ -3,14 +3,19 @@
 class AdministradorController
 {
     private $model;
-    private $presenter;
-    private $barChartGenerator;
 
-    public function __construct($model, $presenter, $barChartGenerator)
+    private $userModel;
+    private $presenter;
+
+    private $ChartGenerator;
+
+
+    public function __construct($model,$userModel, $presenter, $ChartGenerator)
     {
         $this->model = $model;
+        $this->userModel = $userModel;
         $this->presenter = $presenter;
-        $this->barChartGenerator = $barChartGenerator;
+        $this->ChartGenerator = $ChartGenerator;
     }
 
     public function index()
@@ -18,38 +23,72 @@ class AdministradorController
         $username = $_SESSION['user'];
         $estado = 2;
 
-        $numeroDePreguntas = $this->model->obtenerNumeroDePreguntasActivasPorCategoria($estado);
 
-        $data = [];
-        $labels = [];
+
+        $numeroDePreguntas = $this->model->obtenerNumeroDePreguntasActivasPorCategoria($estado);
+        $numeroDeUsuariosPorSexo = $this->userModel->obtenerNumeroDeUsuariosPorSexo();
+
+
+        $preguntasLabels = [];
+        $preguntasData = [];
 
         foreach ($numeroDePreguntas as $categoria) {
-            $labels[] = $categoria['descripcion_categoria'];
-            $data[] = $categoria['numero_preguntas'];
+            $preguntasLabels[] = $categoria['descripcion_categoria'];
+            $preguntasData[] = $categoria['numero_preguntas'];
         }
 
-        $chartFilePath = 'public/images/graficos/grafico-Preguntas-por-Categoría.png';
 
-        if (file_exists($chartFilePath)) {
-            unlink($chartFilePath);
+        $usuariosLabels = [];
+        $usuariosData = [];
+
+        foreach ($numeroDeUsuariosPorSexo as $sexo) {
+            $usuariosLabels[] = $sexo['descripcion_sexo'];
+            $usuariosData[] = $sexo['numero_usuario'];
         }
 
-        $title = "Número de Preguntas por Categoría";
-        $width = 600;
-        $height = 400;
+        $preguntasChartPath = 'public/images/graficos/grafico-Preguntas-por-Categoría.png';
+        $usuariosChartPath = 'public/images/graficos/grafico-Usuarios-por-Sexo.png';
 
-        $this->barChartGenerator->generateChart($data, $labels, $title, $width, $height, $chartFilePath);
+
+        if (file_exists($preguntasChartPath)) {
+            unlink($preguntasChartPath);
+        }
+        if (file_exists($usuariosChartPath)) {
+            unlink($usuariosChartPath);
+        }
+
+        $chartWidth = 600;
+        $chartHeight = 400;
+
+        $this->ChartGenerator->generateBarChart(
+            $preguntasData,
+            $preguntasLabels,
+            "Número de Preguntas por Categoría",
+            $chartWidth,
+            $chartHeight,
+            $preguntasChartPath
+        );
+
+
+        $this->ChartGenerator->generatePieChart(
+            $usuariosData,
+            $usuariosLabels,
+            "Número de Usuarios por Sexo",
+            $chartWidth,
+            $chartHeight,
+            $usuariosChartPath
+        );
 
 
         $this->presenter->show('administrador', [
-            'chartFilePath' => $chartFilePath,
+            'preguntasChartPath' => $preguntasChartPath,
+            'usuariosChartPath' => $usuariosChartPath,
             'usuario' => $username,
             'username' => $username,
             'tipoUsuario' => 'administrador'
         ]);
+
     }
-
-
 
 
     public function logout()

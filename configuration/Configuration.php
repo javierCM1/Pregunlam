@@ -8,7 +8,7 @@ include_once("helper/FileEmailSender.php");
 include_once("helper/ProfilePicHandler.php");
 include_once("helper/InputFormatValidator.php");
 include_once("helper/QRCodeGenerator.php");
-include_once ("helper/BarChartGenerator.php");
+include_once ("helper/ChartGenerator.php");
 
 //vendor
 include_once('vendor/mustache/src/Mustache/Autoloader.php');
@@ -116,7 +116,7 @@ class Configuration
 
     public function getAdministradorController()
     {
-        return new AdministradorController($this->getPreguntaModel(),$this->getPresenter(),$this->getBarChartGenerator());
+        return new AdministradorController($this->getPreguntaModel(),$this->getUserModel(),$this->getPresenter(),$this->getChartGenerator());
     }
 
     public function getReportesController()
@@ -194,9 +194,9 @@ class Configuration
         return new QRCodeGenerator();
     }
 
-    private function getBarChartGenerator()
+    private function getChartGenerator()
     {
-        return new BarChartGenerator();
+        return new ChartGenerator();
     }
 
 }

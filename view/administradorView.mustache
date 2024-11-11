@@ -9,6 +9,12 @@
     <link rel="stylesheet" href="../public/lobby.css">
     <link rel="stylesheet" href="../public/editor.css">
 </head>
+<style >
+    .container-Graficos {
+        display: flex;
+        gap: 10px;
+    }
+</style>
 <body>
 
 <div class="">
@@ -29,8 +35,14 @@
         </div>
     {{/message}}
 
-    <div class="">
-        <img src="{{chartFilePath}}" alt="Gráfico de Preguntas por Categoría">
+    <div class="container-Graficos">
+        <div class="">
+            <img src="{{preguntasChartPath}}" alt="Gráfico de Preguntas por Categoría">
+        </div>
+
+        <div>
+            <img src="{{usuariosChartPath}}" alt="Gráfico de Preguntas por Dificultad">
+        </div>
     </div>
 
 
