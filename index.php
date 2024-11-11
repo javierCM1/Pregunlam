@@ -12,14 +12,14 @@ $router->route($_GET['page'], $methodName);
 //agregado
 function validarAccesoUsuario($configuration,$page)
 {
-    $whiteListNoUser = ['login','register'];
+    $whiteListNoUser = ['login','register','activar'];
 
     if(isset($_SESSION['user'])) {
         $tipoUsuario = $configuration->getUserModel()->getTipoUsuario($_SESSION['user']);
 
         $whiteListAdmin = ['administrador'];
         $whiteListEditor = ['editor','crearPregunta','modificarPregunta','sugerencias','reportes'];
-        $whiteListJugador = ['activar','jugar','lobby','modificarPerfil','ranking','respuesta','perfil','crearPregunta'];
+        $whiteListJugador = ['jugar','lobby','modificarPerfil','ranking','respuesta','perfil','crearPregunta'];
 
         switch ($tipoUsuario)
         {
