@@ -15,7 +15,7 @@
 </head>
 <body>
 <div class="container">
-    <form class="form-box" action="/register/registerUser" method="POST" enctype="multipart/form-data">
+    <form class="form-box"  id="registerForm" action="/register/registerUser" method="POST" enctype="multipart/form-data">
         <h2>Registro</h2>
 
         <div class="input-group">
@@ -39,7 +39,7 @@
         </div>
 
         <div class="input-group">
-            <input type="date" name="birth_year" placeholder="Año de nacimiento" required>
+            <input type="date"  id="fechaNacimiento" name="birth_year" placeholder="Año de nacimiento"  required>
         </div>
 
         <div class="input-group">
@@ -58,7 +58,7 @@
             <label for="profile-pic">Foto de perfil</label>
             <input type="file" id="profile-pic" name="profile_pic" accept="image/png, image/jpeg" required>
         </div>
-        
+
         {{#message}}
             <div id="message" style="color: red; margin-bottom: 10px;">
                 {{message}}
@@ -67,6 +67,8 @@
         <button type="submit" class="btn">Registrarse</button>
         <p>¿Ya tienes una cuenta? <a href="/login">Inicia sesión</a></p>
     </form>
+    <p id="error-message" style="color: red; display: none;">Debes tener al menos 10 años para registrarte.</p>
+
 </div>
 </body>
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
