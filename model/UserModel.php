@@ -63,7 +63,24 @@ class UserModel
         $query->execute();
         return $query->get_result()->fetch_array(MYSQLI_ASSOC);
     }
-
+    
+    public function getUserByUsernameAndEmail($username, $email, $state)
+    {
+        // Preparamos la consulta SQL para seleccionar al usuario basado en el nombre de usuario Y el correo, y su estado
+        $query = $this->db->prepare("SELECT * FROM usuario WHERE userName_usuario = ? AND email_usuario = ? AND estado_usuario = ?");
+        
+        // Enlazamos los parámetros correctamente
+        $query->bind_param('sss', $username, $email, $state);
+        
+        // Ejecutamos la consulta
+        $query->execute();
+        
+        // Obtenemos el resultado como un arreglo asociativo
+        return $query->get_result()->fetch_array(MYSQLI_ASSOC);
+    }
+    
+    
+    
     /**
      * @throws InvalidGenderException
      */
@@ -128,7 +145,25 @@ class UserModel
         $query->execute();
         return $query->get_result()->fetch_array(MYSQLI_ASSOC)['id_sexo'];
     }
-
+    
+    
+    public function updatePassword($userId, $newPassword)
+    {
+        // Generar el hash de la nueva contraseña
+        $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
+        
+        // Ejecutar la consulta para actualizar la contraseña en la base de datos
+        $query = $this->db->prepare("UPDATE usuario SET password_usuario = ? WHERE id_usuario = ?");
+        $query->bind_param('si', $hashedPassword, $userId); // 'si' -> string, integer
+        if ($query->execute()) {
+            return true; // Si se ejecutó correctamente
+        } else {
+            return false; // Si hubo un error en la actualización
+        }
+    }
+    
+    
+    
     public function validateLogin($username, $password, $estado)
     {
         $query = $this->db->prepare("SELECT password_usuario FROM usuario WHERE estado_usuario = ? AND (userName_usuario = ? OR email_usuario = ?)");

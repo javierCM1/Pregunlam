@@ -12,7 +12,7 @@ $router->route($_GET['page'], $methodName);
 //agregado
 function validarAccesoUsuario($configuration,$page)
 {
-    $whiteListNoUser = ['login','register','activar'];
+    $whiteListNoUser = ['login','register','activar','recuperarContrasenia'];
 
     if(isset($_SESSION['user'])) {
         $tipoUsuario = $configuration->getUserModel()->getTipoUsuario($_SESSION['user']);

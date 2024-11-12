@@ -46,10 +46,23 @@ class RegisterController
                 $this->model->validateGender($gender);
                 $this->model->usernameExists($username);
                 
-                // Validación de la edad mínima (10 años)
-                $currentYear = date('Y');
-                if (!is_numeric($birthYear) || ($currentYear - $birthYear) < 10) {
-                    $message = "Eres menor de 10 años y no puedes registrarte.";
+                // Obtener el año de la fecha de nacimiento
+                $birthDate = $_POST['birth_year'] ?? ''; // Asegúrate de que la clave sea la correcta
+
+                // Verificar si la fecha no está vacía
+                if ($birthDate) {
+                    // Extraer el año de la fecha (formato YYYY-MM-DD)
+                    $birthYear = substr($birthDate, 0, 4);
+                    $currentYear = date('Y');
+                    
+                    // Verificar que el año de nacimiento es válido y que la edad sea mayor o igual a 10 años
+                    if ($currentYear - $birthYear < 10) {
+                        $message = "Eres menor de 10 años y no puedes registrarte.";
+                        $this->presenter->show('register', ['message' => $message]);
+                        return;
+                    }
+                } else {
+                    $message = "Por favor, ingresa tu fecha de nacimiento.";
                     $this->presenter->show('register', ['message' => $message]);
                     return;
                 }
