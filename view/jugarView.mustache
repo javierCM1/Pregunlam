@@ -60,34 +60,31 @@
         {{/pregunta}}
         {{> audio.mustache}}
     </main>
-    {{>footer.mustache}}
-</body>
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        var audio = new Audio('/public/sonido/timer.mp3'); // Cargar el audio
-        var tiempoRestante = {{tiempoRestante}}; // Tiempo restante en segundos desde el controlador
-        const countdownElement = document.getElementById("countdown");
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var audio = new Audio('/public/sonido/timer.mp3'); // Cargar el audio
+            var tiempoRestante = {{tiempoRestante}}; // Tiempo restante en segundos desde el controlador
+            const countdownElement = document.getElementById("countdown");
 
-        function actualizarCuentaRegresiva() {
-            if (tiempoRestante > 0) {
-                countdownElement.textContent = tiempoRestante + " segundos";
+            function actualizarCuentaRegresiva() {
+                if (tiempoRestante > 0) {
+                    countdownElement.textContent = tiempoRestante + " segundos";
 
-                // Reproducir el audio cuando queden 7 segundos
-                if (tiempoRestante === 7) {
-                    audio.play().catch(function(error) {
-                        console.error("No se pudo reproducir el audio: ", error);
-                    });
+                    // Reproducir el audio cuando queden 7 segundos
+                    if (tiempoRestante === 7) {
+                        audio.play().catch(function(error) {
+                            console.error("No se pudo reproducir el audio: ", error);
+                        });
+                    }
+
+                    tiempoRestante--;
+                } else {
+                    countdownElement.textContent = "Tiempo agotado";
+                    window.location.href = "/jugar";
                 }
-
-                tiempoRestante--;
-            } else {
-                countdownElement.textContent = "Tiempo agotado";
-                window.location.href = "/jugar";
             }
-        }
 
-        setInterval(actualizarCuentaRegresiva, 1000);
-    });
-</script>
-
-</html>
+            setInterval(actualizarCuentaRegresiva, 1000);
+        });
+    </script>

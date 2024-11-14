@@ -80,53 +80,48 @@
         </article>
         {{> audio.mustache}}
     </main>
-    {{>footer.mustache}}
-</body>
 
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        let map = L.map('map').setView([{{lat}},{{lng}}], 13);
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            let map = L.map('map').setView([{{lat}},{{lng}}], 13);
 
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 19,
-            attribution: '© OpenStreetMap'
-        }).addTo(map);
-    });
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+                attribution: '© OpenStreetMap'
+            }).addTo(map);
+        });
 
 
-    document.addEventListener("DOMContentLoaded", function() {
-        let partidas = document.querySelectorAll(".partida-row");
-        let mostrarInicial = 3; // Cantidad de partidas a mostrar inicialmente
-        let mostrandoMas = false; // Estado para saber si estamos mostrando más o menos
+        document.addEventListener("DOMContentLoaded", function() {
+            let partidas = document.querySelectorAll(".partida-row");
+            let mostrarInicial = 3; // Cantidad de partidas a mostrar inicialmente
+            let mostrandoMas = false; // Estado para saber si estamos mostrando más o menos
 
-        // Función para mostrar solo las primeras 3 partidas al cargar la página
-        function mostrarIniciales() {
-            partidas.forEach((partida, index) => {
-                partida.style.display = index < mostrarInicial ? "table-row" : "none";
-            });
-            document.getElementById("verMas").textContent = "Ver más";
-            mostrandoMas = false;
-        }
-
-        // Llama a la función al cargar
-        mostrarIniciales();
-
-        // Función para alternar entre "Ver más" y "Ver menos"
-        window.toggleMostrar = function() {
-            if (mostrandoMas) {
-                // Si se está mostrando más, volvemos a mostrar solo los iniciales
-                mostrarIniciales();
-            } else {
-                // Mostrar todas las partidas
-                partidas.forEach(partida => partida.style.display = "table-row");
-                document.getElementById("verMas").textContent = "Ver menos";
-                mostrandoMas = true;
+            // Función para mostrar solo las primeras 3 partidas al cargar la página
+            function mostrarIniciales() {
+                partidas.forEach((partida, index) => {
+                    partida.style.display = index < mostrarInicial ? "table-row" : "none";
+                });
+                document.getElementById("verMas").textContent = "Ver más";
+                mostrandoMas = false;
             }
-        };
-    });
-</script>
-{{/perfil}}
-</html>
 
+            // Llama a la función al cargar
+            mostrarIniciales();
 
+            // Función para alternar entre "Ver más" y "Ver menos"
+            window.toggleMostrar = function() {
+                if (mostrandoMas) {
+                    // Si se está mostrando más, volvemos a mostrar solo los iniciales
+                    mostrarIniciales();
+                } else {
+                    // Mostrar todas las partidas
+                    partidas.forEach(partida => partida.style.display = "table-row");
+                    document.getElementById("verMas").textContent = "Ver menos";
+                    mostrandoMas = true;
+                }
+            };
+        });
+    </script>
+    {{/perfil}}

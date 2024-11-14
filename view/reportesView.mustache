@@ -10,8 +10,6 @@
     <link rel="stylesheet" href="../public/editor.css">
 </head>
 <body>
-
-<div class="">
     {{>headerEditor.mustache}}
 
     <div class="button-container">
@@ -63,20 +61,15 @@
             </tbody>
         </table>
     </main>
-    {{>footer.mustache}}
-</div>
 
-<script>
-    function mostrarModal() {
-        document.getElementById('modalReportes').style.display = 'block';
-        cargarReportes();
-    }
+    <script>
+        function mostrarModal() {
+            document.getElementById('modalReportes').style.display = 'block';
+            cargarReportes();
+        }
 
-    function cerrarModal() {
-        document.getElementById('modalReportes').style.display = 'none';
-    }
+        function cerrarModal() {
+            document.getElementById('modalReportes').style.display = 'none';
+        }
 
-</script>
-
-</body>
-</html>
+    </script>

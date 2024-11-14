@@ -12,7 +12,6 @@
     {{>headerJugador.mustache}}
     {{#usuario}}
 
-
     <main class="container">
         <section class="user-info">
             <div class="avatar">
@@ -72,73 +71,57 @@
     {{> audio.mustache}}
     </main>
 
-
-    {{>footer.mustache}}
-</body>
-
-<script >
-    // Reproduce el audio al cargar la página
-    document.addEventListener("DOMContentLoaded", function() {
-        var audio = document.getElementById("background-audio");
-        audio.play().catch(function(error) {
-            // Manejo de errores si el audio no se reproduce automáticamente
-            console.error("No se pudo reproducir el audio: ", error);
-        });
-    });
-
-
-
-    function setPageState(page) {
-        sessionStorage.setItem('currentPage', page);
-    }
-
-    // Llamar a DisableBackButton al cargar la página
-    window.onload = function() {
-        // Verificar el estado de la página actual
-        if (sessionStorage.getItem('currentPage') === 'jugar') {
-            window.history.forward();
-        }
-
-    };
-
-
-
-
-
-    document.addEventListener("DOMContentLoaded", function() {
-        let partidas = document.querySelectorAll(".partida-row");
-        let mostrarInicial = 3; // Cantidad de partidas a mostrar inicialmente
-        let mostrandoMas = false; // Estado para saber si estamos mostrando más o menos
-
-        // Función para mostrar solo las primeras 3 partidas al cargar la página
-        function mostrarIniciales() {
-            partidas.forEach((partida, index) => {
-                partida.style.display = index < mostrarInicial ? "table-row" : "none";
+    <script >
+        // Reproduce el audio al cargar la página
+        document.addEventListener("DOMContentLoaded", function() {
+            var audio = document.getElementById("background-audio");
+            audio.play().catch(function(error) {
+                // Manejo de errores si el audio no se reproduce automáticamente
+                console.error("No se pudo reproducir el audio: ", error);
             });
-            document.getElementById("verMas").textContent = "Ver más";
-            mostrandoMas = false;
+        });
+
+        function setPageState(page) {
+            sessionStorage.setItem('currentPage', page);
         }
 
-        // Llama a la función al cargar
-        mostrarIniciales();
-
-        // Función para alternar entre "Ver más" y "Ver menos"
-        window.toggleMostrar = function() {
-            if (mostrandoMas) {
-                // Si se está mostrando más, volvemos a mostrar solo los iniciales
-                mostrarIniciales();
-            } else {
-                // Mostrar todas las partidas
-                partidas.forEach(partida => partida.style.display = "table-row");
-                document.getElementById("verMas").textContent = "Ver menos";
-                mostrandoMas = true;
+        // Llamar a DisableBackButton al cargar la página
+        window.onload = function() {
+            // Verificar el estado de la página actual
+            if (sessionStorage.getItem('currentPage') === 'jugar') {
+                window.history.forward();
             }
+
         };
-    });
 
+        document.addEventListener("DOMContentLoaded", function() {
+            let partidas = document.querySelectorAll(".partida-row");
+            let mostrarInicial = 3; // Cantidad de partidas a mostrar inicialmente
+            let mostrandoMas = false; // Estado para saber si estamos mostrando más o menos
 
+            // Función para mostrar solo las primeras 3 partidas al cargar la página
+            function mostrarIniciales() {
+                partidas.forEach((partida, index) => {
+                    partida.style.display = index < mostrarInicial ? "table-row" : "none";
+                });
+                document.getElementById("verMas").textContent = "Ver más";
+                mostrandoMas = false;
+            }
 
+            // Llama a la función al cargar
+            mostrarIniciales();
 
-</script>
-
-</html>
+            // Función para alternar entre "Ver más" y "Ver menos"
+            window.toggleMostrar = function() {
+                if (mostrandoMas) {
+                    // Si se está mostrando más, volvemos a mostrar solo los iniciales
+                    mostrarIniciales();
+                } else {
+                    // Mostrar todas las partidas
+                    partidas.forEach(partida => partida.style.display = "table-row");
+                    document.getElementById("verMas").textContent = "Ver menos";
+                    mostrandoMas = true;
+                }
+            };
+        });
+    </script>
