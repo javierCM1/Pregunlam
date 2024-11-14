@@ -23,11 +23,8 @@ class AdministradorController
         $username = $_SESSION['user'];
         $estado = 2;
 
-
-
         $numeroDePreguntas = $this->model->obtenerNumeroDePreguntasActivasPorCategoria($estado);
         $numeroDeUsuariosPorSexo = $this->userModel->obtenerNumeroDeUsuariosPorSexo();
-
 
         $preguntasLabels = [];
         $preguntasData = [];
@@ -37,7 +34,6 @@ class AdministradorController
             $preguntasData[] = $categoria['numero_preguntas'];
         }
 
-
         $usuariosLabels = [];
         $usuariosData = [];
 
@@ -46,8 +42,13 @@ class AdministradorController
             $usuariosData[] = $sexo['numero_usuario'];
         }
 
-        $preguntasChartPath = 'public/images/graficos/grafico-Preguntas-por-Categoría.png';
-        $usuariosChartPath = 'public/images/graficos/grafico-Usuarios-por-Sexo.png';
+        $uploadDirectory = 'public/images/graficos/';
+        if (!file_exists($uploadDirectory)) {
+            mkdir($uploadDirectory, 0777, true);
+        }
+
+        $preguntasChartPath = $uploadDirectory . 'grafico-Preguntas-por-Categoría.png';
+        $usuariosChartPath = $uploadDirectory . 'grafico-Usuarios-por-Sexo.png';
 
 
         if (file_exists($preguntasChartPath)) {
