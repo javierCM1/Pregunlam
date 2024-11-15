@@ -65,8 +65,6 @@
     </style>
 </head>
 <body>
-
-<div class="">
     {{>headerAdmin.mustache}}
 
     <div class="w3-center">
@@ -94,9 +92,6 @@
         <button type="submit">Filtrar</button>
     </form>
 
-
-
-
     <div class="container-Graficos">
         {{#preguntasChartPath2}}
             <div>
@@ -117,20 +112,15 @@
         {{/usuariosNuevosChartPath}}
     </div>
 
-</div>
+    <script>
+        const filtroSeleccionado = "{{filtroTiempo}}";
+        document.addEventListener("DOMContentLoaded", () => {
 
-</body>
-
-<script>
-    const filtroSeleccionado = "{{filtroTiempo}}";
-    document.addEventListener("DOMContentLoaded", () => {
-
-        if (filtroSeleccionado && filtroSeleccionado.trim() !== "") {
-            const selectCategoria = document.getElementById("categoria");
-            if (selectCategoria) {
-                selectCategoria.value = filtroSeleccionado;
+            if (filtroSeleccionado && filtroSeleccionado.trim() !== "") {
+                const selectCategoria = document.getElementById("categoria");
+                if (selectCategoria) {
+                    selectCategoria.value = filtroSeleccionado;
+                }
             }
-        }
-    });
-</script>
-</html>
+        });
+    </script>

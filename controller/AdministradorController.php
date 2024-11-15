@@ -56,15 +56,18 @@ class AdministradorController
                 break;
         }
 
-        $preguntasData = $this->model->obtenerNumeroDePreguntasActivasPorCategoria2($estado, $fechaInicio, $fechaFin);
-        $usuariosData = $this->userModel->obtenerNumeroDeUsuariosPorSexo2($fechaInicio, $fechaFin);
+        $preguntasData = $this->model->obtenerNumeroDePreguntasActivasPorCategoria();//no se calcula por fecha
+        $usuariosData = $this->userModel->obtenerNumeroDeUsuariosPorSexo();//no se calcula por fecha
         $usuariosNuevos = $this->userModel->obtenerCantidadUsuariosNuevos($fechaInicio, $fechaFin, $filtroTiempo);
 
+        $uploadDirectory = 'public/images/graficos/';
+        if (!file_exists($uploadDirectory)) {
+            mkdir($uploadDirectory, 0777, true);
+        }
 
-        $preguntasChartPath = 'public/images/graficos/grafico-Preguntas-por-Categoría.png';
-        $usuariosChartPath = 'public/images/graficos/grafico-Usuarios-por-Sexo.png';
-        $usuariosNuevosChartPath = 'public/images/graficos/grafico-Usuarios-Registrados.png';
-
+        $preguntasChartPath = $uploadDirectory . 'grafico-Preguntas-por-Categoría.png';
+        $usuariosChartPath = $uploadDirectory . 'grafico-Usuarios-por-Sexo.png';
+        $usuariosNuevosChartPath = $uploadDirectory . 'grafico-Usuarios-Registrados.png';
 
         if (file_exists($preguntasChartPath)) {
             unlink($preguntasChartPath);
@@ -76,10 +79,8 @@ class AdministradorController
             unlink($usuariosNuevosChartPath);
         }
 
-
         $chartWidth = 600;
         $chartHeight = 400;
-
 
         $preguntasValues = [];
         $preguntasLabels = [];
@@ -101,7 +102,6 @@ class AdministradorController
             $usuariosNuevosValues[] = $usuarioNuevo['numero_usuarios_nuevos'];
             $usuariosNuevosLabels[] = $usuarioNuevo['mes_registro'];
         }
-
 
         if (!empty($preguntasData)) {
             $this->ChartGenerator->generateBarChart(
@@ -151,9 +151,6 @@ class AdministradorController
             'filtroTiempo' => $filtroTiempo
         ]);
     }
-
-
-
 
     public function logout()
     {

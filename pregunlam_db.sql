@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 14-11-2024 a las 22:46:07
+-- Tiempo de generación: 15-11-2024 a las 02:29:25
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -414,7 +414,7 @@ INSERT INTO `usuario` (`id_usuario`, `userName_usuario`, `password_usuario`, `em
 (0, 'editor', '$2y$10$N..AFA6v1Q5ic8EAxjPV9OzelwaFWCAoGsKXmucMw8ZbXgGBO1Ct6', '', '', NULL, '', '0000-00-00', '', '0000-00-00', 'a', 0, 1, 0, 2, 0),
 (1, 'admin', '$2y$10$N..AFA6v1Q5ic8EAxjPV9OzelwaFWCAoGsKXmucMw8ZbXgGBO1Ct6', 'kvnrotela@gmail.com', 'public/images/fotoDePerfil/triangle-dancing.gif', NULL, 'Kevin', '2024-10-16', '-34.828868, -58.635762', '2024-11-01', 'a', 126085, 7, 0, 1, 1),
 (2, 'Ernesto01', '$2y$10$AAdI21YZNK6o6J382gEhf.aHt4s86WkzZ7TzkUwsMTWsfFLqXLWce', 'ernesto@gmail.com', 'public/images/fotoDePerfil/triangle-dancing.gif', NULL, 'Ernesto', '2024-10-14', '-34.670554, -58.562810', '2024-11-11', 'a', 273684, 0, 0, 3, 1),
-(3, 'alex09', '$2y$10$ue3cU5A5ZPNY8GgsrXwPNukdy.SrvGJq84igb2hplGEx/532YaYla', 'alexis@gmail.com', 'public/images/fotoDePerfil/triangle-dancing.gif', NULL, 'alexis', '2024-10-08', '-34.670554, -58.562810', '2024-11-8', 'a', 852260, 0, 0, 3, 1),
+(3, 'alex09', '$2y$10$ue3cU5A5ZPNY8GgsrXwPNukdy.SrvGJq84igb2hplGEx/532YaYla', 'alexis@gmail.com', 'public/images/fotoDePerfil/triangle-dancing.gif', NULL, 'alexis', '2024-10-08', '-34.670554, -58.562810', '2024-11-08', 'a', 852260, 0, 0, 3, 1),
 (4, 'pablo01', '$2y$10$z42HPSOFsaq8a2uQmgV7X.Ns1MHRfttJEoyVMcs75FK/cqZX7oT4q', 'pablo@gmail.com', '/public/images/fotoDePerfil/triangle-dancing.gif', NULL, 'pablo', '2024-10-08', '-34.670554, -58.562810', '2024-11-13', 'a', 166403, 0, 0, 3, 1),
 (5, 'ivan01', '$2y$10$b7UN26.ZW.tS3D67OJcOuOM6RrDwrODIf5qitKQDrMdVAyv8PSVWG', 'ivan@gmail.com', 'public/images/fotoDePerfil/portrait-german-shepherd-head-years-old-front-white-background-copy-space-171994255.jpg', NULL, 'Ivan', '2024-11-12', '-34.828868, -58.635762', '2024-11-10', 'a', 893743, 0, 0, 3, 1),
 (6, 'elias04', '$2y$10$6mZqIfdfJEn/axf8ntPdpOgLdVe9OZkjD4aIZI4HWbtUY1/AtPqqO', 'elias@gmail.com', 'public/images/fotoDePerfil/portrait-german-shepherd-head-years-old-front-white-background-copy-space-171994255.jpg', NULL, 'Elias', '2024-10-01', '-34.670554, -58.562810', '2024-11-08', 'a', 296399, 0, 0, 3, 1),
@@ -430,12 +430,12 @@ INSERT INTO `usuario` (`id_usuario`, `userName_usuario`, `password_usuario`, `em
 (16, 'usuario9', '$2y$10$YGQNKdVsgZCt74FKpNlqHevz1SPavnJqZ3udAbfJX1HCICSir6xda', 'usuario9@gmail.com', 'public/images/default.jpg', NULL, 'Usuario Nueve', '2000-09-09', '-34.670554, -58.562810', '2024-02-20', 'a', 218286, 0, 0, 3, 1),
 (17, 'usuario10', '$2y$10$YGQNKdVsgZCt74FKpNlqHevz1SPavnJqZ3udAbfJX1HCICSir6xda', 'usuario10@gmail.com', 'public/images/default.jpg', NULL, 'Usuario Diez', '2000-10-10', '-34.670554, -58.562810', '2024-02-20', 'a', 144385, 0, 0, 3, 1),
 (18, 'ivan', '$2y$10$YGQNKdVsgZCt74FKpNlqHevz1SPavnJqZ3udAbfJX1HCICSir6xda', 'ivan@gmail.com', 'public/images/fotoDePerfil/cheems.jpg', 3, 'Ivan', '1997-04-02', '-34.665257, -58.586273', '2024-02-25', 'a', 312325, 39, 10, 3, 1),
-(19, 'maria23', '$2y$10$abH9y4MckBiqzOmE1sfu3K0J3gK27Rlz1l0vF19dbmbc4AfqHKZ9C', 'maria23@gmail.com', 'public/images/fotoDePerfil/user1.jpg', NULL, 'María', '1995-04-01', 'Argentina', '2024-02-21', 'a', 85042, 5, 1, 2, 2),
-(20, 'lucas_91', '$2y$10$7mKZoCflJvDA.6zHlwr4JOd0C/UeQDNhh1yGcKnXQ9WGQ9HRL9ztC', 'lucas_91@gmail.com', 'public/images/fotoDePerfil/user2.jpg', NULL, 'Lucas', '1991-06-15', 'Argentina', '2024-02-17', 'a', 125345, 9, 0, 3, 1),
-(21, 'ana_perez', '$2y$10$G5ptKgqbmB9KvQ6FfvUosRA6t02c6Pn7grjsQLlmp7OqomT1uV4Dk', 'ana_perez@gmail.com', 'public/images/fotoDePerfil/user3.jpg', NULL, 'Ana Pérez', '1990-08-09', 'España', '2024-04-18', 'a', 76321, 3, 0, 2, 2),
-(22, 'jorge_martin', '$2y$10$Rj1zA1s6M6cscoX6K9n5lzx63jF0T2B6mkLRmM3.NnUUG0z7V7lIu', 'jorge_martin@gmail.com', 'public/images/fotoDePerfil/user4.jpg', NULL, 'Jorge Martín', '1988-12-30', 'México', '2024-06-22', 'a', 95000, 6, 1, 1, 1),
-(23, 'sofia_lara', '$2y$10$wP3p0pQfZjv5gfONen6FSCQMGy89W5rDRw6g5/OVi7Wx77k9D6.tq', 'sofia_lara@gmail.com', 'public/images/fotoDePerfil/user5.jpg', NULL, 'Sofía Lara', '1998-02-14', 'Colombia', '2024-07-23', 'a', 102430, 8, 0, 3, 2),
-(24, 'luis_mendoza', '$2y$10$wZk7ZevCmML76bX0XB7Vr92Fh02wzBqtJeAi9Te7r83p6lKM2/xj', 'luis_mendoza@gmail.com', 'public/images/fotoDePerfil/user6.jpg', NULL, 'Luis Mendoza', '1985-05-10', 'Chile', '2024-08-14', 'a', 114320, 11, 1, 3, 1),
+(19, 'maria23', '$2y$10$abH9y4MckBiqzOmE1sfu3K0J3gK27Rlz1l0vF19dbmbc4AfqHKZ9C', 'maria23@gmail.com', 'public/images/fotoDePerfil/user1.jpg', NULL, 'María', '1995-04-01', '-34.670554, -58.562810', '2024-02-21', 'a', 85042, 5, 1, 2, 2),
+(20, 'lucas_91', '$2y$10$7mKZoCflJvDA.6zHlwr4JOd0C/UeQDNhh1yGcKnXQ9WGQ9HRL9ztC', 'lucas_91@gmail.com', 'public/images/fotoDePerfil/user2.jpg', NULL, 'Lucas', '1991-06-15', '-34.670554, -58.562810', '2024-02-17', 'a', 125345, 9, 0, 3, 1),
+(21, 'ana_perez', '$2y$10$G5ptKgqbmB9KvQ6FfvUosRA6t02c6Pn7grjsQLlmp7OqomT1uV4Dk', 'ana_perez@gmail.com', 'public/images/fotoDePerfil/user3.jpg', NULL, 'Ana Pérez', '1990-08-09', '-34.670554, -58.562810', '2024-04-18', 'a', 76321, 3, 0, 2, 2),
+(22, 'jorge_martin', '$2y$10$Rj1zA1s6M6cscoX6K9n5lzx63jF0T2B6mkLRmM3.NnUUG0z7V7lIu', 'jorge_martin@gmail.com', 'public/images/fotoDePerfil/user4.jpg', NULL, 'Jorge Martín', '1988-12-30', '-34.670554, -58.562810', '2024-06-22', 'a', 95000, 6, 1, 1, 1),
+(23, 'sofia_lara', '$2y$10$wP3p0pQfZjv5gfONen6FSCQMGy89W5rDRw6g5/OVi7Wx77k9D6.tq', 'sofia_lara@gmail.com', 'public/images/fotoDePerfil/user5.jpg', NULL, 'Sofía Lara', '1998-02-14', '-34.670554, -58.562810', '2024-07-23', 'a', 102430, 8, 0, 3, 2),
+(24, 'luis_mendoza', '$2y$10$wZk7ZevCmML76bX0XB7Vr92Fh02wzBqtJeAi9Te7r83p6lKM2/xj', 'luis_mendoza@gmail.com', 'public/images/fotoDePerfil/user6.jpg', NULL, 'Luis Mendoza', '1985-05-10', '-34.670554, -58.562810', '2024-08-14', 'a', 114320, 11, 1, 3, 1),
 (25, 'paola_ortega', '$2y$10$DvaH9aIiW6OD5.M1P88h5V5h3SHaTKOKRrwzfeJcFHm2w5f9VYZyG', 'paola_ortega@gmail.com', 'public/images/fotoDePerfil/user7.jpg', NULL, 'Paola Ortega', '2000-03-21', 'México', '2024-08-13', 'a', 102111, 8, 1, 4, 2),
 (26, 'ivan_hernandez', '$2y$10$PntldAiFz8iXZAZd33EHGZQ02hAYv4EHGJalrk.44Ig0gZjJvPQuC', 'ivan_hernandez@gmail.com', 'public/images/fotoDePerfil/user8.jpg', NULL, 'Iván Hernández', '1993-11-03', 'Perú', '2024-08-12', 'a', 95022, 10, 0, 5, 1),
 (27, 'juliana_sanchez', '$2y$10$4SYfHcnNlFgWfc2OhfbTp3sNEUdzsnW8V2yBBH2NeBpnIDzZknIFi', 'juliana_sanchez@gmail.com', 'public/images/fotoDePerfil/user9.jpg', NULL, 'Juliana Sánchez', '1994-07-15', 'Argentina', '2024-03-11', 'a', 130430, 6, 2, 4, 2),

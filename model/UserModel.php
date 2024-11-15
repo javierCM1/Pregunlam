@@ -290,7 +290,7 @@ class UserModel
         return $query->get_result()->fetch_all(MYSQLI_ASSOC);
     }
 
-    public function obtenerNumeroDeUsuariosPorSexo2($fechaInicio, $fechaFin)
+    /*public function obtenerNumeroDeUsuariosPorSexo2($fechaInicio, $fechaFin)
     {
         $query = $this->db->prepare("
         SELECT S.descripcion_sexo, COUNT(U.id_usuario) AS numero_usuario
@@ -304,7 +304,7 @@ class UserModel
         $query->execute();
 
         return $query->get_result()->fetch_all(MYSQLI_ASSOC);
-    }
+    }*/
 
 
 

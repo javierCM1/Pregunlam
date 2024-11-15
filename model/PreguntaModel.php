@@ -406,7 +406,19 @@ class PreguntaModel
         $queryPregunta->execute();
     }
 
-    public function obtenerNumeroDePreguntasActivasPorCategoria2($estado, $fechaInicio, $fechaFin)
+    public function obtenerNumeroDePreguntasActivasPorCategoria($estado=2)
+    {
+        $query = $this->db->prepare("SELECT C.descripcion_categoria, COUNT(P.id_pregunta) AS numero_preguntas
+                                        FROM Pregunta P
+                                        JOIN Categoria C ON P.id_categoria = C.id_categoria
+                                        WHERE P.id_estado = ?
+                                        GROUP BY C.descripcion_categoria");
+        $query->bind_param('i', $estado);
+        $query->execute();
+        return $query->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
+
+    /*public function obtenerNumeroDePreguntasActivasPorCategoria2($estado, $fechaInicio, $fechaFin)
     {
         $query = $this->db->prepare("
         SELECT C.descripcion_categoria, COUNT(P.id_pregunta) AS numero_preguntas
@@ -422,7 +434,7 @@ class PreguntaModel
         $query->execute();
 
         return $query->get_result()->fetch_all(MYSQLI_ASSOC);
-    }
+    }*/
 
 
 }
