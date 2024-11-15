@@ -165,7 +165,7 @@ class UserModel
         $query = $this->db->prepare("UPDATE `usuario` SET `cantPreguntasCorrectas_usuario`= `cantPreguntasCorrectas_usuario` + ?
                                     WHERE id_usuario = ? AND estado_usuario = ?");
         $query->bind_param('iis', $incrementoPreguntasCorrectas, $idUsuario, $estado);
-        
+
         return $query->execute();
     }
 
@@ -254,5 +254,142 @@ class UserModel
         $query->execute();
         return $query->get_result()->fetch_all(MYSQLI_ASSOC);
     }
+
+    public function obtenerNumeroDeUsuariosPorSexo2($fechaInicio, $fechaFin)
+    {
+        $query = $this->db->prepare("
+        SELECT S.descripcion_sexo, COUNT(U.id_usuario) AS numero_usuario
+        FROM usuario U
+        JOIN sexo S ON U.id_sexo = S.id_sexo
+        WHERE U.fechaRegistro_usuario BETWEEN ? AND ?
+        GROUP BY S.descripcion_sexo
+    ");
+        $query->bind_param('ss', $fechaInicio, $fechaFin);
+
+        $query->execute();
+
+        return $query->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
+
+
+
+
+
+    public function obtenerCantidadUsuariosNuevos($fechaInicio, $fechaFin, $filtroTiempo)
+    {
+        if ($filtroTiempo === 'anio') {
+            $query = $this->db->prepare("
+            SELECT MONTH(U.fechaRegistro_usuario) AS mes_registro, COUNT(U.id_usuario) AS numero_usuarios_nuevos
+            FROM usuario U
+            WHERE U.fechaRegistro_usuario BETWEEN ? AND ?
+            GROUP BY MONTH(U.fechaRegistro_usuario)
+            ORDER BY MONTH(U.fechaRegistro_usuario) ASC
+        ");
+        } elseif ($filtroTiempo === 'mes') {
+            $query = $this->db->prepare("
+            SELECT DATE(U.fechaRegistro_usuario) AS mes_registro, COUNT(U.id_usuario) AS numero_usuarios_nuevos
+            FROM usuario U
+            WHERE U.fechaRegistro_usuario BETWEEN ? AND ?
+            GROUP BY DATE(U.fechaRegistro_usuario)
+            ORDER BY DATE(U.fechaRegistro_usuario) ASC
+        ");
+        } elseif ($filtroTiempo === 'semana') {
+            $query = $this->db->prepare("
+            SELECT DAYOFWEEK(U.fechaRegistro_usuario) AS dia_semana, COUNT(U.id_usuario) AS numero_usuarios_nuevos
+            FROM usuario U
+            WHERE U.fechaRegistro_usuario BETWEEN ? AND ?
+            GROUP BY DAYOFWEEK(U.fechaRegistro_usuario)
+            ORDER BY DAYOFWEEK(U.fechaRegistro_usuario) ASC
+        ");
+        } else {
+            throw new InvalidArgumentException("Filtro de tiempo no válido: $filtroTiempo");
+        }
+
+        $query->bind_param('ss', $fechaInicio, $fechaFin);
+        $query->execute();
+
+        $result = $query->get_result();
+        $usuarios = $result->fetch_all(MYSQLI_ASSOC);
+
+        if ($filtroTiempo === 'anio') {
+
+            $mesesIniciales = [
+                1 => 'ene',
+                2 => 'feb',
+                3 => 'mar',
+                4 => 'abr',
+                5 => 'may',
+                6 => 'jun',
+                7 => 'jul',
+                8 => 'ago',
+                9 => 'sep',
+                10 => 'oct',
+                11 => 'nov',
+                12 => 'dic',
+            ];
+
+            $mesActual = date('n');
+            $siguienteMes = ($mesActual % 12) + 1;
+
+            $todosLosMeses = array_merge(range($siguienteMes, 12), range(1, $siguienteMes - 1));
+
+            $mesesConUsuarios = [];
+            foreach ($usuarios as $registro) {
+                $mesesConUsuarios[$registro['mes_registro']] = $registro['numero_usuarios_nuevos'];
+            }
+
+            $usuariosFinales = [];
+            foreach ($todosLosMeses as $mes) {
+                $usuariosFinales[] = [
+                    'mes_registro' => $mesesIniciales[$mes],
+                    'numero_usuarios_nuevos' => $mesesConUsuarios[$mes] ?? 0,
+                ];
+            }
+            return $usuariosFinales;
+        }
+
+        if ($filtroTiempo === 'mes') {
+            return $usuarios;
+        }
+
+        if ($filtroTiempo === 'semana') {
+            $diasSemana = [
+                1 => 'Domingo',
+                2 => 'Lunes',
+                3 => 'Martes',
+                4 => 'Miércoles',
+                5 => 'Jueves',
+                6 => 'Viernes',
+                7 => 'Sábado',
+            ];
+
+            $diasConUsuarios = [];
+            foreach ($usuarios as $registro) {
+                $diasConUsuarios[$registro['dia_semana']] = $registro['numero_usuarios_nuevos'];
+            }
+
+            $usuariosFinales = [];
+            foreach (range(1, 7) as $dia) {
+                $usuariosFinales[] = [
+                    'mes_registro' => $diasSemana[$dia],
+                    'numero_usuarios_nuevos' => $diasConUsuarios[$dia] ?? 0,
+                ];
+            }
+
+            return $usuariosFinales;
+        }
+
+
+
+        return [];
+    }
+
+
+
+
+
+
+
+
 
 }

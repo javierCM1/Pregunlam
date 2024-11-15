@@ -8,13 +8,62 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="../public/lobby.css">
     <link rel="stylesheet" href="../public/editor.css">
+    <style>
+        /* Centrar el formulario de filtro */
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 20px 0;
+            gap: 10px;
+        }
+
+        form label {
+            font-size: 16px;
+        }
+
+        form select, form button {
+            padding: 8px 16px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        form button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        form button:hover {
+            background-color: #45a049;
+        }
+
+        /* Centrar el contenedor de gráficos */
+        .container-Graficos {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .container-Graficos div {
+            text-align: center;
+        }
+
+        .container-Graficos img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+    </style>
 </head>
-<style >
-    .container-Graficos {
-        display: flex;
-        gap: 10px;
-    }
-</style>
 <body>
 
 <div class="">
@@ -35,21 +84,55 @@
         </div>
     {{/message}}
 
+    <form method="POST" action="/administrador/filtrar">
+        <label for="categoria">Filtro de Tiempo:</label>
+        <select name="filtroTiempo" id="categoria">
+            <option value="semana">Semana</option>
+            <option value="mes">Mes</option>
+            <option value="anio">Año</option>
+        </select>
+        <button type="submit">Filtrar</button>
+    </form>
+
+
+
+
     <div class="container-Graficos">
-        <div class="">
-            <img src="{{preguntasChartPath}}" alt="Gráfico de Preguntas por Categoría">
-        </div>
+        {{#preguntasChartPath2}}
+            <div>
+                <img src="../{{preguntasChartPath2}}" alt="Gráfico de Preguntas por Categoría">
+            </div>
+        {{/preguntasChartPath2}}
 
-        <div>
-            <img src="{{usuariosChartPath}}" alt="Gráfico de Preguntas por Dificultad">
-        </div>
+        {{#usuariosChartPath2}}
+            <div>
+                <img src="../{{usuariosChartPath2}}" alt="Gráfico de Usuarios por Sexo">
+            </div>
+        {{/usuariosChartPath2}}
+
+        {{#usuariosNuevosChartPath}}
+            <div>
+                <img src="../{{usuariosNuevosChartPath}}" alt="Gráfico de Usuarios Nuevos">
+            </div>
+        {{/usuariosNuevosChartPath}}
     </div>
-
 
 
     {{>footer.mustache}}
 </div>
 
-
 </body>
+
+<script>
+    const filtroSeleccionado = "{{filtroTiempo}}";
+    document.addEventListener("DOMContentLoaded", () => {
+
+        if (filtroSeleccionado && filtroSeleccionado.trim() !== "") {
+            const selectCategoria = document.getElementById("categoria");
+            if (selectCategoria) {
+                selectCategoria.value = filtroSeleccionado;
+            }
+        }
+    });
+</script>
 </html>
