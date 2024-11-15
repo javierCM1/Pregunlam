@@ -8,6 +8,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="../public/lobby.css">
     <link rel="stylesheet" href="../public/editor.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+
+
     <style>
         /* Centrar el formulario de filtro */
         form {
@@ -72,7 +76,7 @@
     </div>
 
     <div class="button-container w3-margin">
-        <a class="action-btn w3-green" href="/administrador">Generar PDF</a>
+        <a class="action-btn w3-green" id="generar-pdf" >Generar PDF</a>
     </div>
 
     {{#message}}
@@ -92,7 +96,7 @@
         <button type="submit">Filtrar</button>
     </form>
 
-    <div class="container-Graficos">
+    <div class="container-Graficos"  id="graficos">
         {{#preguntasChartPath2}}
             <div>
                 <img src="../{{preguntasChartPath2}}" alt="Gráfico de Preguntas por Categoría">
@@ -113,6 +117,7 @@
     </div>
 
     <script>
+
         const filtroSeleccionado = "{{filtroTiempo}}";
         document.addEventListener("DOMContentLoaded", () => {
 
@@ -122,5 +127,42 @@
                     selectCategoria.value = filtroSeleccionado;
                 }
             }
+        });
+
+
+        document.getElementById("generar-pdf").addEventListener("click", function() {
+            // Seleccionamos el contenedor de los gráficos
+            const container = document.getElementById("graficos");
+
+            // Usamos html2canvas para capturar cada gráfico individualmente en el contenedor
+            html2canvas(container).then(function(canvas) {
+                // Crear un nuevo objeto jsPDF
+                const { jsPDF } = window.jspdf;
+                const pdf = new jsPDF();
+
+                // Dimensiones de la página y márgenes
+                const pageWidth = pdf.internal.pageSize.width;
+                const pageHeight = pdf.internal.pageSize.height;
+                const margin = 10;
+
+                // Ajustamos el tamaño de las imágenes y la distancia entre ellas
+                const imgWidth = pageWidth - 2 * margin;
+                const imgHeight = (canvas.height / canvas.width) * imgWidth;
+
+                // Inicializamos la posición en Y para la primera imagen
+                let yOffset = margin;
+
+                // Convertimos el canvas a una imagen PNG en formato Base64
+                const imgData = canvas.toDataURL("image/png");
+
+                // Agregamos la imagen al PDF, y verificamos si necesita una nueva página
+                if (yOffset + imgHeight > pageHeight) {
+                    pdf.addPage(); // Añadimos una nueva página si la imagen no cabe
+                    yOffset = margin; // Reseteamos la posición en Y
+                }
+                pdf.addImage(imgData, 'PNG', margin, yOffset, imgWidth, imgHeight);
+
+                pdf.save('grafico_estadisticas.pdf');
+            });
         });
     </script>
