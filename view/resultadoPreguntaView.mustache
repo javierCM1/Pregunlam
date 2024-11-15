@@ -63,7 +63,6 @@
 
         {{> audio.mustache }}
     </main>
-    {{>footer.mustache}}
 
     <!-- Modal para reporte -->
     <div id="modalReporte" class="w3-modal" style="display:none;">
@@ -86,63 +85,61 @@
         </div>
     </div>
 
-<script>
-    let canLeavePage = false; // Variable para controlar si se puede salir de la página
+    <script>
+        let canLeavePage = false; // Variable para controlar si se puede salir de la página
 
-    // Agregar una entrada al historial al cargar la página
-    history.pushState(null, document.title, location.href);
+        // Agregar una entrada al historial al cargar la página
+        history.pushState(null, document.title, location.href);
 
-    // Manejar el evento popstate para controlar el retroceso
-    window.addEventListener('popstate', function(event) {
-        if (!canLeavePage) {
-            // Si no se puede salir, se vuelve a agregar la entrada al historial
-            history.pushState(null, document.title, location.href);
-            alert("Por favor, haga clic en 'Continuar' antes de retroceder.");
-        }
-    });
-
-    function abrirModal() {
-        const modal = document.getElementById('modalReporte');
-        const fechaActual = new Date().toISOString().slice(0, 19).replace('T', ' ');
-        document.getElementById('fechaReporte').value = fechaActual;
-        modal.style.display = 'block';
-    }
-
-    function cerrarModal() {
-        document.getElementById('modalReporte').style.display = 'none';
-    }
-
-    // Event listener para manejar el evento antes de salir de la página
-    window.addEventListener('beforeunload', function (e) {
-        if (!canLeavePage) {
-            // Mostrar el mensaje de advertencia
-            e.preventDefault();
-            e.returnValue = ''; // Para la mayoría de navegadores
-        }
-    });
-
-    // Manejar el clic en el botón "Continuar"
-    document.getElementById('btnContinuar').addEventListener('click', function() {
-        canLeavePage = true; // Permitir salir de la página
-        history.pushState(null, document.title, location.href); // Agregar una nueva entrada para permitir el retroceso después de continuar
-    });
-
-    // Manejar el clic en el botón "Reportar"
-    document.querySelector('button[value="reportar"]').addEventListener('click', function() {
-        canLeavePage = true; // Permitir salir de la página
-        abrirModal(); // Abrir el modal de reporte
-    });
-
-    // Evitar que se recargue la página al presionar F5 o Ctrl+R
-    window.addEventListener('keydown', function(e) {
-        if (e.key === 'F5' || (e.ctrlKey && e.key === 'r')) {
-            e.preventDefault(); // Evitar recarga
+        // Manejar el evento popstate para controlar el retroceso
+        window.addEventListener('popstate', function(event) {
             if (!canLeavePage) {
-                alert("Por favor, haga clic en 'Continuar' antes de recargar la página.");
+                // Si no se puede salir, se vuelve a agregar la entrada al historial
+                history.pushState(null, document.title, location.href);
+                alert("Por favor, haga clic en 'Continuar' antes de retroceder.");
             }
+        });
+
+        function abrirModal() {
+            const modal = document.getElementById('modalReporte');
+            const fechaActual = new Date().toISOString().slice(0, 19).replace('T', ' ');
+            document.getElementById('fechaReporte').value = fechaActual;
+            modal.style.display = 'block';
         }
-    });
-</script>
-</body>
-</html>
+
+        function cerrarModal() {
+            document.getElementById('modalReporte').style.display = 'none';
+        }
+
+        // Event listener para manejar el evento antes de salir de la página
+        window.addEventListener('beforeunload', function (e) {
+            if (!canLeavePage) {
+                // Mostrar el mensaje de advertencia
+                e.preventDefault();
+                e.returnValue = ''; // Para la mayoría de navegadores
+            }
+        });
+
+        // Manejar el clic en el botón "Continuar"
+        document.getElementById('btnContinuar').addEventListener('click', function() {
+            canLeavePage = true; // Permitir salir de la página
+            history.pushState(null, document.title, location.href); // Agregar una nueva entrada para permitir el retroceso después de continuar
+        });
+
+        // Manejar el clic en el botón "Reportar"
+        document.querySelector('button[value="reportar"]').addEventListener('click', function() {
+            canLeavePage = true; // Permitir salir de la página
+            abrirModal(); // Abrir el modal de reporte
+        });
+
+        // Evitar que se recargue la página al presionar F5 o Ctrl+R
+        window.addEventListener('keydown', function(e) {
+            if (e.key === 'F5' || (e.ctrlKey && e.key === 'r')) {
+                e.preventDefault(); // Evitar recarga
+                if (!canLeavePage) {
+                    alert("Por favor, haga clic en 'Continuar' antes de recargar la página.");
+                }
+            }
+        });
+    </script>
  

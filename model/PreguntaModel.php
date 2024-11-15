@@ -173,9 +173,10 @@ class PreguntaModel
         }
         return null;
     }
-    
-    
-    
+
+    /**
+     * @throws PreguntaExpiradaException
+     */
     public function getTiempoRestanteDeUltimaPregunta($idPartida)
     {
         $estado = 'a';
@@ -196,7 +197,7 @@ class PreguntaModel
             
             // Si el tiempo ya pasó (por ejemplo, más de 30 segundos)
             if ($tiempoRestante <= 0) {
-                return 0; // El tiempo ha expirado
+                throw new PreguntaExpiradaException();
             }
             
             return $tiempoRestante; // Devuelve el tiempo restante

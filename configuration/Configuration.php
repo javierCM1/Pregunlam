@@ -36,6 +36,7 @@ include_once("controller/ModificarPreguntaController.php");
 include_once("controller/ReportesController.php");
 include_once("controller/SugerenciasController.php");
 include_once("controller/AdministradorController.php");
+include_once("controller/RecuperarContraseniaController.php");
 
 //excepciones
 include_once("model/exeption/InvalidNameException.php");
@@ -132,6 +133,10 @@ class Configuration
     public function getRegisterController()
     {
         return new RegisterController($this->getUserModel(), $this->getPresenter(), $this->getProfilePicHandler(), $this->getFileEmailSender(), $this->getInputFormatValidator());
+    }
+    
+    public function getRecuperarContraseniaController(){
+        return new RecuperarContraseniaController($this->getUserModel(),$this->getPresenter(),$this->getInputFormatValidator());
     }
 
     public function getLoginController()

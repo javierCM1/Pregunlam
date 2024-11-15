@@ -53,37 +53,34 @@
             </form>
         </section>
     </main>
-    {{>footer.mustache}}
-</body>
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        let map = L.map('map').setView([{{pais_usuario}}], 13);
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            let map = L.map('map').setView([{{pais_usuario}}], 13);
 
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 19,
-            attribution: '© OpenStreetMap'
-        }).addTo(map);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+                attribution: '© OpenStreetMap'
+            }).addTo(map);
 
-        document.getElementById('coordenadas').value = [{{lat}},{{lng}}];
+            document.getElementById('coordenadas').value = [{{lat}},{{lng}}];
 
-        let marcador;
+            let marcador;
 
-        map.on('click', function(e) {
-            let latlng = e.latlng;
+            map.on('click', function(e) {
+                let latlng = e.latlng;
 
-            document.getElementById('coordenadas').value = latlng.lat.toFixed(6) + ',' + latlng.lng.toFixed(6);
+                document.getElementById('coordenadas').value = latlng.lat.toFixed(6) + ',' + latlng.lng.toFixed(6);
 
-            if (marcador) {
-                map.removeLayer(marcador);
-            }
+                if (marcador) {
+                    map.removeLayer(marcador);
+                }
 
-            // Crear un nuevo marcador
-            marcador = L.marker(latlng).addTo(map);
+                // Crear un nuevo marcador
+                marcador = L.marker(latlng).addTo(map);
+            });
         });
-    });
-</script>
-{{/usuario}}
-</html>
+    </script>
+    {{/usuario}}
 
 
