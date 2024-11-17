@@ -75,10 +75,6 @@
         <h2>Estadísticas</h2>
     </div>
 
-    <div class="button-container w3-margin">
-        <a class="action-btn w3-green" id="generar-pdf" >Generar PDF</a>
-    </div>
-
     {{#message}}
         <div class="w3-panel w3-green w3-display-container">
             <span onclick="this.parentElement.style.display='none'" class="w3-button w3-large w3-display-topright">&times;</span>
@@ -97,23 +93,83 @@
     </form>
 
     <div class="container-Graficos"  id="graficos">
-        {{#preguntasChartPath2}}
-            <div>
-                <img src="../{{preguntasChartPath2}}" alt="Gráfico de Preguntas por Categoría">
-            </div>
-        {{/preguntasChartPath2}}
+        <form action="generarPDF" method="post">
+            {{#preguntasChartPath}}
+                <div>
+                    <h4>Cantidad de preguntas por categoría</h4>
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>Categoría</th>
+                            <th>Cantidad</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {{#cantidadesCategoria}}
+                        <tr>
+                            <td>{{descripcion_categoria}}</td>
+                            <td>{{numero_preguntas}}</td>
+                        </tr>
+                        {{/cantidadesCategoria}}
+                        </tbody>
+                    </table>
+                    <img src="../{{preguntasChartPath}}" alt="Gráfico de Preguntas por Categoría">
+                    <input type="hidden" value="{{preguntasChartPath}}" name="valueGrafPreguntas">
+                </div>
+            {{/preguntasChartPath}}
+            {{#usuariosChartPath}}
+                <div>
+                    <h4>Porcentaje de usuarios por sexo</h4>
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>Género</th>
+                            <th>Porcentaje</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {{#porcentajesSexo}}
+                        <tr>
+                            <td>{{descripcion_sexo}}</td>
+                            <td>{{numero_usuario}}</td>
+                        </tr>
+                        {{/porcentajesSexo}}
+                        </tbody>
+                    </table>
+                    <img src="../{{usuariosChartPath}}" alt="Gráfico de Usuarios por Sexo">
+                    <input type="hidden" value="{{usuariosChartPath}}" name="valueGrafSexoUsers">
+                </div>
+            {{/usuariosChartPath}}
 
-        {{#usuariosChartPath2}}
-            <div>
-                <img src="../{{usuariosChartPath2}}" alt="Gráfico de Usuarios por Sexo">
-            </div>
-        {{/usuariosChartPath2}}
+            {{#usuariosNuevosChartPath}}
+                <div>
+                    <h4>Cantidad de usuarios nuevos</h4>
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>Rango</th>
+                            <th>Cantidad</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {{#rangos}}
+                        <tr>
+                            <td>{{mes_registro}}</td>
+                            <td>{{numero_usuarios_nuevos}}</td>
+                        </tr>
+                        {{/rangos}}
+                        </tbody>
+                    </table>
+                    <img src="../{{usuariosNuevosChartPath}}" alt="Gráfico de Usuarios Nuevos">
+                    <input type="hidden" value="{{usuariosNuevosChartPath}}" name="valueGrafNuevosUsers">
+                </div>
+            {{/usuariosNuevosChartPath}}
 
-        {{#usuariosNuevosChartPath}}
-            <div>
-                <img src="../{{usuariosNuevosChartPath}}" alt="Gráfico de Usuarios Nuevos">
+            <div class="button-container w3-margin">
+                <!-- <a class="action-btn w3-green" id="generar-pdf" >Generar PDF</a> -->
+                <button type="submit" class="action-btn w3-green">Generar PDF</button>
             </div>
-        {{/usuariosNuevosChartPath}}
+        </form>
     </div>
 
     <script>
@@ -129,8 +185,32 @@
             }
         });
 
+        /*function generarPDF() {
+            // Obtener el contenido del div
+            var contenido = document.getElementById("graficos").innerHTML;
 
-        document.getElementById("generar-pdf").addEventListener("click", function() {
+            // Enviar el contenido al servidor para procesarlo con DOMPDF
+            fetch('/generarPDF', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: 'contenido=' + encodeURIComponent(contenido)
+            })
+            .then(response => response.blob())
+            .then(blob => {
+                // Crear un enlace para descargar el PDF
+                var link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = 'grafico_estadisticas.pdf';  // Nombre del archivo PDF
+                link.click();
+            })
+            .catch(error => {
+                console.error('Error al generar el PDF:', error);
+            });
+        }*/
+
+        /*document.getElementById("generar-pdf").addEventListener("click", function() {
             // Seleccionamos el contenedor de los gráficos
             const container = document.getElementById("graficos");
 
@@ -164,5 +244,5 @@
 
                 pdf.save('grafico_estadisticas.pdf');
             });
-        });
+        });*/
     </script>

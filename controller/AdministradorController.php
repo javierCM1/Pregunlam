@@ -8,14 +8,16 @@ class AdministradorController
     private $presenter;
 
     private $ChartGenerator;
+    private $pdfGenerator;
 
 
-    public function __construct($model, $userModel, $presenter, $ChartGenerator)
+    public function __construct($model, $userModel, $presenter, $ChartGenerator, $pdfGenerator)
     {
         $this->model = $model;
         $this->userModel = $userModel;
         $this->presenter = $presenter;
         $this->ChartGenerator = $ChartGenerator;
+        $this->pdfGenerator = $pdfGenerator;
     }
 
     public function index()
@@ -33,28 +35,17 @@ class AdministradorController
 
     public function filtrar()
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['filtroTiempo'])) {
-            $_SESSION['filtroTiempo'] = $_POST['filtroTiempo'];
-        }
-        $filtroTiempo = isset($_SESSION['filtroTiempo']) ? $_SESSION['filtroTiempo'] : 'semana'; // Valor por defecto
-
-        $username = $_SESSION['user'];
-        $estado = 2;
+        $filtroTiempo = $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['filtroTiempo']) ? $_POST['filtroTiempo'] : 'semana'; // Valor por defecto
 
         $fechaFin = date('Y-m-d');
-        $fechaInicio = null;
 
-        switch ($filtroTiempo) {
-            case 'semana':
-                $fechaInicio = date('Y-m-d', strtotime('last monday -1 week'));
-                break;
-            case 'mes':
-                $fechaInicio = date('Y-m-d', strtotime('-1 month'));
-                break;
-            case 'anio':
-                $fechaInicio = date('Y-m-d', strtotime('-1 year'));
-                break;
-        }
+        $datetime = match ($filtroTiempo) {
+            'mes' => '-1 month',
+            'anio' => '-1 year',
+            default => 'last monday -1 week',
+        };
+
+        $fechaInicio = date('Y-m-d',strtotime($datetime));
 
         $preguntasData = $this->model->obtenerNumeroDePreguntasActivasPorCategoria();//no se calcula por fecha
         $usuariosData = $this->userModel->obtenerNumeroDeUsuariosPorSexo();//no se calcula por fecha
@@ -143,13 +134,47 @@ class AdministradorController
         }
 
         $this->presenter->show('administrador', [
-            'preguntasChartPath2' => $preguntasChartPath,
-            'usuariosChartPath2' => $usuariosChartPath,
+            'preguntasChartPath' => $preguntasChartPath,
+            'usuariosChartPath' => $usuariosChartPath,
             'usuariosNuevosChartPath' => $usuariosNuevosChartPath,
             'username' => $_SESSION['user'],
             'tipoUsuario' => 'administrador',
-            'filtroTiempo' => $filtroTiempo
+            'filtroTiempo' => $filtroTiempo,
+            'cantidadesCategoria' => $preguntasData,
+            'porcentajesSexo' => $usuariosData,
+            'rangos' => $usuariosNuevos
         ]);
+    }
+
+    public function generarPDF()
+    {
+        if (isset($_POST['valueGrafPreguntas']) && isset($_POST['valueGrafSexoUsers']) && isset($_POST['valueGrafNuevosUsers'])) {
+
+            $html = $this->generarImgHtml('Cantidad de preguntas por categoría',$_POST['valueGrafPreguntas']);
+            $html.= $this->generarImgHtml('Porcentaje de usuarios por sexo',$_POST['valueGrafSexoUsers']);
+            $html.= $this->generarImgHtml('Cantidad de usuarios nuevos',$_POST['valueGrafNuevosUsers']);
+
+            $this->pdfGenerator->render($html);
+        }
+    }
+
+    private function generarImgHtml($titulo,$path)
+    {
+        return "<h4>$titulo</h4>
+                <img src='".$this->getImage($path)."' alt='".$path."'
+                        style='max-width: 100%;
+                                height: auto;
+                                border: 1px solid #ccc;
+                                border-radius: 8px;
+                                box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);'
+                >";
+    }
+
+    private function getImage($path)
+    {
+        $type = pathinfo($path, PATHINFO_EXTENSION);
+        $data = file_get_contents($path);
+        return 'data:image/' . $type . ';base64,' . base64_encode($data);
     }
 
     public function logout()
