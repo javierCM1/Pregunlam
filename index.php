@@ -7,6 +7,7 @@ $router = $configuration->getRouter();
 validarAccesoUsuario($configuration,$_GET['page']); //agregado
 
 $methodName = isset($_GET['action']) ? $_GET['action'] : '';
+
 $router->route($_GET['page'], $methodName);
 
 //agregado

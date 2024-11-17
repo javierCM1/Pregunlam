@@ -24,14 +24,10 @@ class LoginController
         if ($this->model->validateLogin($user, $password, 'a'))
         {
             $_SESSION['user'] = $user;
-            $tipoUsuario = $this->model->getTipoUsuario($user);
-            if ($tipoUsuario == 2) {
-                header('Location: /editor');
-                exit();
-            } else {
+
                 header('Location: /lobby');
                 exit();
-            }
+
         }
         else if($this->model->validateLogin($user, $password, 'p'))
         {
