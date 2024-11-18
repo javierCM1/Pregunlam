@@ -50,7 +50,7 @@ class UserModel
     {
         $estadoActivo = 'a';
         $query = $this->db->prepare("SELECT id_usuario, userName_usuario, maxPuntaje_usuario, img_usuario, pais_usuario
-                                    FROM usuario WHERE id_usuario = ? AND estado_usuario = ?");
+                                    FROM usuario WHERE id_usuario = ? AND estado_usuario = ? AND id_tipo_usuario = 3");
         $query->bind_param('is', $id, $estadoActivo);
         $query->execute();
         return $query->get_result()->fetch_array(MYSQLI_ASSOC);

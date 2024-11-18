@@ -20,7 +20,7 @@ class PerfilController
     public function index()
     {
         $usuario = $this->userModel->getUserByUsernameOrEmail($_SESSION['user'], 'a');
-        $id = isset($_GET['id']) ? (int)$_GET['id'] : $usuario['id_usuario'];
+        $id = $_GET['id'] ?? $usuario['id_usuario'];
         $perfil = $this->userModel->getUserProfileById($id);
         $partidas = $this->partidaModel->getPartidasByUserId($perfil['id_usuario']);
 
