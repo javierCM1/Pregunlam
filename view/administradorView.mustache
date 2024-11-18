@@ -113,6 +113,9 @@
                         {{/cantidadesCategoria}}
                         </tbody>
                     </table>
+                    {{#cantidadesCategoriaSerial}}
+                        <input type="hidden" value="{{cantidadesCategoriaSerial}}" name="valueTablaCategoria">
+                    {{/cantidadesCategoriaSerial}}
                     <img src="../{{preguntasChartPath}}" alt="Gráfico de Preguntas por Categoría">
                     <input type="hidden" value="{{preguntasChartPath}}" name="valueGrafPreguntas">
                 </div>
@@ -136,6 +139,9 @@
                         {{/porcentajesSexo}}
                         </tbody>
                     </table>
+                    {{#porcentajesSexoSerial}}
+                        <input type="hidden" value="{{porcentajesSexoSerial}}" name="valueTablaSexo">
+                    {{/porcentajesSexoSerial}}
                     <img src="../{{usuariosChartPath}}" alt="Gráfico de Usuarios por Sexo">
                     <input type="hidden" value="{{usuariosChartPath}}" name="valueGrafSexoUsers">
                 </div>
@@ -160,13 +166,15 @@
                         {{/rangos}}
                         </tbody>
                     </table>
+                    {{#rangosSerial}}
+                        <input type="hidden" value="{{rangosSerial}}" name="valueTablaNuevos">
+                    {{/rangosSerial}}
                     <img src="../{{usuariosNuevosChartPath}}" alt="Gráfico de Usuarios Nuevos">
                     <input type="hidden" value="{{usuariosNuevosChartPath}}" name="valueGrafNuevosUsers">
                 </div>
             {{/usuariosNuevosChartPath}}
 
             <div class="button-container w3-margin">
-                <!-- <a class="action-btn w3-green" id="generar-pdf" >Generar PDF</a> -->
                 <button type="submit" class="action-btn w3-green">Generar PDF</button>
             </div>
         </form>

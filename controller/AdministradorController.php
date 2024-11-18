@@ -142,25 +142,66 @@ class AdministradorController
             'filtroTiempo' => $filtroTiempo,
             'cantidadesCategoria' => $preguntasData,
             'porcentajesSexo' => $usuariosData,
-            'rangos' => $usuariosNuevos
+            'rangos' => $usuariosNuevos,
+            'cantidadesCategoriaSerial' => serialize($preguntasData),
+            'porcentajesSexoSerial' => serialize($usuariosData),
+            'rangosSerial' => serialize($usuariosNuevos)
         ]);
     }
 
     public function generarPDF()
     {
-        if (isset($_POST['valueGrafPreguntas']) && isset($_POST['valueGrafSexoUsers']) && isset($_POST['valueGrafNuevosUsers'])) {
+        if (isset($_POST['valueGrafPreguntas']) &&
+            isset($_POST['valueGrafSexoUsers']) &&
+            isset($_POST['valueGrafNuevosUsers']) &&
+            isset($_POST['valueTablaCategoria']) &&
+            isset($_POST['valueTablaSexo']) &&
+            isset($_POST['valueTablaNuevos'])) {
 
-            $html = $this->generarImgHtml('Cantidad de preguntas por categoría',$_POST['valueGrafPreguntas']);
-            $html.= $this->generarImgHtml('Porcentaje de usuarios por sexo',$_POST['valueGrafSexoUsers']);
-            $html.= $this->generarImgHtml('Cantidad de usuarios nuevos',$_POST['valueGrafNuevosUsers']);
+            $tablaCategorias = $this->generarTablaHtml(unserialize($_POST['valueTablaCategoria']),'Categoria','Cantidad',"descripcion_categoria","numero_preguntas");
+            $tablaSexoUsuarios = $this->generarTablaHtml(unserialize($_POST['valueTablaSexo']),'Genero','Porcentaje',"descripcion_sexo","numero_usuario");
+            $tablaNuevosUsuarios = $this->generarTablaHtml(unserialize($_POST['valueTablaNuevos']),'Rango','Cantidad',"mes_registro","numero_usuarios_nuevos");
+
+            $html = $this->generarBloqueHtml('Cantidad de preguntas por categoría',$_POST['valueGrafPreguntas'],$tablaCategorias);
+            $html.= $this->generarBloqueHtml('Porcentaje de usuarios por sexo',$_POST['valueGrafSexoUsers'],$tablaSexoUsuarios);
+            $html.= $this->generarBloqueHtml('Cantidad de usuarios nuevos',$_POST['valueGrafNuevosUsers'],$tablaNuevosUsuarios);
 
             $this->pdfGenerator->render($html);
         }
     }
 
-    private function generarImgHtml($titulo,$path)
+    private function generarTablaHtml($valueTabla, $tituloCol1, $tituloCol2, $campo1, $campo2)
     {
-        return "<h4>$titulo</h4>
+        $htmlTabla = "<table style='width: 100%;
+                                    border: none;
+                                    margin-bottom: 20px;
+                                    border-collapse: collapse!important;
+                                    font-family: Arial, sans-serif;'>
+                        <thead>
+                        <tr>
+                            <th style='padding: 10px; text-align: center; background-color: #725FEC; color: white;'>$tituloCol1</th>
+                            <th style='padding: 10px; text-align: center; background-color: #725FEC; color: white;'>$tituloCol2</th>
+                        </tr>
+                        </thead>
+                        <tbody style='text-align: center'>";
+
+        foreach ($valueTabla as $value) {
+            $htmlTabla .= "<tr>
+                                <td>".$value[$campo1]."</td>
+                                <td>".$value[$campo2]."</td>
+                            </tr>";
+        }
+
+        $htmlTabla .= '</tbody>
+                    </table>';
+
+        return $htmlTabla;
+    }
+
+    private function generarBloqueHtml($titulo, $path, $tabla)
+    {
+        return "<h4 style='font-family: Arial, sans-serif;'>$titulo</h4>
+                $tabla
                 <img src='".$this->getImage($path)."' alt='".$path."'
                         style='max-width: 100%;
                                 height: auto;
