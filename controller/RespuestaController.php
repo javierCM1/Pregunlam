@@ -79,6 +79,10 @@ class RespuestaController
             $data['audio_src'] = 'public/music/WhatsApp Audio 2024-10-28 at 23.22.09.mpeg';
             $data['respuestaEsCorrecta'] = true;
             $data['message'] = '¡Respuesta correcta!';
+            
+            
+            
+            // $_SESSION['estadoRespuesta'] = true;
 
             $this->preguntaModel->respondeCorrecto($partida['id_partida'], $pregunta['id_pregunta']);
             $this->preguntaModel->incrementarCantCorrectas($data['id_pregunta']);
@@ -100,7 +104,12 @@ class RespuestaController
             $pregunta = $this->preguntaModel->obtenerPreguntaPorId($_SESSION['id_pregunta'], 2);
             $respuestaCorrecta = $this->preguntaModel->getRespuestaCorrectaDePregunta($pregunta['id_pregunta']);
             $_SESSION['terminoPartida'] = true;
-
+            
+            //$_SESSION['estadoRespuesta'] = false;
+            
+            
+            
+            
             $data['puntaje_final'] = $partida['puntaje_partida'];
             $data['message'] = $_SESSION['message'];
             $data['usuario'] = $usuario;
@@ -113,6 +122,7 @@ class RespuestaController
 
             $this->partidaModel->terminarPartida($partida['id_partida'], $usuario['id_usuario']);
             $this->usuarioModel->determinarPuntajeMaximo($usuario, $partida);
+            
 
             $this->presenter->show("resultadoPregunta", $data);
 
@@ -130,26 +140,37 @@ class RespuestaController
         $id_usuario = $_POST['id_usuarioMandado'];
         $id_pregunta = $_POST['id_pregunta'];
         
-        if (!isset($motivo_reporte)) {
-            echo "Error: Todos los campos son obligatorios.";
+        // Verificar que los campos necesarios estén presentes
+        if (empty($motivo_reporte) || empty($fecha_reporte) || empty($id_usuario) || empty($id_pregunta)) {
+            http_response_code(400); // Código de error
+            echo json_encode(['error' => 'Todos los campos son obligatorios.']);
             return;
         }
-
-        $this->reporteModel->guardarReporte($motivo_reporte, $fecha_reporte, $id_usuario, $id_pregunta);
-        $this->reporteModel->establecerPreguntaReportada($id_pregunta);
-        if($_POST['continuar']){
-            header('Location: /respuesta');
-            exit();
+        
+        try {
+            $this->reporteModel->guardarReporte($motivo_reporte, $fecha_reporte, $id_usuario, $id_pregunta);
+            $this->reporteModel->establecerPreguntaReportada($id_pregunta);
+            
+            // Respuesta en formato JSON
+            echo json_encode(['success' => 'Reporte enviado correctamente.']);
+            return;
+            
+        } catch (Exception $e) {
+            http_response_code(500); // Código de error del servidor
+            echo json_encode(['error' => 'Ocurrió un error al procesar el reporte.']);
+            return;
         }
-        header('Location: /lobby');
-        exit();
     }
+    
     
     private function sumarPuntaje($user)
     {
         $usuario = $this->usuarioModel->getUserByUsernameOrEmail($user, 'a');
         $partida = $this->partidaModel->getPartidaActivaByUserId($usuario['id_usuario']);
-        $this->partidaModel->incrementarPuntajePartida($partida['id_partida'], 'a');
+        
+        
+            $this->partidaModel->incrementarPuntajePartida($partida['id_partida'], 'a');
+      
         
         
     }
