@@ -72,14 +72,14 @@
                 <h2>Reportar Pregunta</h2>
             </header>
             <div class="w3-container">
-                <form id="formReporte" method="POST" action="/respuesta/reportar">
+                <form id="formReporte">
                     <label for="motivoReporte">Motivo del Reporte:</label>
                     <input type="text" id="motivoReporte" name="motivo_reporte" required class="w3-input">
                     <input type="hidden" id="fechaReporte" name="fecha_reporte">
                     <input type="hidden" id="idUsuario" name="id_usuarioMandado" value="{{id_usuario}}">
                     <input type="hidden" id="idPregunta" name="id_pregunta" value="{{pregunta.id_pregunta}}">
                     <input type="hidden" id="idPartida" name="id_partida" value="{{partida.id_partida}}">
-                    <button type="submit" class="w3-button color w3-margin-top">Enviar Reporte</button>
+                    <button type="button" id="enviarReporte" class="w3-button color w3-margin-top">Enviar Reporte</button>
                 </form>
             </div>
         </div>
@@ -132,6 +132,32 @@
             abrirModal(); // Abrir el modal de reporte
         });
 
+
+        document.getElementById('enviarReporte').addEventListener('click', function () {
+            // Obtener datos del formulario
+            const formData = new FormData(document.getElementById('formReporte'));
+
+            // Enviar los datos con Fetch
+            fetch('/respuesta/reportar', {
+                method: 'POST',
+                body: formData,
+            })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Error al enviar el reporte');
+                        }
+                        return response.json(); // O response.text() según la respuesta del servidor
+                    })
+                    .then(data => {
+                        alert('Reporte enviado exitosamente'); // Mostrar mensaje de éxito
+                        cerrarModal(); // Cerrar el modal
+                    })
+                    .catch(error => {
+                        alert('Hubo un problema al enviar el reporte: ' + error.message);
+                    });
+        });
+
+
         // Evitar que se recargue la página al presionar F5 o Ctrl+R
         window.addEventListener('keydown', function(e) {
             if (e.key === 'F5' || (e.ctrlKey && e.key === 'r')) {
@@ -142,4 +168,3 @@
             }
         });
     </script>
- 
