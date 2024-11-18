@@ -31,14 +31,14 @@ class ReporteModel
         return $reportes;
     }
 
-    public function guardarReporte($motivo_reporte, $fecha_reporte, $id_usuario, $id_pregunta)
+    public function guardarReporte($motivo_reporte, $id_usuario, $id_pregunta)
     {
         $query = $this->database->prepare("INSERT INTO reporte_pregunta (
                                                         motivo_reporte, 
                                                         fecha_reporte, 
                                                         id_usuario, 
-                                                        id_pregunta) VALUES (?, ?, ?, ?)");
-        $query->bind_param("ssii", $motivo_reporte, $fecha_reporte, $id_usuario, $id_pregunta);
+                                                        id_pregunta) VALUES (?, NOW(), ?, ?)");
+        $query->bind_param("sii", $motivo_reporte, $id_usuario, $id_pregunta);
         $query->execute();
     }
 

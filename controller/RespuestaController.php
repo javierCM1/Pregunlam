@@ -136,19 +136,18 @@ class RespuestaController
     public function reportar()
     {
         $motivo_reporte = $_POST['motivo_reporte'];
-        $fecha_reporte = $_POST['fecha_reporte'];
         $id_usuario = $_POST['id_usuarioMandado'];
         $id_pregunta = $_POST['id_pregunta'];
         
         // Verificar que los campos necesarios estén presentes
-        if (empty($motivo_reporte) || empty($fecha_reporte) || empty($id_usuario) || empty($id_pregunta)) {
+        if (empty($motivo_reporte) || empty($id_usuario) || empty($id_pregunta)) {
             http_response_code(400); // Código de error
             echo json_encode(['error' => 'Todos los campos son obligatorios.']);
             return;
         }
         
         try {
-            $this->reporteModel->guardarReporte($motivo_reporte, $fecha_reporte, $id_usuario, $id_pregunta);
+            $this->reporteModel->guardarReporte($motivo_reporte, $id_usuario, $id_pregunta);
             $this->reporteModel->establecerPreguntaReportada($id_pregunta);
             
             // Respuesta en formato JSON
