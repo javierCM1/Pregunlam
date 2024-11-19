@@ -181,10 +181,6 @@ input[type="text"] {
         width: 100%;
         border-collapse: collapse;
     }
-
-    .hideMobile {
-        display: none;
-    }
 }
 
 /* Media Query para Dispositivos Móviles */
@@ -197,16 +193,7 @@ input[type="text"] {
         width: 98%;
     }
 
-    .button-container {
-        width: 98%;
-        display: flex;
-        justify-content: center;
-        gap: 20px;
-        margin-top: 30px;
-    }
-
     .action-btn {
-        width: 30%;
         padding: 15px 30px;
         font-size: 14px;
         color: white;
@@ -221,10 +208,6 @@ input[type="text"] {
     table {
         width: 95%;
         border-collapse: collapse;
-        margin-left: -0.5em;
-    }
-
-    .hideMobile {
-        display: none;
+        margin-left: 0.5em;
     }
 }

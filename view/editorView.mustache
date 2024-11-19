@@ -46,24 +46,24 @@
         <table>
             <thead>
             <tr>
-                <th>ID Pregunta</th>
+                <th class="hideMobile">ID Pregunta</th>
                 <th>Pregunta</th>
                 <th>Respuesta</th>
-                <th>Fecha</th>
-                <th>Categoría</th>
-                <th>Usuario</th>
+                <th class="hideMobile">Fecha</th>
+                <th class="hideMobile">Categoría</th>
+                <th class="hideMobile">Usuario</th>
                 <th>Acción</th>
             </tr>
             </thead>
             <tbody id="tablaReportes">
             {{#preguntas}}
                 <tr>
-                    <td>{{id_pregunta}}</td>
+                    <td class="hideMobile">{{id_pregunta}}</td>
                     <td>{{interrogante_pregunta}}</td>
                     <td>{{descripcion_respuesta}}</td>
-                    <td>{{fechaCreacion_pregunta}}</td>
-                    <td>{{descripcion_categoria}}</td>
-                    <td>{{userName_usuario}}</td>
+                    <td class="hideMobile">{{fechaCreacion_pregunta}}</td>
+                    <td class="hideMobile">{{descripcion_categoria}}</td>
+                    <td class="hideMobile">{{userName_usuario}}</td>
                     <td>
                         {{#activar}}
                             <a href="/editor/activar?id={{id_pregunta}}">

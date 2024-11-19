@@ -24,9 +24,9 @@
             <tr>
                 <th>Pregunta</th>
                 <th>Respuesta</th>
-                <th>Fecha</th>
-                <th>Categoría</th>
-                <th>Usuario</th>
+                <th class="hideMobile">Fecha</th>
+                <th class="hideMobile">Categoría</th>
+                <th class="hideMobile">Usuario</th>
                 <th>Acción</th>
             </tr>
             </thead>
@@ -35,9 +35,9 @@
                 <tr>
                     <td>{{interrogante_pregunta}}</td>
                     <td>{{descripcion_respuesta}}</td>
-                    <td>{{fechaCreacion_pregunta}}</td>
-                    <td>{{descripcion_categoria}}</td>
-                    <td>{{userName_usuario}}</td>
+                    <td class="hideMobile">{{fechaCreacion_pregunta}}</td>
+                    <td class="hideMobile">{{descripcion_categoria}}</td>
+                    <td class="hideMobile">{{userName_usuario}}</td>
                     <td>
                         <a href="/sugerencias/activar?id={{id_pregunta}}">
                         <button class="w3-btn w3-green" style="width: 100%; margin-bottom: 0.5em">Aprobar</button>

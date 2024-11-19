@@ -259,6 +259,12 @@ table th {
     display: inline-block;
 }
 
+#map{
+    margin-left: 7em;
+    height: 20em;
+    width: 40em;
+}
+
 /* Media Query para Tablets */
 @media (max-width: 768px) {
     .container-perfil{
@@ -290,6 +296,15 @@ table th {
 
     .logout {
         margin-top: -5px; /* Añade espacio superior entre el botón y el texto de bienvenida */
+    }
+
+    .container-ranking{
+        max-width: 90%;
+        margin: 0 auto;
+        background-color: #fff;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     }
 }
 
@@ -337,5 +352,18 @@ table th {
         display: flex;
         flex-direction: column;
     }
+    #map{
+        margin-left: 0;
+        height: 12em;
+        width: 24em;
+    }
 
+    .container-ranking{
+        max-width:100%;
+        margin: 0 auto;
+        background-color: #fff;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
 }
