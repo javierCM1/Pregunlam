@@ -129,12 +129,15 @@ class AdministradorController
             $usuariosChartPath = null;
         }
 
+        
+        
+        $chartWidthLine = 1000;
         if (!empty($usuariosNuevos)) {
             $this->ChartGenerator->generateLineChart(
                 $usuariosNuevosValues,
                 $usuariosNuevosLabels,
                 "Número de Usuarios Nuevos Registrados",
-                $chartWidth,
+                $chartWidthLine,
                 $chartHeight,
                 $usuariosNuevosChartPath
             );
