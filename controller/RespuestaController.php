@@ -105,7 +105,6 @@ class RespuestaController
             $respuestaCorrecta = $this->preguntaModel->getRespuestaCorrectaDePregunta($pregunta['id_pregunta']);
             $_SESSION['terminoPartida'] = true;
             
-            //$_SESSION['estadoRespuesta'] = false;
             
             
             
@@ -139,7 +138,6 @@ class RespuestaController
         $id_usuario = $_POST['id_usuarioMandado'];
         $id_pregunta = $_POST['id_pregunta'];
         
-        // Verificar que los campos necesarios estén presentes
         if (empty($motivo_reporte) || empty($id_usuario) || empty($id_pregunta)) {
             http_response_code(400); // Código de error
             echo json_encode(['error' => 'Todos los campos son obligatorios.']);
@@ -150,12 +148,11 @@ class RespuestaController
             $this->reporteModel->guardarReporte($motivo_reporte, $id_usuario, $id_pregunta);
             $this->reporteModel->establecerPreguntaReportada($id_pregunta);
             
-            // Respuesta en formato JSON
             echo json_encode(['success' => 'Reporte enviado correctamente.']);
             return;
             
         } catch (Exception $e) {
-            http_response_code(500); // Código de error del servidor
+            http_response_code(500);
             echo json_encode(['error' => 'Ocurrió un error al procesar el reporte.']);
             return;
         }

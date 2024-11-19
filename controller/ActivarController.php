@@ -32,7 +32,7 @@ class ActivarController
     
     public function activada()
     {
-        header('Location: /lobby'); // Redirige a la vista de lobby
+        header('Location: /lobby');
         exit();
     }
 }

@@ -66,16 +66,12 @@ class UserModel
     
     public function getUserByUsernameAndEmail($username, $email, $state)
     {
-        // Preparamos la consulta SQL para seleccionar al usuario basado en el nombre de usuario Y el correo, y su estado
         $query = $this->db->prepare("SELECT * FROM usuario WHERE userName_usuario = ? AND email_usuario = ? AND estado_usuario = ?");
         
-        // Enlazamos los parámetros correctamente
         $query->bind_param('sss', $username, $email, $state);
         
-        // Ejecutamos la consulta
         $query->execute();
         
-        // Obtenemos el resultado como un arreglo asociativo
         return $query->get_result()->fetch_array(MYSQLI_ASSOC);
     }
     
@@ -289,22 +285,6 @@ class UserModel
         $query->execute();
         return $query->get_result()->fetch_all(MYSQLI_ASSOC);
     }
-
-    /*public function obtenerNumeroDeUsuariosPorSexo2($fechaInicio, $fechaFin)
-    {
-        $query = $this->db->prepare("
-        SELECT S.descripcion_sexo, COUNT(U.id_usuario) AS numero_usuario
-        FROM usuario U
-        JOIN sexo S ON U.id_sexo = S.id_sexo
-        WHERE U.fechaRegistro_usuario BETWEEN ? AND ?
-        GROUP BY S.descripcion_sexo
-    ");
-        $query->bind_param('ss', $fechaInicio, $fechaFin);
-
-        $query->execute();
-
-        return $query->get_result()->fetch_all(MYSQLI_ASSOC);
-    }*/
 
 
 

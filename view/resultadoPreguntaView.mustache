@@ -144,11 +144,11 @@
                         if (!response.ok) {
                             throw new Error('Error al enviar el reporte');
                         }
-                        return response.json(); // O response.text() según la respuesta del servidor
+                        return response.json();
                     })
                     .then(data => {
-                        alert('Reporte enviado exitosamente'); // Mostrar mensaje de éxito
-                        cerrarModal(); // Cerrar el modal
+                        alert('Reporte enviado exitosamente');
+                        cerrarModal();
                     })
                     .catch(error => {
                         alert('Hubo un problema al enviar el reporte: ' + error.message);

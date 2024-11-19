@@ -9,43 +9,7 @@ class PreguntaModel
         $this->db = $database;
     }
 
-    /*public function saveEstado($estado)
-    {
-        
-        $query = $this->db->prepare("INSERT INTO estado (
-                    id_estado,
-                descripcion_estado
-                ) VALUES (?, ?)");
-        
-        $descripcion_estado = $estado->getDescripcion();
-        $id_estado = $estado->getId();
-        
-        $query->bind_Param("is", $id_estado, $descripcion_estado);
-        return $query->execute();
-        
-        
-    }*/
-
-    /*public function saveCategoria($categoria)
-    {
-        $query = $this->db->prepare("INSERT INTO categoria (
-                    id_categoria,
-                descripcion_categoria,
-                       img_categoria,
-                       color_categoria
-                ) VALUES (?,?,?,?)");
-        
-        $id_categoria = $categoria->getIdCategoria();
-        $descripcion_categoria = $categoria->getDescripcion();
-        $img_categoria = $categoria->getImg();
-        $color_categoria = $categoria->getColor();
-        
-        $query->bind_Param("isss", $id_categoria, $descripcion_categoria,$img_categoria,$color_categoria);
-        return $query->execute();
-        
-        
-        
-    }*/
+    
 
     public function obtenerUltimoIdPreguntas()
     {
@@ -418,23 +382,6 @@ class PreguntaModel
         return $query->get_result()->fetch_all(MYSQLI_ASSOC);
     }
 
-    /*public function obtenerNumeroDePreguntasActivasPorCategoria2($estado, $fechaInicio, $fechaFin)
-    {
-        $query = $this->db->prepare("
-        SELECT C.descripcion_categoria, COUNT(P.id_pregunta) AS numero_preguntas
-        FROM Pregunta P
-        JOIN Categoria C ON P.id_categoria = C.id_categoria
-        WHERE P.id_estado = ? 
-          AND P.fechaCreacion_pregunta BETWEEN ? AND ?
-        GROUP BY C.descripcion_categoria
-    ");
-
-        $query->bind_param('iss', $estado, $fechaInicio, $fechaFin);
-
-        $query->execute();
-
-        return $query->get_result()->fetch_all(MYSQLI_ASSOC);
-    }*/
-
+ 
 
 }
