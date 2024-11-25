@@ -42,7 +42,7 @@ class AdministradorController
         $datetime = match ($filtroTiempo) {
             'mes' => '-1 month',
             'anio' => '-1 year',
-            default => 'last monday -1 week',
+            default => '-1 week',
         };
 
         $fechaInicio = date('Y-m-d',strtotime($datetime));
