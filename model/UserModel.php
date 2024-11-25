@@ -63,20 +63,19 @@ class UserModel
         $query->execute();
         return $query->get_result()->fetch_array(MYSQLI_ASSOC);
     }
-    
+
     public function getUserByUsernameAndEmail($username, $email, $state)
     {
         $query = $this->db->prepare("SELECT * FROM usuario WHERE userName_usuario = ? AND email_usuario = ? AND estado_usuario = ?");
-        
+
         $query->bind_param('sss', $username, $email, $state);
-        
+
         $query->execute();
-        
+
         return $query->get_result()->fetch_array(MYSQLI_ASSOC);
     }
-    
-    
-    
+
+
     /**
      * @throws InvalidGenderException
      */
@@ -141,13 +140,13 @@ class UserModel
         $query->execute();
         return $query->get_result()->fetch_array(MYSQLI_ASSOC)['id_sexo'];
     }
-    
-    
+
+
     public function updatePassword($userId, $newPassword)
     {
         // Generar el hash de la nueva contraseña
         $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
-        
+
         // Ejecutar la consulta para actualizar la contraseña en la base de datos
         $query = $this->db->prepare("UPDATE usuario SET password_usuario = ? WHERE id_usuario = ?");
         $query->bind_param('si', $hashedPassword, $userId); // 'si' -> string, integer
@@ -157,9 +156,8 @@ class UserModel
             return false; // Si hubo un error en la actualización
         }
     }
-    
-    
-    
+
+
     public function validateLogin($username, $password, $estado)
     {
         $query = $this->db->prepare("SELECT password_usuario FROM usuario WHERE estado_usuario = ? AND (userName_usuario = ? OR email_usuario = ?)");
@@ -223,12 +221,12 @@ class UserModel
 
     public function determinarNivelUsuario($usuario)
     {
-        if($usuario['cantPreguntasJugadas_usuario'] > 10) {
+        if ($usuario['cantPreguntasJugadas_usuario'] > 10) {
             $nivel = ($usuario['cantPreguntasCorrectas_usuario'] / $usuario['cantPreguntasJugadas_usuario']) * 100;
 
-            if($nivel >= 70) {
+            if ($nivel >= 70) {
                 return 'dificil';
-            } else if($nivel <= 30) {
+            } else if ($nivel <= 30) {
                 return 'facil';
             }
         }
@@ -253,15 +251,16 @@ class UserModel
         return $query->get_result()->fetch_all(MYSQLI_ASSOC);
     }
 
-    public function getRankingPositions($ranking) {
+    public function getRankingPositions($ranking)
+    {
         $i = 1;
         $lastScore = 0;
         $lastPos = 0;
 
-        foreach($ranking as &$posicion) {
+        foreach ($ranking as &$posicion) {
             $myPosition = $i;
 
-            if( $lastScore > 0 && $posicion['puntaje_partida'] == $lastScore )
+            if ($lastScore > 0 && $posicion['puntaje_partida'] == $lastScore)
                 $myPosition = $lastPos;
 
             $lastScore = $posicion['puntaje_partida'];
@@ -285,9 +284,6 @@ class UserModel
         $query->execute();
         return $query->get_result()->fetch_all(MYSQLI_ASSOC);
     }
-
-
-
 
 
     public function obtenerCantidadUsuariosNuevos($fechaInicio, $fechaFin, $filtroTiempo)
@@ -369,22 +365,32 @@ class UserModel
 
         if ($filtroTiempo === 'semana') {
             $diasSemana = [
-                1 => 'Domingo',
-                2 => 'Lunes',
-                3 => 'Martes',
-                4 => 'Miércoles',
-                5 => 'Jueves',
-                6 => 'Viernes',
-                7 => 'Sábado',
+                1 => 'Lunes',
+                2 => 'Martes',
+                3 => 'Miércoles',
+                4 => 'Jueves',
+                5 => 'Viernes',
+                6 => 'Sábado',
+                7 => 'Domingo',
             ];
+
+
+            $diaFin = date('N', strtotime($fechaFin));
+
+            $diasOrdenados = [];
+            foreach (range(1, 7) as $i) {
+                $diaReordenado = ($diaFin + $i - 1) % 7 + 1;
+                $diasOrdenados[] = $diaReordenado;
+            }
 
             $diasConUsuarios = [];
             foreach ($usuarios as $registro) {
                 $diasConUsuarios[$registro['dia_semana']] = $registro['numero_usuarios_nuevos'];
             }
 
+
             $usuariosFinales = [];
-            foreach (range(1, 7) as $dia) {
+            foreach ($diasOrdenados as $dia) {
                 $usuariosFinales[] = [
                     'mes_registro' => $diasSemana[$dia],
                     'numero_usuarios_nuevos' => $diasConUsuarios[$dia] ?? 0,
@@ -395,16 +401,8 @@ class UserModel
         }
 
 
-
         return [];
     }
-
-
-
-
-
-
-
 
 
 }

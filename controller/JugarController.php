@@ -6,7 +6,7 @@ class JugarController
     private $partidaModel;
     private $usuarioModel;
     private $preguntaModel;
-    
+
     public function __construct($partidaModel, $usuarioModel, $preguntaModel, $presenter)
     {
         $this->presenter = $presenter;
@@ -14,7 +14,7 @@ class JugarController
         $this->usuarioModel = $usuarioModel;
         $this->preguntaModel = $preguntaModel;
     }
-    
+
     public function index()
     {
         try {
@@ -23,11 +23,11 @@ class JugarController
                 unset($_SESSION['terminoPartida']);
                 exit();
             }
-            
+
             $usuario = $this->usuarioModel->getUserByUsernameOrEmail($_SESSION['user'], 'a');
             $partida = $this->partidaModel->getPartidaActivaByUserId($usuario['id_usuario']); // crear partida si no hay partida activa
             $pregunta = $this->preguntaModel->getUltimaPreguntaEntregadaDePartida($partida['id_partida']);
-            
+
             if ($pregunta === null) {
                 // Si no hay pregunta, asignamos una nueva
                 $nivel = $this->usuarioModel->determinarNivelUsuario($usuario);
@@ -44,7 +44,7 @@ class JugarController
 
             $respuestas = $this->preguntaModel->getRespuestasPorIdPregunta($pregunta['id_pregunta']);
             shuffle($respuestas);
-            
+
             // Pasamos el tiempo restante a la vista
             $data['usuario'] = $usuario;
             $data['partida'] = $partida;
@@ -52,16 +52,14 @@ class JugarController
             $data['respuesta'] = $respuestas;
             $data['audio_src'] = '/public/music/WhatsApp Audio 2024-10-28 at 23.22.09.mpeg';
             $data['tiempoRestante'] = $tiempoRestante; // Pasar el tiempo restante a la vista
-            
+
             // Renderizar la vista del juego
             $this->presenter->show('jugar', $data);
-        }
-        catch (PreguntaExpiradaException $e) {
+        } catch (PreguntaExpiradaException $e) {
             $_SESSION['message'] = $e->getMessage();
             header('Location: /respuesta/incorrecta');
             exit();
-        }
-        catch (PartidaActivaNoExisteException $e) {
+        } catch (PartidaActivaNoExisteException $e) {
             $this->partidaModel->savePartida(date('Y-m-d H:i:s'), 0, 'a', $usuario['id_usuario']);
             header('Location: /jugar');
             exit();

@@ -63,15 +63,14 @@
     
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            var audio = new Audio('/public/sonido/timer.mp3'); // Cargar el audio
-            var tiempoRestante = {{tiempoRestante}}; // Tiempo restante en segundos desde el controlador
+            var audio = new Audio('/public/sonido/timer.mp3');
+            var tiempoRestante = {{tiempoRestante}};
             const countdownElement = document.getElementById("countdown");
 
             function actualizarCuentaRegresiva() {
                 if (tiempoRestante > 0) {
                     countdownElement.textContent = tiempoRestante + " segundos";
 
-                    // Reproducir el audio cuando queden 7 segundos
                     if (tiempoRestante === 7) {
                         audio.play().catch(function(error) {
                             console.error("No se pudo reproducir el audio: ", error);
