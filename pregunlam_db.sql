@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 15-11-2024 a las 02:29:25
+-- Tiempo de generación: 25-11-2024 a las 02:51:39
 -- Versión del servidor: 10.4.32-MariaDB
--- Versión de PHP: 8.2.12
+-- Versión de PHP: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -83,6 +83,22 @@ CREATE TABLE `partida` (
   `id_usuario` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `partida`
+--
+
+INSERT INTO `partida` (`id_partida`, `fechaHora_partida`, `puntaje_partida`, `estado_partida`, `id_usuario`) VALUES
+(1, '2024-11-24 22:19:11', 5, 'i', 18),
+(2, '2024-11-24 22:20:08', 0, 'i', 18),
+(3, '2024-11-24 22:20:12', 0, 'i', 18),
+(4, '2024-11-24 22:20:19', 3, 'i', 18),
+(5, '2024-11-24 22:29:27', 5, 'i', 8),
+(6, '2024-11-24 22:29:59', 0, 'i', 8),
+(7, '2024-11-24 22:30:04', 2, 'i', 8),
+(8, '2024-11-24 22:30:51', 0, 'i', 10),
+(9, '2024-11-24 22:30:55', 3, 'i', 10),
+(10, '2024-11-24 22:31:31', 2, 'i', 9);
+
 -- --------------------------------------------------------
 
 --
@@ -105,41 +121,44 @@ CREATE TABLE `pregunta` (
 --
 
 INSERT INTO `pregunta` (`id_pregunta`, `interrogante_pregunta`, `fechaCreacion_pregunta`, `cantVistas_pregunta`, `cantCorrectas_pregunta`, `id_usuarioCreador`, `id_categoria`, `id_estado`) VALUES
-(1, '¿Quién fue el primer emperador de China?', '2024-10-22', 1, 0, 1, 1, 2),
-(2, '¿En qué año cayó el Muro de Berlín?', '2024-10-22', 1, 0, 2, 1, 2),
+(1, '¿Quién fue el primer emperador de China?', '2024-10-22', 3, 0, 1, 1, 2),
+(2, '¿En qué año cayó el Muro de Berlín?', '2024-10-22', 2, 1, 2, 1, 2),
 (3, '¿Cuál fue la civilización que construyó Machu Picchu?', '2024-10-22', 0, 0, 3, 1, 2),
-(4, '¿Quién fue el líder del Imperio Mongol?', '2024-10-22', 1, 1, 4, 1, 2),
-(5, '¿Qué evento marcó el inicio de la Revolución Francesa?', '2024-10-22', 8, 0, 5, 1, 2),
+(4, '¿Quién fue el líder del Imperio Mongol?', '2024-10-22', 2, 2, 4, 1, 2),
+(5, '¿Qué evento marcó el inicio de la Revolución Francesa?', '2024-10-22', 11, 1, 5, 1, 2),
 (6, '¿Cuál es el deporte nacional de Brasil?', '2024-10-22', 1, 1, 1, 2, 2),
-(7, '¿En qué país se originó el rugby?', '2024-10-22', 1, 1, 2, 2, 2),
+(7, '¿En qué país se originó el rugby?', '2024-10-22', 3, 2, 2, 2, 2),
 (8, '¿Qué deporte se juega en la Liga Premier?', '2024-10-22', 1, 0, 3, 2, 2),
-(9, '¿Cuál es el evento más importante de ciclismo en Europa?', '2024-10-22', 0, 0, 4, 2, 2),
-(10, '¿Quién es el máximo goleador de la historia de la UEFA Champions League?', '2024-10-22', 1, 0, 5, 2, 2),
-(11, '¿Cuál es la serie argentina más famosa de Netflix?', '2024-10-22', 1, 0, 1, 3, 2),
-(12, '¿Qué película ganó el Oscar a la Mejor Película en 2021?', '2024-10-22', 1, 0, 2, 3, 2),
-(13, '¿Quién es el creador de la famosa serie \"The Simpsons\"?', '2024-10-22', 3, 0, 3, 3, 2),
-(14, '¿Cuál es la película que ganó el Oscar a la Mejor Película en 2022?', '2024-10-22', 1, 1, 4, 3, 2),
-(15, '¿Cuál es la película de Disney que se basa en la historia de un joven llamado Aladino?', '2024-10-22', 0, 0, 5, 3, 2),
+(9, '¿Cuál es el evento más importante de ciclismo en Europa?', '2024-10-22', 1, 0, 4, 2, 2),
+(10, '¿Quién es el máximo goleador de la historia de la UEFA Champions League?', '2024-10-22', 2, 1, 5, 2, 2),
+(11, '¿Cuál es la serie argentina más famosa de Netflix?', '2024-10-22', 3, 1, 1, 3, 5),
+(12, '¿Qué película ganó el Oscar a la Mejor Película en 2021?', '2024-10-22', 4, 2, 2, 3, 2),
+(13, '¿Quién es el creador de la famosa serie \"The Simpsons\"?', '2024-10-22', 4, 1, 3, 3, 2),
+(14, '¿Cuál es la película que ganó el Oscar a la Mejor Película en 2022?', '2024-10-22', 3, 3, 4, 3, 2),
+(15, '¿Cuál es la película de Disney que se basa en la historia de un joven llamado Aladino?', '2024-10-22', 3, 2, 5, 3, 2),
 (16, '¿Quién pintó \"La noche estrellada\"?', '2024-10-22', 1, 0, 1, 4, 2),
-(17, '¿Qué artista es conocido por sus murales en México?', '2024-10-22', 1, 0, 1, 4, 2),
-(18, '¿Cuál es la técnica utilizada en la obra \"La creación de Adán\"?', '2024-10-22', 1, 0, 1, 4, 2),
-(19, '¿Qué estilo artístico representa \"El grito\"?', '2024-10-22', 1, 1, 1, 4, 2),
-(20, '¿Quién es el autor de la escultura \"El pensador\"?', '2024-10-22', 1, 1, 1, 4, 2),
-(21, '¿Cuál es el lenguaje de programación más utilizado para desarrollo web del lado del cliente?', '2024-10-22', 1, 0, 1, 5, 2),
-(22, '¿Qué tecnología se utiliza para hacer comunicaciones a larga distancia sin cables?', '2024-10-22', 1, 0, 2, 5, 2),
-(23, '¿Qué dispositivo se utiliza para almacenar datos de manera permanente?', '2024-10-22', 1, 0, 3, 5, 2),
-(24, '¿Cuál es el sistema operativo de código abierto más popular?', '2024-10-22', 1, 0, 4, 5, 2),
-(25, '¿Qué red social fue lanzada por Mark Zuckerberg en 2004?', '2024-10-22', 3, 1, 5, 5, 2),
-(26, '¿Cuál es la capital de Argentina?', '2024-10-22', 0, 0, 1, 6, 2),
-(27, '¿Qué país tiene la mayor extensión territorial del mundo?', '2024-10-22', 0, 0, 2, 6, 2),
-(28, '¿Cuál es el río más largo de Argentina?', '2024-10-22', 2, 1, 3, 6, 2),
-(29, '¿En qué continente se encuentra el país de Egipto?', '2024-10-22', 1, 0, 4, 6, 2),
-(30, '¿Cuál es el océano que baña las costas de Argentina?', '2024-10-22', 1, 1, 5, 6, 2),
-(31, '¿Cuál es el elemento químico más abundante en el universo?', '2024-10-22', 7, 0, 1, 7, 2),
-(32, '¿Qué planeta es conocido como el planeta rojo?', '2024-10-22', 0, 0, 2, 7, 2),
-(33, '¿Cuál es la unidad básica de la vida?', '2024-10-22', 1, 0, 3, 7, 2),
+(17, '¿Qué artista es conocido por sus murales en México?', '2024-10-22', 4, 2, 1, 4, 2),
+(18, '¿Cuál es la técnica utilizada en la obra \"La creación de Adán\"?', '2024-10-22', 3, 1, 1, 4, 2),
+(19, '¿Qué estilo artístico representa \"El grito\"?', '2024-10-22', 2, 2, 1, 4, 2),
+(20, '¿Quién es el autor de la escultura \"El pensador\"?', '2024-10-22', 2, 1, 1, 4, 2),
+(21, '¿Cuál es el lenguaje de programación más utilizado para desarrollo web del lado del cliente?', '2024-10-22', 2, 1, 1, 5, 2),
+(22, '¿Qué tecnología se utiliza para hacer comunicaciones a larga distancia sin cables?', '2024-10-22', 2, 1, 2, 5, 2),
+(23, '¿Qué dispositivo se utiliza para almacenar datos de manera permanente?', '2024-10-22', 3, 0, 3, 5, 3),
+(24, '¿Cuál es el sistema operativo de código abierto más popular?', '2024-10-22', 2, 1, 4, 5, 2),
+(25, '¿Qué red social fue lanzada por Mark Zuckerberg en 2004?', '2024-10-22', 5, 2, 5, 5, 2),
+(26, '¿Cuál es la capital de Argentina?', '2024-10-22', 2, 1, 1, 6, 2),
+(27, '¿Qué país tiene la mayor extensión territorial del mundo?', '2024-10-22', 2, 3, 2, 6, 2),
+(28, '¿Cuál es el río más largo de Argentina?', '2024-10-22', 5, 3, 3, 6, 2),
+(29, '¿En qué continente se encuentra el país de Egipto?', '2024-10-22', 2, 0, 4, 6, 2),
+(30, '¿Cuál es el océano que baña las costas de Argentina?', '2024-10-22', 2, 2, 5, 6, 2),
+(31, '¿Cuál es el elemento químico más abundante en el universo?', '2024-10-22', 9, 1, 1, 7, 2),
+(32, '¿Qué planeta es conocido como el planeta rojo?', '2024-10-22', 1, 0, 2, 7, 3),
+(33, '¿Cuál es la unidad básica de la vida?', '2024-10-22', 2, 0, 3, 7, 2),
 (34, '¿Qué tipo de energía es la del sol?', '2024-10-22', 0, 0, 4, 7, 2),
-(35, '¿Quién propuso la teoría de la relatividad?', '2024-10-22', 3, 1, 5, 7, 2);
+(35, '¿Quién propuso la teoría de la relatividad?', '2024-10-22', 4, 1, 5, 7, 2),
+(43, '¿En que año inició la Segunda Guerra Mundial?', '2024-11-18', 2, 1, 18, 1, 2),
+(44, '¿Cuál es la duración equivalente de una nota semicorchea en relación a una negra?', '2024-11-24', 0, 0, 9, 4, 1),
+(45, '2 x 10 + 15 / 3 = ?', '2024-11-24', 0, 0, 11, 7, 4);
 
 -- --------------------------------------------------------
 
@@ -156,6 +175,42 @@ CREATE TABLE `pregunta_partida` (
   `id_pregunta` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `pregunta_partida`
+--
+
+INSERT INTO `pregunta_partida` (`id_pregunta_partida`, `respondeCorrecto_pregunta_partida`, `fechaHoraEntrega_pregunta_partida`, `respondio_pregunta_partida`, `id_partida`, `id_pregunta`) VALUES
+(1, 1, '2024-11-25 01:19:20', 1, 1, 11),
+(2, 1, '2024-11-25 01:19:25', 1, 1, 21),
+(3, 1, '2024-11-25 01:19:30', 1, 1, 10),
+(4, 1, '2024-11-25 01:19:33', 1, 1, 25),
+(5, 1, '2024-11-25 01:19:37', 1, 1, 30),
+(6, 0, '2024-11-25 01:19:42', 1, 1, 23),
+(7, 0, '2024-11-25 01:20:10', 1, 2, 7),
+(8, 0, '2024-11-25 01:20:16', 1, 3, 31),
+(9, 1, '2024-11-25 01:20:21', 1, 4, 12),
+(10, 1, '2024-11-25 01:20:24', 1, 4, 26),
+(11, 1, '2024-11-25 01:20:26', 1, 4, 14),
+(12, 0, '2024-11-25 01:20:31', 1, 4, 43),
+(13, 1, '2024-11-25 01:29:30', 1, 5, 17),
+(14, 1, '2024-11-25 01:29:33', 1, 5, 5),
+(15, 1, '2024-11-25 01:29:39', 1, 5, 4),
+(16, 1, '2024-11-25 01:29:43', 1, 5, 15),
+(17, 1, '2024-11-25 01:29:46', 1, 5, 31),
+(18, 0, '2024-11-25 01:29:49', 1, 5, 20),
+(19, 0, '2024-11-25 01:30:01', 1, 6, 12),
+(20, 1, '2024-11-25 01:30:06', 1, 7, 14),
+(21, 1, '2024-11-25 01:30:11', 1, 7, 28),
+(22, 0, '2024-11-25 01:30:14', 1, 7, 11),
+(23, 0, '2024-11-25 01:30:53', 1, 8, 1),
+(24, 1, '2024-11-25 01:30:58', 1, 9, 18),
+(25, 1, '2024-11-25 01:31:03', 1, 9, 24),
+(26, 1, '2024-11-25 01:31:06', 1, 9, 17),
+(27, 0, '2024-11-25 01:31:08', 1, 9, 15),
+(28, 1, '2024-11-25 01:31:36', 1, 10, 27),
+(29, 1, '2024-11-25 01:31:39', 1, 10, 28),
+(30, 0, '2024-11-25 01:31:42', 1, 10, 5);
+
 -- --------------------------------------------------------
 
 --
@@ -167,6 +222,42 @@ CREATE TABLE `pregunta_vista` (
   `id_usuario` int(11) NOT NULL,
   `id_pregunta` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `pregunta_vista`
+--
+
+INSERT INTO `pregunta_vista` (`id_pregunta_vista`, `id_usuario`, `id_pregunta`) VALUES
+(1, 18, 11),
+(2, 18, 21),
+(3, 18, 10),
+(4, 18, 25),
+(5, 18, 30),
+(6, 18, 23),
+(7, 18, 7),
+(8, 18, 31),
+(9, 18, 12),
+(10, 18, 26),
+(11, 18, 14),
+(12, 18, 43),
+(13, 8, 17),
+(14, 8, 5),
+(15, 8, 4),
+(16, 8, 15),
+(17, 8, 31),
+(18, 8, 20),
+(19, 8, 12),
+(20, 8, 14),
+(21, 8, 28),
+(22, 8, 11),
+(23, 10, 1),
+(24, 10, 18),
+(25, 10, 24),
+(26, 10, 17),
+(27, 10, 15),
+(28, 9, 27),
+(29, 9, 28),
+(30, 9, 5);
 
 -- --------------------------------------------------------
 
@@ -181,6 +272,13 @@ CREATE TABLE `reporte_pregunta` (
   `id_usuario` int(11) NOT NULL,
   `id_pregunta` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `reporte_pregunta`
+--
+
+INSERT INTO `reporte_pregunta` (`id_reporte`, `motivo_reporte`, `fecha_reporte`, `id_usuario`, `id_pregunta`) VALUES
+(1, 'ssd también almacena datos permanentemente', '2024-11-24 22:19:50', 18, 23);
 
 -- --------------------------------------------------------
 
@@ -339,7 +437,19 @@ INSERT INTO `respuesta` (`id_respuesta`, `descripcion_respuesta`, `esCorrecta_re
 (137, 'Albert Einstein', 1, 35),
 (138, 'Isaac Newton', 0, 35),
 (139, 'Galileo Galilei', 0, 35),
-(140, 'Niels Bohr', 0, 35);
+(140, 'Niels Bohr', 0, 35),
+(141, '1939', 1, 43),
+(142, '1945', 0, 43),
+(143, '1918', 0, 43),
+(144, '1912', 0, 43),
+(145, '1/4 del tiempo', 1, 44),
+(146, '1/2 del tiempo', 0, 44),
+(147, '1/8 del tiempo', 0, 44),
+(148, 'Duran lo mismo', 0, 44),
+(149, '11,66', 1, 45),
+(150, '16,66', 0, 45),
+(151, '25', 0, 45),
+(152, '30', 0, 45);
 
 -- --------------------------------------------------------
 
@@ -411,42 +521,42 @@ CREATE TABLE `usuario` (
 --
 
 INSERT INTO `usuario` (`id_usuario`, `userName_usuario`, `password_usuario`, `email_usuario`, `img_usuario`, `maxPuntaje_usuario`, `nombreCompleto_usuario`, `fechaNacimiento_usuario`, `pais_usuario`, `fechaRegistro_usuario`, `estado_usuario`, `token_usuario`, `cantPreguntasJugadas_usuario`, `cantPreguntasCorrectas_usuario`, `id_tipo_usuario`, `id_sexo`) VALUES
-(0, 'editor', '$2y$10$N..AFA6v1Q5ic8EAxjPV9OzelwaFWCAoGsKXmucMw8ZbXgGBO1Ct6', '', '', NULL, '', '0000-00-00', '', '0000-00-00', 'a', 0, 1, 0, 2, 0),
-(1, 'admin', '$2y$10$N..AFA6v1Q5ic8EAxjPV9OzelwaFWCAoGsKXmucMw8ZbXgGBO1Ct6', 'kvnrotela@gmail.com', 'public/images/fotoDePerfil/triangle-dancing.gif', NULL, 'Kevin', '2024-10-16', '-34.828868, -58.635762', '2024-11-01', 'a', 126085, 7, 0, 1, 1),
+(0, 'editor', '$2y$10$N..AFA6v1Q5ic8EAxjPV9OzelwaFWCAoGsKXmucMw8ZbXgGBO1Ct6', '', 'public/images/fotoDePerfil/default.jpg', NULL, '', '0000-00-00', '', '0000-00-00', 'a', 0, 0, 0, 2, 3),
+(1, 'admin', '$2y$10$N..AFA6v1Q5ic8EAxjPV9OzelwaFWCAoGsKXmucMw8ZbXgGBO1Ct6', 'kvnrotela@gmail.com', 'public/images/fotoDePerfil/triangle-dancing.gif', NULL, 'Kevin', '2024-10-16', '-34.828868, -58.635762', '2024-11-01', 'a', 126085, 0, 0, 1, 1),
 (2, 'Ernesto01', '$2y$10$AAdI21YZNK6o6J382gEhf.aHt4s86WkzZ7TzkUwsMTWsfFLqXLWce', 'ernesto@gmail.com', 'public/images/fotoDePerfil/triangle-dancing.gif', NULL, 'Ernesto', '2024-10-14', '-34.670554, -58.562810', '2024-11-11', 'a', 273684, 0, 0, 3, 1),
 (3, 'alex09', '$2y$10$ue3cU5A5ZPNY8GgsrXwPNukdy.SrvGJq84igb2hplGEx/532YaYla', 'alexis@gmail.com', 'public/images/fotoDePerfil/triangle-dancing.gif', NULL, 'alexis', '2024-10-08', '-34.670554, -58.562810', '2024-11-08', 'a', 852260, 0, 0, 3, 1),
 (4, 'pablo01', '$2y$10$z42HPSOFsaq8a2uQmgV7X.Ns1MHRfttJEoyVMcs75FK/cqZX7oT4q', 'pablo@gmail.com', '/public/images/fotoDePerfil/triangle-dancing.gif', NULL, 'pablo', '2024-10-08', '-34.670554, -58.562810', '2024-11-13', 'a', 166403, 0, 0, 3, 1),
 (5, 'ivan01', '$2y$10$b7UN26.ZW.tS3D67OJcOuOM6RrDwrODIf5qitKQDrMdVAyv8PSVWG', 'ivan@gmail.com', 'public/images/fotoDePerfil/portrait-german-shepherd-head-years-old-front-white-background-copy-space-171994255.jpg', NULL, 'Ivan', '2024-11-12', '-34.828868, -58.635762', '2024-11-10', 'a', 893743, 0, 0, 3, 1),
 (6, 'elias04', '$2y$10$6mZqIfdfJEn/axf8ntPdpOgLdVe9OZkjD4aIZI4HWbtUY1/AtPqqO', 'elias@gmail.com', 'public/images/fotoDePerfil/portrait-german-shepherd-head-years-old-front-white-background-copy-space-171994255.jpg', NULL, 'Elias', '2024-10-01', '-34.670554, -58.562810', '2024-11-08', 'a', 296399, 0, 0, 3, 1),
 (7, 'wolverine04', '$2y$10$WorEezbFgMOyKDJ1IvfIOeUEf7iWbukrsueIHT7N/OhbVC8mS21Ny', 'wolverine@gmail.com', 'public/images/fotoDePerfil/portrait-german-shepherd-head-years-old-front-white-background-copy-space-171994255.jpg', NULL, 'wolverine', '2024-10-09', '-34.670554, -58.562810', '2024-11-06', 'a', 508803, 0, 0, 3, 1),
-(8, 'usuario1', '$2y$10$YGQNKdVsgZCt74FKpNlqHevz1SPavnJqZ3udAbfJX1HCICSir6xda', 'usuario1@gmail.com', 'public/images/default.jpg', NULL, 'Usuario Uno', '2000-01-01', '-34.670554, -58.562810', '2024-10-20', 'a', 206740, 0, 0, 3, 1),
-(9, 'usuario2', '$2y$10$YGQNKdVsgZCt74FKpNlqHevz1SPavnJqZ3udAbfJX1HCICSir6xda', 'usuario2@gmail.com', 'public/images/default.jpg', NULL, 'Usuario Dos', '2000-02-02', '-34.670554, -58.562810', '2024-07-20', 'a', 936270, 0, 0, 3, 1),
-(10, 'usuario3', '$2y$10$YGQNKdVsgZCt74FKpNlqHevz1SPavnJqZ3udAbfJX1HCICSir6xda', 'usuario3@gmail.com', 'public/images/default.jpg', NULL, 'Usuario Tres', '2000-03-03', '-34.670554, -58.562810', '2024-07-20', 'a', 361128, 0, 0, 3, 1),
-(11, 'usuario4', '$2y$10$YGQNKdVsgZCt74FKpNlqHevz1SPavnJqZ3udAbfJX1HCICSir6xda', 'usuario4@gmail.com', 'public/images/default.jpg', NULL, 'Usuario Cuatro', '2000-04-04', '-34.670554, -58.562810', '2024-05-20', 'a', 696831, 0, 0, 3, 1),
-(12, 'usuario5', '$2y$10$YGQNKdVsgZCt74FKpNlqHevz1SPavnJqZ3udAbfJX1HCICSir6xda', 'usuario5@gmail.com', 'public/images/default.jpg', NULL, 'Usuario Cinco', '2000-05-05', '-34.670554, -58.562810', '2024-06-20', 'a', 500770, 0, 0, 3, 1),
-(13, 'usuario6', '$2y$10$YGQNKdVsgZCt74FKpNlqHevz1SPavnJqZ3udAbfJX1HCICSir6xda', 'usuario6@gmail.com', 'public/images/default.jpg', NULL, 'Usuario Seis', '2000-06-06', '-34.670554, -58.562810', '2024-06-20', 'a', 313359, 0, 0, 3, 1),
-(14, 'usuario7', '$2y$10$YGQNKdVsgZCt74FKpNlqHevz1SPavnJqZ3udAbfJX1HCICSir6xda', 'usuario7@gmail.com', 'public/images/default.jpg', NULL, 'Usuario Siete', '2000-07-07', '-34.670554, -58.562810', '2024-05-20', 'a', 864485, 0, 0, 3, 1),
-(15, 'usuario8', '$2y$10$YGQNKdVsgZCt74FKpNlqHevz1SPavnJqZ3udAbfJX1HCICSir6xda', 'usuario8@gmail.com', 'public/images/default.jpg', NULL, 'Usuario Ocho', '2000-08-08', '-34.670554, -58.562810', '2024-03-20', 'a', 582348, 0, 0, 3, 1),
-(16, 'usuario9', '$2y$10$YGQNKdVsgZCt74FKpNlqHevz1SPavnJqZ3udAbfJX1HCICSir6xda', 'usuario9@gmail.com', 'public/images/default.jpg', NULL, 'Usuario Nueve', '2000-09-09', '-34.670554, -58.562810', '2024-02-20', 'a', 218286, 0, 0, 3, 1),
-(17, 'usuario10', '$2y$10$YGQNKdVsgZCt74FKpNlqHevz1SPavnJqZ3udAbfJX1HCICSir6xda', 'usuario10@gmail.com', 'public/images/default.jpg', NULL, 'Usuario Diez', '2000-10-10', '-34.670554, -58.562810', '2024-02-20', 'a', 144385, 0, 0, 3, 1),
-(18, 'ivan', '$2y$10$YGQNKdVsgZCt74FKpNlqHevz1SPavnJqZ3udAbfJX1HCICSir6xda', 'ivan@gmail.com', 'public/images/fotoDePerfil/cheems.jpg', 3, 'Ivan', '1997-04-02', '-34.665257, -58.586273', '2024-02-25', 'a', 312325, 39, 10, 3, 1),
-(19, 'maria23', '$2y$10$abH9y4MckBiqzOmE1sfu3K0J3gK27Rlz1l0vF19dbmbc4AfqHKZ9C', 'maria23@gmail.com', 'public/images/fotoDePerfil/user1.jpg', NULL, 'María', '1995-04-01', '-34.670554, -58.562810', '2024-02-21', 'a', 85042, 5, 1, 2, 2),
-(20, 'lucas_91', '$2y$10$7mKZoCflJvDA.6zHlwr4JOd0C/UeQDNhh1yGcKnXQ9WGQ9HRL9ztC', 'lucas_91@gmail.com', 'public/images/fotoDePerfil/user2.jpg', NULL, 'Lucas', '1991-06-15', '-34.670554, -58.562810', '2024-02-17', 'a', 125345, 9, 0, 3, 1),
-(21, 'ana_perez', '$2y$10$G5ptKgqbmB9KvQ6FfvUosRA6t02c6Pn7grjsQLlmp7OqomT1uV4Dk', 'ana_perez@gmail.com', 'public/images/fotoDePerfil/user3.jpg', NULL, 'Ana Pérez', '1990-08-09', '-34.670554, -58.562810', '2024-04-18', 'a', 76321, 3, 0, 2, 2),
-(22, 'jorge_martin', '$2y$10$Rj1zA1s6M6cscoX6K9n5lzx63jF0T2B6mkLRmM3.NnUUG0z7V7lIu', 'jorge_martin@gmail.com', 'public/images/fotoDePerfil/user4.jpg', NULL, 'Jorge Martín', '1988-12-30', '-34.670554, -58.562810', '2024-06-22', 'a', 95000, 6, 1, 1, 1),
-(23, 'sofia_lara', '$2y$10$wP3p0pQfZjv5gfONen6FSCQMGy89W5rDRw6g5/OVi7Wx77k9D6.tq', 'sofia_lara@gmail.com', 'public/images/fotoDePerfil/user5.jpg', NULL, 'Sofía Lara', '1998-02-14', '-34.670554, -58.562810', '2024-07-23', 'a', 102430, 8, 0, 3, 2),
-(24, 'luis_mendoza', '$2y$10$wZk7ZevCmML76bX0XB7Vr92Fh02wzBqtJeAi9Te7r83p6lKM2/xj', 'luis_mendoza@gmail.com', 'public/images/fotoDePerfil/user6.jpg', NULL, 'Luis Mendoza', '1985-05-10', '-34.670554, -58.562810', '2024-08-14', 'a', 114320, 11, 1, 3, 1),
-(25, 'paola_ortega', '$2y$10$DvaH9aIiW6OD5.M1P88h5V5h3SHaTKOKRrwzfeJcFHm2w5f9VYZyG', 'paola_ortega@gmail.com', 'public/images/fotoDePerfil/user7.jpg', NULL, 'Paola Ortega', '2000-03-21', 'México', '2024-08-13', 'a', 102111, 8, 1, 4, 2),
-(26, 'ivan_hernandez', '$2y$10$PntldAiFz8iXZAZd33EHGZQ02hAYv4EHGJalrk.44Ig0gZjJvPQuC', 'ivan_hernandez@gmail.com', 'public/images/fotoDePerfil/user8.jpg', NULL, 'Iván Hernández', '1993-11-03', 'Perú', '2024-08-12', 'a', 95022, 10, 0, 5, 1),
-(27, 'juliana_sanchez', '$2y$10$4SYfHcnNlFgWfc2OhfbTp3sNEUdzsnW8V2yBBH2NeBpnIDzZknIFi', 'juliana_sanchez@gmail.com', 'public/images/fotoDePerfil/user9.jpg', NULL, 'Juliana Sánchez', '1994-07-15', 'Argentina', '2024-03-11', 'a', 130430, 6, 2, 4, 2),
-(28, 'marco_garcia', '$2y$10$YzvT8gTSfzHU8EjklfDsWoZjrBsYlSzr57GRVrcHKgKYPJdFZev6', 'marco_garcia@gmail.com', 'public/images/fotoDePerfil/user10.jpg', NULL, 'Marco García', '1989-01-22', 'Colombia', '2024-05-10', 'a', 115643, 5, 1, 3, 1),
-(29, 'catalina_martinez', '$2y$10$Qbs9d5sk47WVoOVVZfPx1QKJtK1M1Rj6UlTkFX96pa9hptKHiLZ9C', 'catalina_martinez@gmail.com', 'public/images/fotoDePerfil/user11.jpg', NULL, 'Catalina Martínez', '1997-09-08', 'México', '2024-07-09', 'a', 110856, 9, 2, 2, 2),
-(30, 'santiago_vega', '$2y$10$K.oaXQXkzmPHhZt1N5xF..SeAlHfXtDWB54APqHpa66zTCXyoJkZy', 'santiago_vega@gmail.com', 'public/images/fotoDePerfil/user12.jpg', NULL, 'Santiago Vega', '1992-02-11', 'Chile', '2024-09-08', 'a', 98765, 7, 1, 4, 1),
-(31, 'patricia_gonzalez', '$2y$10$ZJxZGqHYmIZ5Jv03.Pzrcfy9q8Gx4qEXwOwiWV7I6nkmw5ysf5Vu1', 'patricia_gonzalez@gmail.com', 'public/images/fotoDePerfil/user13.jpg', NULL, 'Patricia González', '1990-11-30', 'Argentina', '2024-09-07', 'a', 110034, 4, 0, 3, 2),
-(32, 'jorge_ponce', '$2y$10$HVhrX1NjkKh6h9gIH3SKetq1WwPqaJ6M2lItEjQ.3O1j8rVZzAVi', 'jorge_ponce@gmail.com', 'public/images/fotoDePerfil/user14.jpg', NULL, 'Jorge Ponce', '1987-03-12', 'Colombia', '2024-10-06', 'a', 115434, 6, 1, 2, 1),
-(33, 'maria_luisa', '$2y$10$Krh9F0rKxRzZKLoLryHKUo76PHlFcJfVs47G4mKOaxvbNpnOcVGZm', 'maria_luisa@gmail.com', 'public/images/fotoDePerfil/user15.jpg', NULL, 'María Luisa', '1995-05-22', 'España', '2024-03-05', 'a', 120930, 8, 0, 4, 2),
-(34, 'david_silva', '$2y$10$0YkpppR57ALt7f5Q61NIKRhz6Se8R5Xa7xG2K8Xh.rpt2gfb6FVkK', 'david_silva@gmail.com', 'public/images/fotoDePerfil/user16.jpg', NULL, 'David Silva', '1983-06-17', 'México', '2023-12-04', 'a', 132000, 12, 2, 5, 1),
-(35, 'carlos_ferreira', '$2y$10$4Vs7SPntkz6LP0QkmSk18sPbm2Vz9cStcxw2QxmLHD1Y1jSxp7Vym', 'carlos_ferreira@gmail.com', 'public/images/fotoDePerfil/user17.jpg', NULL, 'Carlos Ferreira', '1982-07-22', 'Chile', '2023-12-03', 'a', 110321, 5, 1, 3, 1);
+(8, 'usuario1', '$2y$10$YGQNKdVsgZCt74FKpNlqHevz1SPavnJqZ3udAbfJX1HCICSir6xda', 'usuario1@gmail.com', 'public/images/fotoDePerfil/default.jpg', 5, 'Usuario Uno', '2000-01-01', '-34.670554, -58.562810', '2024-10-20', 'a', 206740, 10, 7, 3, 1),
+(9, 'usuario2', '$2y$10$YGQNKdVsgZCt74FKpNlqHevz1SPavnJqZ3udAbfJX1HCICSir6xda', 'usuario2@gmail.com', 'public/images/fotoDePerfil/default.jpg', 2, 'Usuario Dos', '2000-02-02', '-34.670554, -58.562810', '2024-07-20', 'a', 936270, 3, 2, 3, 1),
+(10, 'usuario3', '$2y$10$YGQNKdVsgZCt74FKpNlqHevz1SPavnJqZ3udAbfJX1HCICSir6xda', 'usuario3@gmail.com', 'public/images/fotoDePerfil/default.jpg', 3, 'Usuario Tres', '2000-03-03', '-34.670554, -58.562810', '2024-07-20', 'a', 361128, 5, 3, 3, 1),
+(11, 'usuario4', '$2y$10$YGQNKdVsgZCt74FKpNlqHevz1SPavnJqZ3udAbfJX1HCICSir6xda', 'usuario4@gmail.com', 'public/images/fotoDePerfil/default.jpg', NULL, 'Usuario Cuatro', '2000-04-04', '-34.670554, -58.562810', '2024-05-20', 'a', 696831, 0, 0, 3, 1),
+(12, 'usuario5', '$2y$10$YGQNKdVsgZCt74FKpNlqHevz1SPavnJqZ3udAbfJX1HCICSir6xda', 'usuario5@gmail.com', 'public/images/fotoDePerfil/default.jpg', NULL, 'Usuario Cinco', '2000-05-05', '-34.670554, -58.562810', '2024-06-20', 'a', 500770, 0, 0, 3, 1),
+(13, 'usuario6', '$2y$10$YGQNKdVsgZCt74FKpNlqHevz1SPavnJqZ3udAbfJX1HCICSir6xda', 'usuario6@gmail.com', 'public/images/fotoDePerfil/default.jpg', NULL, 'Usuario Seis', '2000-06-06', '-34.670554, -58.562810', '2024-06-20', 'a', 313359, 0, 0, 3, 1),
+(14, 'usuario7', '$2y$10$YGQNKdVsgZCt74FKpNlqHevz1SPavnJqZ3udAbfJX1HCICSir6xda', 'usuario7@gmail.com', 'public/images/fotoDePerfil/default.jpg', NULL, 'Usuario Siete', '2000-07-07', '-34.670554, -58.562810', '2024-05-20', 'a', 864485, 0, 0, 3, 1),
+(15, 'usuario8', '$2y$10$YGQNKdVsgZCt74FKpNlqHevz1SPavnJqZ3udAbfJX1HCICSir6xda', 'usuario8@gmail.com', 'public/images/fotoDePerfil/default.jpg', NULL, 'Usuario Ocho', '2000-08-08', '-34.670554, -58.562810', '2024-03-20', 'a', 582348, 0, 0, 3, 1),
+(16, 'usuario9', '$2y$10$YGQNKdVsgZCt74FKpNlqHevz1SPavnJqZ3udAbfJX1HCICSir6xda', 'usuario9@gmail.com', 'public/images/fotoDePerfil/default.jpg', NULL, 'Usuario Nueve', '2000-09-09', '-34.670554, -58.562810', '2024-02-20', 'a', 218286, 0, 0, 3, 1),
+(17, 'usuario10', '$2y$10$YGQNKdVsgZCt74FKpNlqHevz1SPavnJqZ3udAbfJX1HCICSir6xda', 'usuario10@gmail.com', 'public/images/fotoDePerfil/default.jpg', NULL, 'Usuario Diez', '2000-10-10', '-34.670554, -58.562810', '2024-02-20', 'a', 144385, 0, 0, 3, 1),
+(18, 'ivan', '$2y$10$YGQNKdVsgZCt74FKpNlqHevz1SPavnJqZ3udAbfJX1HCICSir6xda', 'ivan@gmail.com', 'public/images/fotoDePerfil/cheems.jpg', 5, 'Ivan', '1997-04-02', '-34.665257, -58.586273', '2024-02-25', 'a', 312325, 12, 8, 3, 1),
+(19, 'maria23', '$2y$10$abH9y4MckBiqzOmE1sfu3K0J3gK27Rlz1l0vF19dbmbc4AfqHKZ9C', 'maria23@gmail.com', 'public/images/fotoDePerfil/default.jpg', NULL, 'María', '1995-04-01', '-34.670554, -58.562810', '2024-02-21', 'a', 85042, 0, 0, 2, 2),
+(20, 'lucas_91', '$2y$10$7mKZoCflJvDA.6zHlwr4JOd0C/UeQDNhh1yGcKnXQ9WGQ9HRL9ztC', 'lucas_91@gmail.com', 'public/images/fotoDePerfil/default.jpg', NULL, 'Lucas', '1991-06-15', '-34.670554, -58.562810', '2024-02-17', 'a', 125345, 0, 0, 3, 1),
+(21, 'ana_perez', '$2y$10$G5ptKgqbmB9KvQ6FfvUosRA6t02c6Pn7grjsQLlmp7OqomT1uV4Dk', 'ana_perez@gmail.com', 'public/images/fotoDePerfil/default.jpg', NULL, 'Ana Pérez', '1990-08-09', '-34.670554, -58.562810', '2024-04-18', 'a', 76321, 0, 0, 2, 2),
+(22, 'jorge_martin', '$2y$10$Rj1zA1s6M6cscoX6K9n5lzx63jF0T2B6mkLRmM3.NnUUG0z7V7lIu', 'jorge_martin@gmail.com', 'public/images/fotoDePerfil/default.jpg', NULL, 'Jorge Martín', '1988-12-30', '-34.670554, -58.562810', '2024-06-22', 'a', 95000, 0, 0, 1, 1),
+(23, 'sofia_lara', '$2y$10$wP3p0pQfZjv5gfONen6FSCQMGy89W5rDRw6g5/OVi7Wx77k9D6.tq', 'sofia_lara@gmail.com', 'public/images/fotoDePerfil/default.jpg', NULL, 'Sofía Lara', '1998-02-14', '-34.670554, -58.562810', '2024-07-23', 'a', 102430, 0, 0, 3, 2),
+(24, 'luis_mendoza', '$2y$10$wZk7ZevCmML76bX0XB7Vr92Fh02wzBqtJeAi9Te7r83p6lKM2/xj', 'luis_mendoza@gmail.com', 'public/images/fotoDePerfil/default.jpg', NULL, 'Luis Mendoza', '1985-05-10', '-34.670554, -58.562810', '2024-08-14', 'a', 114320, 0, 0, 3, 1),
+(25, 'paola_ortega', '$2y$10$DvaH9aIiW6OD5.M1P88h5V5h3SHaTKOKRrwzfeJcFHm2w5f9VYZyG', 'paola_ortega@gmail.com', 'public/images/fotoDePerfil/default.jpg', NULL, 'Paola Ortega', '2000-03-21', 'México', '2024-08-13', 'a', 102111, 0, 0, 4, 2),
+(26, 'ivan_hernandez', '$2y$10$PntldAiFz8iXZAZd33EHGZQ02hAYv4EHGJalrk.44Ig0gZjJvPQuC', 'ivan_hernandez@gmail.com', 'public/images/fotoDePerfil/default.jpg', NULL, 'Iván Hernández', '1993-11-03', 'Perú', '2024-08-12', 'a', 95022, 0, 0, 5, 1),
+(27, 'juliana_sanchez', '$2y$10$4SYfHcnNlFgWfc2OhfbTp3sNEUdzsnW8V2yBBH2NeBpnIDzZknIFi', 'juliana_sanchez@gmail.com', 'public/images/fotoDePerfil/default.jpg', NULL, 'Juliana Sánchez', '1994-07-15', 'Argentina', '2024-03-11', 'a', 130430, 0, 0, 4, 2),
+(28, 'marco_garcia', '$2y$10$YzvT8gTSfzHU8EjklfDsWoZjrBsYlSzr57GRVrcHKgKYPJdFZev6', 'marco_garcia@gmail.com', 'public/images/fotoDePerfil/default.jpg', NULL, 'Marco García', '1989-01-22', 'Colombia', '2024-05-10', 'a', 115643, 0, 0, 3, 1),
+(29, 'catalina_martinez', '$2y$10$Qbs9d5sk47WVoOVVZfPx1QKJtK1M1Rj6UlTkFX96pa9hptKHiLZ9C', 'catalina_martinez@gmail.com', 'public/images/fotoDePerfil/default.jpg', NULL, 'Catalina Martínez', '1997-09-08', 'México', '2024-07-09', 'a', 110856, 0, 0, 2, 2),
+(30, 'santiago_vega', '$2y$10$K.oaXQXkzmPHhZt1N5xF..SeAlHfXtDWB54APqHpa66zTCXyoJkZy', 'santiago_vega@gmail.com', 'public/images/fotoDePerfil/default.jpg', NULL, 'Santiago Vega', '1992-02-11', 'Chile', '2024-09-08', 'a', 98765, 0, 0, 4, 1),
+(31, 'patricia_gonzalez', '$2y$10$ZJxZGqHYmIZ5Jv03.Pzrcfy9q8Gx4qEXwOwiWV7I6nkmw5ysf5Vu1', 'patricia_gonzalez@gmail.com', 'public/images/fotoDePerfil/default.jpg', NULL, 'Patricia González', '1990-11-30', 'Argentina', '2024-09-07', 'a', 110034, 0, 0, 3, 2),
+(32, 'jorge_ponce', '$2y$10$HVhrX1NjkKh6h9gIH3SKetq1WwPqaJ6M2lItEjQ.3O1j8rVZzAVi', 'jorge_ponce@gmail.com', 'public/images/fotoDePerfil/default.jpg', NULL, 'Jorge Ponce', '1987-03-12', 'Colombia', '2024-10-06', 'a', 115434, 0, 0, 2, 1),
+(33, 'maria_luisa', '$2y$10$Krh9F0rKxRzZKLoLryHKUo76PHlFcJfVs47G4mKOaxvbNpnOcVGZm', 'maria_luisa@gmail.com', 'public/images/fotoDePerfil/default.jpg', NULL, 'María Luisa', '1995-05-22', 'España', '2024-03-05', 'a', 120930, 0, 0, 4, 2),
+(34, 'david_silva', '$2y$10$0YkpppR57ALt7f5Q61NIKRhz6Se8R5Xa7xG2K8Xh.rpt2gfb6FVkK', 'david_silva@gmail.com', 'public/images/fotoDePerfil/default.jpg', NULL, 'David Silva', '1983-06-17', 'México', '2023-12-04', 'a', 132000, 0, 0, 5, 1),
+(35, 'carlos_ferreira', '$2y$10$4Vs7SPntkz6LP0QkmSk18sPbm2Vz9cStcxw2QxmLHD1Y1jSxp7Vym', 'carlos_ferreira@gmail.com', 'public/images/fotoDePerfil/default.jpg', NULL, 'Carlos Ferreira', '1982-07-22', 'Chile', '2023-12-03', 'a', 110321, 0, 0, 3, 1);
 
 --
 -- Índices para tablas volcadas
@@ -551,37 +661,37 @@ ALTER TABLE `estado`
 -- AUTO_INCREMENT de la tabla `partida`
 --
 ALTER TABLE `partida`
-  MODIFY `id_partida` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_partida` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `pregunta`
 --
 ALTER TABLE `pregunta`
-  MODIFY `id_pregunta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `id_pregunta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- AUTO_INCREMENT de la tabla `pregunta_partida`
 --
 ALTER TABLE `pregunta_partida`
-  MODIFY `id_pregunta_partida` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_pregunta_partida` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT de la tabla `pregunta_vista`
 --
 ALTER TABLE `pregunta_vista`
-  MODIFY `id_pregunta_vista` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_pregunta_vista` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT de la tabla `reporte_pregunta`
 --
 ALTER TABLE `reporte_pregunta`
-  MODIFY `id_reporte` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_reporte` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `respuesta`
 --
 ALTER TABLE `respuesta`
-  MODIFY `id_respuesta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=141;
+  MODIFY `id_respuesta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=153;
 
 --
 -- AUTO_INCREMENT de la tabla `sexo`

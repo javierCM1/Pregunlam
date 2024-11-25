@@ -313,7 +313,7 @@ class PreguntaModel
     {
         $query = $this->db->prepare("DELETE FROM `pregunta_vista` WHERE id_usuario = ?");
         $query->bind_param('i', $idUsuario);
-        return $this->db->executeStmt($query) == 35;
+        return $this->db->executeStmt($query);
     }
 
     public function guardarPregunta($pregunta, $respuestaCorrecta, $respuestaIncorrecta1, $respuestaIncorrecta2, $respuestaIncorrecta3, $idCategoria, $usuarioCreador, $idEstado)
