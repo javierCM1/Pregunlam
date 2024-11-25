@@ -376,18 +376,19 @@ class UserModel
 
 
             $diaFin = date('N', strtotime($fechaFin));
-
             $diasOrdenados = [];
             foreach (range(1, 7) as $i) {
                 $diaReordenado = ($diaFin + $i - 1) % 7 + 1;
                 $diasOrdenados[] = $diaReordenado;
             }
 
+
             $diasConUsuarios = [];
             foreach ($usuarios as $registro) {
-                $diasConUsuarios[$registro['dia_semana']] = $registro['numero_usuarios_nuevos'];
+                $diaReal = $registro['dia_semana'];
+                $diaAjustado = $diaReal === 1 ? 7 : $diaReal - 1;
+                $diasConUsuarios[$diaAjustado] = $registro['numero_usuarios_nuevos'];
             }
-
 
             $usuariosFinales = [];
             foreach ($diasOrdenados as $dia) {
